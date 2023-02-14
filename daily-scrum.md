@@ -1,0 +1,61 @@
+
+
+## Tuesday - 2023-02-14
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+
+###### PATRICK:
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+   - Think of user eperience (what can the user do with the weba
+   - Research BLAZOR
+   - What is Jira, Docker
+
+3. Where do I need assistance? What do I need to figure out?
+
+###### JINGUYU
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+   - Think of user eperience (what can the user do with the webapp
+   - Research BLAZOR
+
+
+3. Where do I need assistance? What do I need to figure out?
+
+###### HYUNJU
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+   - Think of user eperience (what can the user do with the weba
+   - Research BLAZOR
+   - Look into Docker
+
+3. Where do I need assistance? What do I need to figure out?
+
+###### JULIETA
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+   - Think of user eperience (what can the user do with the weba
+   - Look into CI/CD
+   - Research BLAZOR
+   - What is Jira, Docker
+
+3. Where do I need assistance? What do I need to figure out?
+
+###### HEINDY
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+   - Think of user eperience (what can the user do with the weba
+   - Research BLAZOR
+   - What is Jira, Docker
+   - Main Wireframes
+
+3. Where do I need assistance? What do I need to figure out?
+
+
+
+
+
