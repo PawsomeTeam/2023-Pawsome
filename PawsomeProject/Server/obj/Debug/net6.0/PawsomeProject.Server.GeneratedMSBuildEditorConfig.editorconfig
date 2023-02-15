@@ -9,13 +9,13 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PawsomeProject.Server
 build_property.RootNamespace = PawsomeProject.Server
-build_property.ProjectDir = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Server\
+build_property.ProjectDir = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\Pawsome\PawsomeProject\Server\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Server
+build_property.MSBuildProjectDirectory = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\Pawsome\PawsomeProject\Server
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Server/Pages/Error.cshtml]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Server/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

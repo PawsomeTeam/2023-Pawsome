@@ -9,37 +9,37 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = PawsomeProject.Client
 build_property.RootNamespace = PawsomeProject.Client
-build_property.ProjectDir = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Client\
+build_property.ProjectDir = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\Pawsome\PawsomeProject\Client\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Client
+build_property.MSBuildProjectDirectory = D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\Pawsome\PawsomeProject\Client
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Client/App.razor]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Client/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Client/Pages/Counter.razor]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Client/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Client/Pages/FetchData.razor]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Client/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Client/Pages/Index.razor]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Client/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Client/Shared/MainLayout.razor]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Client/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Client/Shared/NavMenu.razor]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Client/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/PawsomeProject/Client/_Imports.razor]
+[D:/OneDrive/Desktop/JAC/IntegrationProject/work/Pawsome/Pawsome/PawsomeProject/Client/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
