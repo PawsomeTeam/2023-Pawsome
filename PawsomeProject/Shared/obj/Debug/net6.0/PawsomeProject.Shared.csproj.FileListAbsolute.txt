@@ -1,0 +1,12 @@
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\bin\Debug\net6.0\PawsomeProject.Shared.deps.json
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\bin\Debug\net6.0\PawsomeProject.Shared.dll
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\bin\Debug\net6.0\PawsomeProject.Shared.pdb
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\PawsomeProject.Shared.csproj.AssemblyReference.cache
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\PawsomeProject.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\PawsomeProject.Shared.AssemblyInfoInputs.cache
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\PawsomeProject.Shared.AssemblyInfo.cs
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\PawsomeProject.Shared.csproj.CoreCompileInputs.cache
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\PawsomeProject.Shared.dll
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\refint\PawsomeProject.Shared.dll
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\PawsomeProject.Shared.pdb
+D:\OneDrive\Desktop\JAC\IntegrationProject\work\Pawsome\PawsomeProject\Shared\obj\Debug\net6.0\ref\PawsomeProject.Shared.dll
