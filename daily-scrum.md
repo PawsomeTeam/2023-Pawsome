@@ -1,4 +1,78 @@
 
+## Wednesday- 2023-02-15
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+ 	- JIRA
+	- Blazor
+	- 
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Docker
+   	- 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+ 	- JIRA
+	- Blazor
+	- Docker
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- 
+   	- 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+ 	- JIRA
+	- Blazor
+	- Docker
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- 
+   	- 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+ 	- JIRA
+	- Blazor
+	- Docker
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- 
+   	- 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+ 	- JIRA
+	- Blazor
+	- Docker
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- 
+   	- 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ## Tuesday - 2023-02-14
 
@@ -54,6 +128,14 @@
    - Main Wireframes
 
 3. Where do I need assistance? What do I need to figure out?
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
 
 
 
