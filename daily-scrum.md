@@ -14,7 +14,8 @@
 
 2. What I plan to do from this scrum to next? (next 24 hours)
 	- Docker
-   	- 
+   	- Blazor project folders
+	- 
 
 3. Where do I need assistance? What do I need to figure out?
 	- not yet
@@ -26,8 +27,9 @@
 	- Docker
 
 2. What I plan to do from this scrum to next? (next 24 hours)
-	- 
-   	- 
+	- Research Blazor
+   	- Database connection
+	- Basic layout for project
 
 3. Where do I need assistance? What do I need to figure out?
 	- not yet
@@ -39,8 +41,9 @@
 	- Docker
 
 2. What I plan to do from this scrum to next? (next 24 hours)
+	- Research Blazor
+   	- JIRA research
 	- 
-   	- 
 
 3. Where do I need assistance? What do I need to figure out?
 	- not yet
@@ -52,8 +55,8 @@
 	- Docker
 
 2. What I plan to do from this scrum to next? (next 24 hours)
-	- 
-   	- 
+	- UI for project
+   	- Research Blazor
 
 3. Where do I need assistance? What do I need to figure out?
 	- not yet
@@ -66,8 +69,9 @@
 	- Docker
 
 2. What I plan to do from this scrum to next? (next 24 hours)
-	- 
-   	- 
+	- Research Blazor
+   	- UI for project
+	- AI implementation
 
 3. Where do I need assistance? What do I need to figure out?
 	- not yet
