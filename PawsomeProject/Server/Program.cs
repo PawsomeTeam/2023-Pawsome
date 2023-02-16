@@ -16,8 +16,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<PawsomeDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PawsomeDbContext")));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<PawsomeDBContext>();
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
