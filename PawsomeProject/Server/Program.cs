@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting.StaticWebAssets;
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +15,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<PawsomeDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PawsomeDbContext")));
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<PawsomeDBContext>();
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
