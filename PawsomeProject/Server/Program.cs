@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using PawsomeProject.Server.Data;
+using PawsomeProject.Server.Repositories;
 using PawsomeProject.Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +42,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PawsomeDBContext>();
 
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -48,6 +52,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {

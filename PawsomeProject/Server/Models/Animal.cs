@@ -20,9 +20,9 @@ namespace PawsomeProject.Server.Models
         [Required]
         public string? Main_Image_Url { get; set; }
 
-        public DateTime Reservation_Date{ get; set; }
+        public DateTime? Reservation_Date{ get; set; }
         
-        public DateTime date_adopted { get; set; }
+        public DateTime? date_adopted { get; set; }
         
     }
 }

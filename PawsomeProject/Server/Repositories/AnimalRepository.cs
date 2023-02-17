@@ -41,15 +41,5 @@ namespace PawsomeProject.Server.Repositories
             _dbContext.Animals.Remove(animal);
             await _dbContext.SaveChangesAsync();
         }
-
-        Task<List<Animal>> IAnimalRepository.GetAllAnimals()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Animal> IAnimalRepository.GetAnimalById(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
