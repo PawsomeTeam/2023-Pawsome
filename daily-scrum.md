@@ -1,4 +1,75 @@
 
+
+
+## Friday - 2023-02-17
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+	- Research Blazor
+   	- Blazor components
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Start Animal in back-end
+
+3. Where do I need assistance? What do I need to figure out?
+	- maybe
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+	- Connect to database
+	- Models
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Modify user application, add some roles
+
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+	- Research API for payment (more than one method)
+	- 
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Start product back-end
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+	- UI login
+	- Research Blazor
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Docker
+	- UI Register
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+ 	- Research Blazor
+	- UI Design
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- JIRA
+	- CI/CD
+	- Setup JIRA for project, basic layout
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 ## Thursday- 2023-02-16
 
 1. What I have done / not done since last Scrum?
@@ -222,7 +293,6 @@
 
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 
 
