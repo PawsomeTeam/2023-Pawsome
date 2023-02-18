@@ -39,7 +39,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
         // User settings.
         options.User.AllowedUserNameCharacters =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
-        options.User.RequireUniqueEmail = false;
+        options.User.RequireUniqueEmail = true;
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PawsomeDBContext>();
