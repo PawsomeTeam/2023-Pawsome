@@ -35,38 +35,30 @@
 
 <EditForm Model="loginRequest" OnValidSubmit="OnSubmit">
 
-        <DataAnnotationsValidator />
+   <DataAnnotationsValidator />
+    <div class="d-flex flex-column align-stretch gap-3">
+       <MudTextField T="string" Label="Username" 
+                      @bind-Value="loginRequest.UserName" For="@(() => loginRequest.UserName)" />
 
-    <MudTextField T="string" AutoFocus="true" Class="mt-3"
-                  Label="Username" id="inputUsername"
-                  @bind-Value="loginRequest.UserName"
-                  Required="true" RequiredError="User name is required!"
-                  />
+        <MudTextField T="string" Label="Password" InputType="InputType.Password"
+                      @bind-Value="loginRequest.Password" For="@(() => loginRequest.Password)" />
 
-    <MudTextField T="string" AutoFocus="true" Class="mt-3"
-                  Label="Password" id="inputPassword"
-                  InputType="InputType.Password"
-                  @bind-Value="loginRequest.Password"
-                  Required="true" RequiredError="User name is required!"
-                  />
+        <MudCheckBox T="bool" Label="Remember Me" 
+                         UnCheckedColor="Color.Default" Color="Color.Primary" Dense="true" Size="Size.Small"
+                     @bind-Value="@loginRequest.RememberMe" For="@(() => loginRequest.RememberMe)" />
 
-    <MudCheckBox T="bool" Class="mt-3"
-                     id="inputRememberMe" Label="Remember Me"
-                 UnCheckedColor="Color.Default"
-                 Color="Color.Primary" Dense="true" Size="Size.Small"
-                     @bind-Value="@loginRequest.RememberMe" />
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="my-3 mx-auto" ButtonType="ButtonType.Submit">
+                Login
+         </MudButton>
 
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" 
-        Class="my-3 mx-auto"
-        ButtonType="ButtonType.Submit">
-            Login
-        </MudButton>
-    <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
-    <div class="d-flex align-center justify-space-between">
-        <MudLink Href="#" Typo="Typo.body2">Forgot password?</MudLink>
-        <MudLink Href="register" Typo="Typo.body2">Create account</MudLink>
+        <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
+
+        <div class="d-flex align-center justify-space-between">
+            <MudLink Href="#" Typo="Typo.body2">Forgot password?</MudLink>
+            <MudLink Href="register" Typo="Typo.body2">Create account</MudLink>
+        </div>
     </div>
-     </EditForm>
+</EditForm>
 
 @code{
     bool success;
