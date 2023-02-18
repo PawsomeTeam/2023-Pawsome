@@ -63,11 +63,15 @@ public class UserController : ControllerBase
     [HttpGet]
     public CurrentUser CurrentUserInfo()
     {
+        var userName = User.Identity.Name;
+        User user = userManager.FindByNameAsync(userName).Result;
         return new CurrentUser
         {
             IsAuthenticated = User.Identity.IsAuthenticated,
             UserName = User.Identity.Name,
-            Gendre = User.Identity.Name,
+            FullName = user.FirstName + " " + user.LastName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
             Claims = User.Claims
                 .ToDictionary(c => c.Type, c => c.Value)
         };

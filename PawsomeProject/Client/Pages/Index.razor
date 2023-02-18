@@ -1,11 +1,47 @@
 ﻿@page "/"
+@inject NavigationManager navigationManager
+@inject IAuthService authService
 <AuthorizeView>
     <Authorized>
         <h1>Hello @context.User.Identity.Name !!</h1>
         <p>Welcome to Blazor Learner.</p>
-        <SurveyPrompt Title="How is Blazor working for you?" />
+        <SurveyPrompt Title="How is Blazor working for you?"/>
+        @if (context.User.IsInRole("Admin"))
+        {
+            <p>
+                Full Name: @CurrentUser.FullName
+            </p>
+            <p>
+                Email: @CurrentUser.Email
+            </p>
+            <p>
+                Phone: @CurrentUser.PhoneNumber
+            </p>
+        }
+        <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
     </Authorized>
     <Authorizing>
         <h1>Loading ...</h1>
     </Authorizing>
 </AuthorizeView>
+
+@code
+{
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
+
+    string? error { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        error = null;
+        try
+        {
+            CurrentUser = await authService.CurrentUserInfo();
+            navigationManager.NavigateTo("");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}
