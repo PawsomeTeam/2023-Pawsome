@@ -46,6 +46,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
 builder.Services.AddSwaggerGen();
 
@@ -69,11 +70,14 @@ else
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<PawsomeDBContext>();
 
     var userMgr = services.GetRequiredService<UserManager<User>>();
     var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();
 
     IdentitySeedData.Initialize(userMgr, roleMgr).Wait();
+    ProductSeedData.Initialize(context);
+    
 }
  
 app.UseHttpsRedirection();

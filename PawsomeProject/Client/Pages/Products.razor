@@ -1,5 +1,36 @@
-<h3>Product</h3>
+@page "/product"
+@inherits ProductsBase
+<head>
+        <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <link href="app.css" rel="stylesheet" />
+</head>
 
-@code {
-    
+@if(Products == null && ErrorMessage == null)
+{
+    <DisplaySpinner/>
+
+}
+else if(ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+    <h3 class="mb-5">Products</h3>
+
+    var productCount = Products.Count();
+
+    @if (productCount > 0)
+    {
+        @foreach(var prodGroup in GetGroupedProductsByCategory())
+        {
+            <h4>@GetCategoryName(prodGroup)</h4>
+                    
+            <div class = "row mt-3">
+                <DisplayProducts Products = "@prodGroup.Take(4)"></DisplayProducts>
+            </div>
+            <hr class="mb-3"/>
+        }
+
+    }
 }
