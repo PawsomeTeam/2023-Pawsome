@@ -66,23 +66,38 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public CurrentUser CurrentUserInfo()
+    public async Task<ActionResult<CurrentUser>> CurrentUserInfo()
     {
-        var userName = User.Identity.Name;
-        var user = userManager.FindByNameAsync(userName).Result;
+        var userName = User?.Identity?.Name;
+        if (userName == null)
+        {
+            return new CurrentUser
+            {
+                IsAuthenticated = false
+            };
+        }
+
+        var user = await userManager.FindByNameAsync(userName);
+        if (user == null)
+        {
+            return new CurrentUser
+            {
+                IsAuthenticated = false
+            };
+        }
+
         return new CurrentUser
         {
             IsAuthenticated = User.Identity.IsAuthenticated,
-            UserName = User.Identity.Name,
+            UserName = userName,
             FullName = user.FirstName + " " + user.LastName,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            Claims = User.Claims
-                .ToDictionary(c => c.Type, c => c.Value)
+            Claims = User.Claims.ToDictionary(c => c.Type, c => c.Value)
         };
     }
 
-    
+
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<List<FindUser>>> GetAllUsers()
