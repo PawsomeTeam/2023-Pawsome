@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Hosting.StaticWebAssets;
+﻿using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using PawsomeProject.Server.Data;
 using PawsomeProject.Server.Repositories;
 using PawsomeProject.Shared.Models;
@@ -44,6 +45,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<PawsomeDBContext>();
 
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddSwaggerGen();
 
@@ -63,6 +65,7 @@ else
     app.UseHsts();
 }
 
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -72,7 +75,7 @@ using (var scope = app.Services.CreateScope())
 
     IdentitySeedData.Initialize(userMgr, roleMgr).Wait();
 }
-
+ 
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
