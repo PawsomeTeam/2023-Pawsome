@@ -1,11 +1,12 @@
 @page "/ProductDetails/{Id:int}"
 @inherits ProductDetailsBase
-<head>
+@*<head>
         <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
         <link href="app.css" rel="stylesheet" />
-</head>
+</head>*@
 @if (Product == null && ErrorMessage == null)
 {
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
 }
 else if (ErrorMessage != null)
 {
@@ -13,26 +14,37 @@ else if (ErrorMessage != null)
 }
 else
 {
-    <h3 class="mb-5">Product Details</h3>
-    <div class="row">
-        <div class="col-md-6 mc=4">
-            <img class=img-fluid src="@Product.ImageURL"/>
-        </div>
-        <div class="col-md-6">
-            <h3>@Product.Name</h3>
-            <p class="mb-4">@Product.Description</p>
-            <p class="mb-4">
-                <b>
-                    @Product.Price.ToString("C")&nbsp;(@Product.Qty items in stock)
-                </b>
-            </p>
-            <div>
-                <button class="btn btn-success"
-                        @onclick="() => (AddToCart_Click(new CartItemAddToDto { CartId = 1, ProductId = Product.Id, Qty = 1 }))">
-                    <b>Add to Cart</b>
-                </button>
-            </div>
+    
 
-        </div>
-    </div>
+      <MudGrid Class="mb-16">
+
+
+           <MudItem xs="12" md="6" lg="4">
+                <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs" />
+           </MudItem>
+            <MudItem xs="12" md="6" lg="8">
+                <MudText Typo="Typo.h4">@Product?.Name</MudText>
+                <MudText Typo="Typo.body1" Class="mb-4">
+                <i>Brand | @Product?.CategoryName</i>
+                </MudText>
+                <MudText Typo="Typo.body1" Class="mb-4">@Product?.Description</MudText>
+            <MudText Typo="Typo.h6" Class="mb-4">
+                <b class="h1">@Product?.Price.ToString("C")</b>
+                    (
+                        @if(@Product?.Qty > 5)
+                        {
+                    <span class="green-text">@Product.Qty</span>
+                        }else{
+                    <span class="red-text">@Product?.Qty</span>
+                        }
+                        items in stock)
+                </MudText>
+
+                <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                       @onclick="() => (AddToCart_Click(new CartItemAddToDto { CartId = 1, ProductId = Product.Id, Qty = 1 }))">
+                    Add to Cart
+            </MudButton>
+            </MudItem>
+    </MudGrid>
+
 }
