@@ -115,4 +115,9 @@ public class ProductService : IProductService
             throw;
         }
     }
+
+    public Task<ProductDto> UpdateItem(ProductDto productDto)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -43,9 +43,17 @@ public class ShoppingCartRepository : IShoppingCartRepository
         return null;
     }
 
-    public Task<CartItem> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
+    public async Task<CartItem> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
     {
-        throw new NotImplementedException();
+        var item = await this.pawsomeDbContext.CartItems.FindAsync(id);
+        if (item != null)
+        {
+            item.Qty = cartItemQtyUpdateDto.Qty;
+            await this.pawsomeDbContext.SaveChangesAsync();
+            return item;
+        }
+
+        return null;
     }
 
     public async Task<CartItem> DeleteItem(int id)
@@ -89,4 +97,5 @@ public class ShoppingCartRepository : IShoppingCartRepository
                 CartId = cartItem.CartId
             }).ToListAsync();
     }
+
 }

@@ -9,4 +9,5 @@ public interface IProductService
     Task<ProductDto> AddItem(ProductDto productDto);
 
     Task<ProductDto> DeleteItem(int id); 
+    Task<ProductDto> UpdateItem(ProductDto productDto); 
 } 
