@@ -65,6 +65,7 @@ public class ShoppingCartController : ControllerBase
             {
                 throw new Exception("No product exist in the system");
             }
+
             var cartItemDto = cartItem.ConvertToDto(product);
             return Ok(cartItemDto);
         }
@@ -89,12 +90,12 @@ public class ShoppingCartController : ControllerBase
             var product = await productRepository.GetItem(newCartItem.ProductId);
             if (product == null)
             {
-                throw new Exception($"Something went wrong when attempting to retrieve product (productID : {cartItemAddToDto.ProductId}");
+                throw new Exception(
+                    $"Something went wrong when attempting to retrieve product (productID : {cartItemAddToDto.ProductId}");
             }
 
             var newCartItemDto = newCartItem.ConvertToDto(product);
             return CreatedAtAction(nameof(GetItem), new { id = newCartItemDto.Id }, newCartItemDto);
-
         }
         catch (Exception e)
         {
@@ -127,8 +128,28 @@ public class ShoppingCartController : ControllerBase
         {
             Console.WriteLine(e);
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
-
         }
     }
-    
+
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
+    {
+        try
+        {
+            var cartItem = await this.shoppingCartRepository.UpdateQty(id, cartItemQtyUpdateDto);
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+
+            var product = await productRepository.GetItem(cartItem.ProductId);
+            var cartItemDto = cartItem.ConvertToDto(product);
+            return Ok(cartItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+        }
+    }
 }
