@@ -88,6 +88,33 @@ public class ProductController : ControllerBase
             throw;
         }
     }
+    
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult<CartItemDto>> DeleteItem(int id)
+    {
+        try
+        {
+            var productItem = await this.productRepository.DeleteItem(id);
+            if (productItem == null)
+            {
+                return NotFound();
+            }
 
+            var productCategory = await this.productRepository.GetCategory(productItem.CategoryId);
+            if (productCategory == null)
+            {
+                return NotFound();
+            }
+
+            var cartItemDto = productItem.ConvertToDto(productCategory);
+            return Ok(cartItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+
+        }
+    }
 
 }       

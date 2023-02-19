@@ -4,6 +4,7 @@ namespace PawsomeProject.Client.Services;
 
 public interface IShoppingCartService
 {
-    Task<IEnumerable<CartItemDto>> GetItems(int userId);
-    Task<CartItemDto> AddItems(CartItemAddToDto cartItemAddToDto);
-}
+    Task<List<CartItemDto>> GetItems(int userId);
+    Task<CartItemDto> AddItem(CartItemAddToDto cartItemAddToDto);
+    Task<CartItemDto> DeleteItem(int id);
+} 

@@ -63,8 +63,15 @@ public class ProductRepository : IProductRepository
         throw new NotImplementedException();
     }
 
-    public Task<Product> DeleteItem(int id)
+    public async Task<Product> DeleteItem(int id)
     {
-        throw new NotImplementedException();
+        var item = await this.pawsomeDbContext.Products.FindAsync(id);
+        if (item != null)
+        {
+            this.pawsomeDbContext.Products.Remove(item);
+            await this.pawsomeDbContext.SaveChangesAsync();
+        }
+
+        return item;
     }
 }

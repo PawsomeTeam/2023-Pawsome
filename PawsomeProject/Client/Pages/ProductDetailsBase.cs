@@ -38,7 +38,7 @@ public class ProductDetailsBase : ComponentBase
     {
         try
         {
-            var cartItemDto = await ShoppingCartService.AddItems(cartItemAddToDto);
+            var cartItemDto = await ShoppingCartService.AddItem(cartItemAddToDto);
             NavigationManager.NavigateTo("/ShoppingCart");
         }
         catch (Exception e)
@@ -47,4 +47,10 @@ public class ProductDetailsBase : ComponentBase
             throw;
         }
     }
+    
+    protected async Task DeleteProductItem_Click(int id)
+    {
+        var productDto = await ProductService.DeleteItem(id);
+    }
+
 }

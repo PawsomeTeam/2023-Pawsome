@@ -4,8 +4,9 @@ namespace PawsomeProject.Client.Services;
 
 public interface IProductService
 {
-    Task<IEnumerable<ProductDto>> GetItems();
+    Task<List<ProductDto>> GetItems();
     Task<ProductDto> GetItem(int id);
-    Task<ProductDto> AddItems(ProductDto productDto);
+    Task<ProductDto> AddItem(ProductDto productDto);
 
+    Task<ProductDto> DeleteItem(int id); 
 } 

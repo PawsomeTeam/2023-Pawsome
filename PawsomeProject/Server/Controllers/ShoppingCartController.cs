@@ -102,5 +102,33 @@ public class ShoppingCartController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult<CartItemDto>> DeleteItem(int id)
+    {
+        try
+        {
+            var cartItem = await this.shoppingCartRepository.DeleteItem(id);
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+
+            var product = await this.productRepository.GetItem(cartItem.ProductId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var cartItemDto = cartItem.ConvertToDto(product);
+            return Ok(cartItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+
+        }
+    }
     
 }

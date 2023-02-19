@@ -14,7 +14,7 @@ public class ProductService : IProductService
         this.httpClient = httpClient;
     }
 
-    public async Task<IEnumerable<ProductDto>> GetItems()
+    public async Task<List<ProductDto>> GetItems()
     {
         try
         {
@@ -23,10 +23,10 @@ public class ProductService : IProductService
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return Enumerable.Empty<ProductDto>();
+                    return Enumerable.Empty<ProductDto>().ToList();
                 }
 
-                return await response.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>();
+                return await response.Content.ReadFromJsonAsync<List<ProductDto>>();
             }
             else
             {
@@ -71,7 +71,7 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<ProductDto> AddItems(ProductDto productDto)
+    public async Task<ProductDto> AddItem(ProductDto productDto)
     {
         try
         {
@@ -93,6 +93,25 @@ public class ProductService : IProductService
         }
         catch (Exception)
         {
+            throw;
+        }
+    }
+
+    public async Task<ProductDto> DeleteItem(int id)
+    {
+        try
+        {
+            var response = await httpClient.DeleteAsync($"api/Product/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ProductDto>();
+            }
+
+            return default(ProductDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
             throw;
         }
     }
