@@ -1,5 +1,77 @@
 
 
+## Monday- 2023-02-20
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+	- Completed Animal CRUD in back-end
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Logic for reserving the animal
+
+3. Where do I need assistance? What do I need to figure out?
+	- maybe
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+	- Modify user application, add some roles
+	- Adding admin accounts
+	- Share user client
+	- Connection BLOB
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Testing admin functionality
+	- Testing storeManager and AnimalManager
+
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+	- Finshed Product CRUD
+	- CartItems
+	- 
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Finialized product
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+	- UI login
+	- Research Blazor
+	- UI Register
+	- UI public Product Index 
+	- Product detail page
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Cart Page
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+	- Finished JIRA
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- JIRA finalize 
+	- Test from JIRA
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 ## Sunday- 2023-02-19
 
 1. What I have done / not done since last Scrum?
