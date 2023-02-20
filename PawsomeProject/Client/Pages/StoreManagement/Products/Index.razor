@@ -1,0 +1,42 @@
+@page "/manage/products"
+@inherits ProductsBase
+<head>
+    @*    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />*@
+        <link href="app.css" rel="stylesheet" />
+</head>
+
+@if(Products == null && ErrorMessage == null)
+{
+       <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+            Trying to load products but it seems like there are none
+        </MudText>
+}
+else if(ErrorMessage != null)
+{
+    <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+        Trying to load products but it seems like there is an error!
+    </MudText>
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+    
+    <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Manage Products</MudText>
+
+    var productCount = Products.Count();
+
+    @if (productCount > 0)
+    {
+        @foreach(var prodGroup in GetGroupedProductsByCategory())
+        {
+            <MudText Typo="Typo.h4" Class="mb-3">@GetCategoryName(prodGroup)</MudText>
+            <MudGrid Class="mb-16">
+                <DisplayProducts Products = "@prodGroup.Take(4)"></DisplayProducts>
+
+           </MudGrid>
+        }
+
+    }
+}
