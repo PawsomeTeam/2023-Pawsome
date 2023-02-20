@@ -48,10 +48,12 @@
 1. What I have done / not done since last Scrum?
 	- UI login
 	- Research Blazor
+	- UI Register
+	- UI public Product Index 
+	- Product detail page
 
 2. What I plan to do from this scrum to next? (next 24 hours)
-	- Docker
-	- UI Register
+	- Cart Page
 
 3. Where do I need assistance? What do I need to figure out?
 	- not yet
