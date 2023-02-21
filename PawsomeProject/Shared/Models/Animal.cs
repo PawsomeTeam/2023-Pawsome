@@ -23,6 +23,8 @@ namespace PawsomeProject.Shared.Models
         public DateTime? Reservation_Date{ get; set; }
         
         public DateTime? date_adopted { get; set; }
+
+        
         
     }
 }
