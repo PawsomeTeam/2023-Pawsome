@@ -78,10 +78,7 @@ public class ProductController : ControllerBase
             var newProductItemDto = newProductItem.ConvertToDto(newProductCategory);
 
             return CreatedAtAction(nameof(GetItems), new { id = newProductItemDto.Id }, newProductItemDto);
-
-
-
-        }
+       }
         catch (Exception e)
         {
             Console.WriteLine(e);
@@ -117,4 +114,31 @@ public class ProductController : ControllerBase
         }
     }
 
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult<CartItemDto>> UpdateProduct(int id, ProductDto productDto)
+    {
+        try
+        {
+            var productItem = await this.productRepository.UpdateItem(id,productDto);
+            if (productItem == null)
+            {
+                return NotFound();
+            }
+            
+            var productCategory = await this.productRepository.GetCategory(productItem.CategoryId);
+            if (productCategory == null)
+            {
+                return NotFound();
+            }
+
+            var productItemDto = productItem.ConvertToDto(productCategory);
+            return Ok(productItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+        }
+    }
+    
 }       
