@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PawsomeProject.Server.Data;
 using PawsomeProject.Server.Models;
+using PawsomeProject.Shared.Models;
 
 namespace PawsomeProject.Server.Repositories
 {
