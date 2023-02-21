@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components;
 using PawsomeProject.Client.Services;
 using PawsomeProject.Shared.Models;
 
-namespace PawsomeProject.Client.Pages;
+namespace PawsomeProject.Client.Pages.StoreManagement.Products;
 
-public class ProductDetailsBase : ComponentBase
+public class EditProductBase : ComponentBase
 {
     [Parameter]
     public int Id { get; set; }
@@ -13,15 +13,12 @@ public class ProductDetailsBase : ComponentBase
     public IProductService ProductService { get; set; }
     
     [Inject]
-    public IShoppingCartService ShoppingCartService { get; set; }
-    
-    [Inject]
     public NavigationManager NavigationManager { get; set; }
     
     public ProductDto Product { get; set; }
     
     public string ErrorMessage { get; set; }
-
+    
     protected override async Task OnInitializedAsync()
     {
         try
@@ -33,24 +30,30 @@ public class ProductDetailsBase : ComponentBase
             ErrorMessage = e.Message;
         }
     }
-
-    protected async Task AddToCart_Click(CartItemAddToDto cartItemAddToDto)
+    protected async Task Update_Product_Click(int id, string name,string description, decimal price, int qty)
     {
         try
         {
-            var cartItemDto = await ShoppingCartService.AddItem(cartItemAddToDto);
-            NavigationManager.NavigateTo("/ShoppingCart");
+            var productDto = new ProductDto
+                {
+                    Id = id,
+                    Name = name,
+                    Description = description,
+                    ImageURL = "/Images/Beauty/Beauty1.png",
+                    Price = price,
+                    Qty = qty,
+                    CategoryId = 1,
+                    CategoryName = "Beauty"
+                };
+
+                var returnedUpdateItemDto = await this.ProductService.UpdateItem(productDto);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
+
             throw;
         }
+
     }
     
-    protected async Task DeleteProductItem_Click(int id)
-    {
-        var productDto = await ProductService.DeleteItem(id);
-    }
-
 }

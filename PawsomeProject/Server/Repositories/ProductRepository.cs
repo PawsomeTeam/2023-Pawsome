@@ -58,9 +58,20 @@ public class ProductRepository : IProductRepository
         return null;
     }
 
-    public Task<Product> UpdateItem(int id, ProductDto product)
+    public async Task<Product> UpdateItem(int id, ProductDto product)
     {
-        throw new NotImplementedException();
+        var item = await this.pawsomeDbContext.Products.FindAsync(id);
+        if (item != null)
+        {
+            item.Name = product.Name;
+            item.Description = product.Description;
+            item.Price = product.Price;
+            item.Qty = product.Qty;
+            await this.pawsomeDbContext.SaveChangesAsync();
+            return item;
+        }
+
+        return null;
     }
 
     public async Task<Product> DeleteItem(int id)
