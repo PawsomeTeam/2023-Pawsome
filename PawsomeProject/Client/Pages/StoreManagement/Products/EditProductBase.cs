@@ -56,4 +56,10 @@ public class EditProductBase : ComponentBase
 
     }
     
+    protected async Task Delete_Product_Click(int id)
+    {
+        var cartItemDto = await ProductService.DeleteItem(id);
+    }
+
+    
 }
