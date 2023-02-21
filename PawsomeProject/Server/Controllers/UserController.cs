@@ -68,7 +68,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<CurrentUser>> CurrentUserInfo()
     {
-        var userName = User?.Identity?.Name;
+        var userName = User.Identity.Name;
         if (userName == null)
         {
             return new CurrentUser
@@ -109,7 +109,8 @@ public class UserController : ControllerBase
             findUsers.Add(new FindUser
             {
                 UserName = user.UserName,
-                FullName = user.FirstName + " " + user.LastName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber
             });
@@ -120,7 +121,7 @@ public class UserController : ControllerBase
 
     
     [Authorize]
-    [HttpGet]
+    [HttpGet("{email}")]
     public async Task<ActionResult<FindUser>> GetUserByEmail(string email)
     {
         var user = await userManager.FindByEmailAsync(email);
@@ -129,7 +130,8 @@ public class UserController : ControllerBase
             return new FindUser
             {
                 UserName = User.Identity.Name,
-                FullName = user.FirstName + " " + user.LastName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
             };
@@ -139,10 +141,10 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut]
-    public async Task<IActionResult> UpdateUser(string email, UpdateRequest updateRequest)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(string id, UpdateRequest updateRequest)
     {
-        var user = await userManager.FindByEmailAsync(email);
+        var user = await userManager.FindByIdAsync(id);
         if (user != null)
         {
             user.FirstName = updateRequest.FirstName;

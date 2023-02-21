@@ -11,13 +11,6 @@ public class AuthService : IAuthService
     {
         this.httpClient = httpClient;
     }
-    
-    public async Task<CurrentUser> CurrentUserInfo()
-    {
-        var result = await httpClient.GetFromJsonAsync<CurrentUser>("api/User/CurrentUserInfo");
-        return result;
-    }
-    
     public async Task Login(LoginRequest loginRequest)
     {
         var result = await httpClient.PostAsJsonAsync("api/User/login", loginRequest);
@@ -36,5 +29,36 @@ public class AuthService : IAuthService
         var result = await httpClient.PostAsJsonAsync("api/User/register", registerRequest);
         if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
         result.EnsureSuccessStatusCode();
+    }
+
+    public async Task UpdateUser(string id, UpdateRequest updateRequest)
+    {
+        var result = await httpClient.PutAsJsonAsync($"api/User/UpdateUser/{id}", updateRequest);
+        if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+        result.EnsureSuccessStatusCode();
+    }
+
+    public async Task DeleteUser(string email)
+    {
+        var result = await httpClient.DeleteAsync($"api/User/GetUserByEmail/{email}");
+        if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+        result.EnsureSuccessStatusCode();
+    }
+    public async Task<CurrentUser> CurrentUserInfo()
+    {
+        var result = await httpClient.GetFromJsonAsync<CurrentUser>("api/User/CurrentUserInfo");
+        return result;
+    }
+
+    public async Task<List<FindUser>> GetAllUsers()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<FindUser>>("api/User/GetAllUsers");
+        return result;
+    }
+
+    public async Task<FindUser> GetUserByEmail(string email)
+    {
+        var result = await httpClient.GetFromJsonAsync<FindUser>($"api/User/GetUserByEmail/{email}");
+        return result;
     }
 }

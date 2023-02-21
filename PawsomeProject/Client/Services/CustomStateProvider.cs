@@ -63,4 +63,10 @@ public class CustomStateProvider : AuthenticationStateProvider
         await api.Register(registerParameters);
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
+
+    public async Task Update(string email, UpdateRequest updateRequest)
+    {
+        await api.UpdateUser(email, updateRequest);
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+    }
 }

@@ -1,0 +1,76 @@
+@page "/manage/users"
+@* <head>
+       <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <link href="app.css" rel="stylesheet" />
+</head> *@
+@inject IAuthService authService
+
+@if(Users == null && error == null)
+{
+       <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+             Loading ...
+        </MudText>
+}
+else if(error != null)
+{
+    <DisplayError ErrorMessage="@error"></DisplayError>
+}
+else
+{
+<MudTable Items="@Users" Hover="true" SortLabel="Sort By">
+    <HeaderContent>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<FindUser, object>(x=>x.UserName)">User Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<FindUser, object>(x=>x.FirstName)">Full Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.PhoneNumber)">Phone</MudTableSortLabel></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Username">@context.UserName</MudTd>
+        <MudTd DataLabel="Name">
+            <MudText Typo="Typo.subtitle2">@context.FirstName @context.LastName</MudText>
+        </MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
+        <MudTd DataLabel="Price">
+            @{
+                    //TODO: make these into a Dialog instad of URLs
+                var editUrl = $"UserUpdate/{context.Email}/";
+                // var deleteUrl = $"manage/products/delete/{context.Id}";
+            }
+            <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
+                <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
+                @* <MudIconButton Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  /> *@
+            </MudTooltip>
+            
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{10, 50, 100}" />
+    </PagerContent>
+</MudTable>
+
+
+}
+
+
+@code {
+    private IEnumerable<FindUser> Users { get; set; } = new List<FindUser>();
+    
+    private string error { get; set; }
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        error = null;
+        try
+        {
+            Users = await authService.GetAllUsers();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}

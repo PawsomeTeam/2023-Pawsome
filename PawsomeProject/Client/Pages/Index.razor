@@ -20,6 +20,10 @@
             <p>
                 Username: @CurrentUser.UserName
             </p>
+            var editUrl = $"UserUpdate/{CurrentUser.Email}/";
+            var usersUrl = $"manage/users";
+            <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
+            <MudIconButton Link="@usersUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.VerifiedUser" Variant="Variant.Outlined"   Size="Size.Small"  />
         }
         <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
     </Authorized>
