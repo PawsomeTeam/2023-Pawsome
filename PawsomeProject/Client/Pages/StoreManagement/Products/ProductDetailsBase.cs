@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using PawsomeProject.Client.Services;
 using PawsomeProject.Shared.Models;
 
-namespace PawsomeProject.Client.Pages;
+namespace PawsomeProject.Client.Pages.StoreManagement.Products;
 
 public class ProductDetailsBase : ComponentBase
 {

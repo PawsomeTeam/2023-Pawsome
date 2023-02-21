@@ -1,6 +1,7 @@
 using PawsomeProject.Server.Repositories;
 using PawsomeProject.Server.Models;
 using Microsoft.AspNetCore.Mvc;
+using PawsomeProject.Shared.Models;
 
 namespace PawsomeProject.Server.Controllers;
 
@@ -39,7 +40,24 @@ public class AnimalController : ControllerBase
 		return CreatedAtAction(nameof(GetAnimalById), new { id = animal.Id }, animal);
 	}
 
-	[HttpPut("{id}")]
+	[HttpPost("image/{id}")]
+    public async Task<ActionResult<Animal>> AddAnimalImage(IFormFile file, int id)
+	{
+		//research how to upload a file in blazor
+		//research how to persist a IFormFile in azure blob storage
+
+		//upload to blob storage
+		var uploadUrl = "";
+		var animal = await _animalRepository.GetAnimalById(id);
+		animal.Main_Image_Url = uploadUrl;
+
+		await _animalRepository.UpdateAnimal(animal);
+
+		return Ok(animal);
+    }
+
+
+    [HttpPut("{id}")]
 	public async Task<IActionResult> UpdateAnimal(int id, Animal animal)
 	{
 		if (id != animal.Id)

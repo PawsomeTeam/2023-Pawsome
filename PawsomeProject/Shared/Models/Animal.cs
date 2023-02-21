@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace PawsomeProject.Server.Models
+namespace PawsomeProject.Shared.Models
 {
     public class Animal
     {

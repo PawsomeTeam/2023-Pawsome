@@ -1,5 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Text;
+using Newtonsoft.Json;
 using PawsomeProject.Shared.Models;
 
 namespace PawsomeProject.Client.Services;
@@ -116,8 +118,26 @@ public class ProductService : IProductService
         }
     }
 
-    public Task<ProductDto> UpdateItem(ProductDto productDto)
+    public async Task<ProductDto> UpdateItem(ProductDto productDto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var jsonRequest = JsonConvert.SerializeObject(productDto);
+            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json-patch+json");
+
+            var response = await httpClient.PatchAsync($"api/Product/{productDto.Id}", content);
+
+            if(response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ProductDto>();
+            }
+            return null;
+
+        }
+        catch (Exception)
+        {
+            //Log exception
+            throw;
+        }
     }
 }

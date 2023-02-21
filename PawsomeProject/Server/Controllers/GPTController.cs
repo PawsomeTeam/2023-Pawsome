@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenAI_API;
 using OpenAI_API.Completions;
@@ -11,7 +12,7 @@ namespace PawsomeProject.Server.Controllers
     {
         [HttpGet]
         [Route("UseChatGPT")]
-        public async Task<IActionResult> UseChatGPT(string query) 
+        public async Task<IActionResult> UseChatGPT(string query)
         {
             string OutPutResult = "";
             var openai = new OpenAIAPI("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");
@@ -30,3 +31,6 @@ namespace PawsomeProject.Server.Controllers
         }
     }
 }
+
+
+
