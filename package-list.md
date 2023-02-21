@@ -2,6 +2,7 @@
 
 - Microsoft.AspNetCore.Components.Authorization/6.0.14
 - Newtonsoft.Json
+- "OpenAI" Version="1.5.0"
 
 ## Server
 
