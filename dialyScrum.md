@@ -1,6 +1,73 @@
 
 
+## Wednesday- 2023-02-22
 
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+	- Completed Animals display
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Admin form to create animal for adoptions
+
+3. Where do I need assistance? What do I need to figure out?
+	- maybe
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+	- Testing admin functionality
+	- Testing storeManager and AnimalManager
+	- Added admin manager user page
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Delete user
+
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+	- Finialized product
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Create Product
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+	- Cart Page
+
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Index animal page
+	- Cart page
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+	- JIRA finalize 
+	- Test from JIRA
+	- Open AI feature
+
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- UI design
+	- 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ## Tuesday- 2023-02-21
 
 1. What I have done / not done since last Scrum?
