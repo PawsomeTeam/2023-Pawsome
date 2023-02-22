@@ -73,7 +73,7 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<ProductDto> AddItem(ProductDto productDto)
+    public async Task<ProductDto> CreateItem(ProductDto productDto)
     {
         try
         {

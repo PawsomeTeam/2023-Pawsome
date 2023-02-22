@@ -37,7 +37,7 @@ public class ProductRepository : IProductRepository
         return category;
     }
 
-    public async Task<Product> AddItem(ProductDto product)
+    public async Task<Product> CreateItem(ProductDto product)
     {
         var item = new Product
         {

@@ -4,7 +4,7 @@ using PawsomeProject.Shared.Models;
 
 namespace PawsomeProject.Client.Pages.StoreManagement.Products;
 
-public class EditProductBase : ComponentBase
+public class CreateProductBase : ComponentBase
 {
     [Parameter]
     public int Id { get; set; }
@@ -14,29 +14,19 @@ public class EditProductBase : ComponentBase
     
     [Inject]
     public NavigationManager NavigationManager { get; set; }
-    
-    public ProductDto Product { get; set; }
+
+    public ProductDto Product { get; set; } = new ProductDto();
     
     public string ErrorMessage { get; set; }
-    
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            Product = await ProductService.GetItem(Id);
-        }
-        catch (Exception e)
-        {
-            ErrorMessage = e.Message;
-        }
-    }
-    protected async Task Update_Product_Click(int id, string name,string description, decimal price, int qty)
+
+  
+    protected async Task Create_Product_Click(string name,string description, decimal price, int qty)
     {
         try
         {
             var productDto = new ProductDto
                 {
-                    Id = id,
+                    Id = Id,
                     Name = name,
                     Description = description,
                     ImageURL = "/Images/Beauty/Beauty1.png",
@@ -46,8 +36,8 @@ public class EditProductBase : ComponentBase
                     CategoryName = "Beauty"
                 };
 
-                var returnedUpdateItemDto = await this.ProductService.UpdateItem(productDto);
-                NavigationManager.NavigateTo("");
+               await this.ProductService.CreateItem(productDto);
+               NavigationManager.NavigateTo("");
         }
         catch (Exception)
         {
@@ -57,11 +47,5 @@ public class EditProductBase : ComponentBase
 
     }
     
-    protected async Task Delete_Product_Click(int id)
-    {
-        var cartItemDto = await ProductService.DeleteItem(id);
-        NavigationManager.NavigateTo("");
-    }
-
     
 }

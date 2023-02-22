@@ -68,7 +68,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var newProductItem = await this.productRepository.AddItem(productDto);
+            var newProductItem = await this.productRepository.CreateItem(productDto);
             if (newProductItem == null)
             {
                 return NoContent();

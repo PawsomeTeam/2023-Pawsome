@@ -10,7 +10,7 @@ public interface IProductRepository
     Task<Product> GetItem(int id);
     Task<ProductCategory> GetCategory(int id);
     
-    Task<Product> AddItem(ProductDto product);
+    Task<Product> CreateItem(ProductDto product);
     Task<Product> UpdateItem(int id, ProductDto product);
     Task<Product> DeleteItem(int id);
 }
