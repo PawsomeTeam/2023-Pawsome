@@ -141,10 +141,10 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(string id, UpdateRequest updateRequest)
+    [HttpPut("{email}")]
+    public async Task<IActionResult> UpdateUser(string email, UpdateRequest updateRequest)
     {
-        var user = await userManager.FindByIdAsync(id);
+        var user = await userManager.FindByEmailAsync(email);
         if (user != null)
         {
             user.FirstName = updateRequest.FirstName;

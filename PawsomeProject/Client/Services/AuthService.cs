@@ -31,9 +31,9 @@ public class AuthService : IAuthService
         result.EnsureSuccessStatusCode();
     }
 
-    public async Task UpdateUser(string id, UpdateRequest updateRequest)
+    public async Task UpdateUser(string email, UpdateRequest updateRequest)
     {
-        var result = await httpClient.PutAsJsonAsync($"api/User/UpdateUser/{id}", updateRequest);
+        var result = await httpClient.PutAsJsonAsync($"api/User/UpdateUser/{email}", updateRequest);
         if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
         result.EnsureSuccessStatusCode();
     }
