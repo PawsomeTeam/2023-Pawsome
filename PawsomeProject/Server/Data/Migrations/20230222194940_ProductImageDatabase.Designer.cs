@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawsomeProject.Server.Data;
 
@@ -11,9 +12,11 @@ using PawsomeProject.Server.Data;
 namespace PawsomeProject.Server.Data.Migrations
 {
     [DbContext(typeof(PawsomeDBContext))]
-    partial class PawsomeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230222194940_ProductImageDatabase")]
+    partial class ProductImageDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,32 +196,6 @@ namespace PawsomeProject.Server.Data.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("PawsomeProject.Server.Models.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("URL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Images");
-                });
-
             modelBuilder.Entity("PawsomeProject.Server.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -308,6 +285,23 @@ namespace PawsomeProject.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Animals");
+                });
+
+            modelBuilder.Entity("PawsomeProject.Shared.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("PawsomeProject.Shared.Models.User", b =>
@@ -432,13 +426,6 @@ namespace PawsomeProject.Server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PawsomeProject.Server.Models.Image", b =>
-                {
-                    b.HasOne("PawsomeProject.Server.Models.Product", null)
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId");
-                });
-
             modelBuilder.Entity("PawsomeProject.Server.Models.Product", b =>
                 {
                     b.HasOne("PawsomeProject.Server.Models.ProductCategory", "ProductCategory")
@@ -448,11 +435,6 @@ namespace PawsomeProject.Server.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("ProductCategory");
-                });
-
-            modelBuilder.Entity("PawsomeProject.Server.Models.Product", b =>
-                {
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }
