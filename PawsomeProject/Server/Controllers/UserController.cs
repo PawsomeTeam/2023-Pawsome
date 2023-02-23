@@ -143,7 +143,7 @@ public class UserController : ControllerBase
             };
         }
 
-        return BadRequest("User does not exist");
+        return BadRequest("User does not exist.");
     }
 
     [Authorize]
