@@ -39,6 +39,7 @@ else
         <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<FindUser, object>(x=>x.FirstName)">Full Name</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.PhoneNumber)">Phone</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Role)">Role</MudTableSortLabel></MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -48,6 +49,7 @@ else
         </MudTd>
         <MudTd DataLabel="Email">@context.Email</MudTd>
         <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
+        <MudTd DataLabel="Phone">@context.Role</MudTd>
         <MudTd DataLabel="Price">
             @{
                     //TODO: make these into a Dialog instad of URLs

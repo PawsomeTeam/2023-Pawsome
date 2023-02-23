@@ -12,17 +12,20 @@ namespace PawsomeProject.Server.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserManager<User> userManager;
+    private readonly RoleManager<IdentityRole> roleManager;
     private readonly SignInManager<User> signInManager;
     private readonly ILogger<UserController> logger;
 
     public UserController(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
+        RoleManager<IdentityRole> roleManager,
         ILogger<UserController> logger
     )
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
+        this.roleManager = roleManager;
         this.logger = logger;
     }
 
@@ -50,6 +53,8 @@ public class UserController : ControllerBase
         };
         var result = await userManager.CreateAsync(user, parameters.Password);
         if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+        var resultRole = await userManager.AddToRoleAsync(user, "User");
+        if (!resultRole.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
         return await Login(new LoginRequest
         {
             UserName = parameters.UserName,
@@ -112,6 +117,7 @@ public class UserController : ControllerBase
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+                Role = userManager.GetRolesAsync(user).Result.FirstOrDefault(),
                 PhoneNumber = user.PhoneNumber
             });
         }
