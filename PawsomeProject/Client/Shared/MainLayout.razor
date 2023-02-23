@@ -6,7 +6,7 @@
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
-<MudLayout Class="deep-purple lighten-5">
+<MudLayout Class="deep-purple lighten-5" style="height:100vh">
     <MudAppBar Elevation="0">
         <MudText Typo="Typo.h6">Pawsome</MudText>
         <MudSpacer/>
@@ -51,6 +51,17 @@
             @Body
         </MudContainer>
     </MudMainContent>
+ <MudAppBar Bottom="true" Fixed="true" Color="Color.Dark" Elevation="1">
+        <MudText Typo="Typo.caption">Designed by Team Pawsome</MudText>
+        <MudSpacer />
+        <div>
+
+        <MudText Typo="Typo.caption">Pawsome© 2021</MudText>
+        <MudText Typo="Typo.caption">All rights reserved</MudText>
+        </div>
+        <MudSpacer />
+       <MudText Typo="Typo.caption">[social links]</MudText>
+    </MudAppBar>>
 </MudLayout>
 
 @code {
@@ -61,7 +72,7 @@
 
 
 @functions{
-
+@* 
     [CascadingParameter]
     Task<AuthenticationState> AuthenticationState { get; set; }
 
@@ -71,7 +82,7 @@
         {
             navigationManager.NavigateTo("/login");
         }
-    }
+    } *@
 
     async Task LogoutClick()
     {
