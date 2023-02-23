@@ -14,11 +14,7 @@ else if (ErrorMessage != null)
 }
 else
 {
-    
-
       <MudGrid Class="mb-16">
-
-
            <MudItem xs="12" md="6" lg="4">
                 <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs" />
            </MudItem>
@@ -44,11 +40,11 @@ else
                            @onclick="() => (AddToCart_Click(new CartItemAddToDto { CartId = 1, ProductId = Product.Id, Qty = 1 }))">
                     Add to Cart
                 </MudButton>
-                 <a href="EditProduct/@Product.Id">
+                 @* <a href="EditProduct/@Product.Id">
                         <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
                             Edit Product
                         </MudButton>
-                    </a>
+                    </a> *@
             </MudItem>
     </MudGrid>
 

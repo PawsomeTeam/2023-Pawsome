@@ -26,8 +26,8 @@
             </CardHeaderContent>
                
                 <CardHeaderActions>
-                    <MudIconButton Icon="@Icons.Material.Filled.Favorite" Size="Size.Small" Color="Color.Default" />
-                    <MudIconButton Icon="@Icons.Material.Filled.Share" Size="Size.Small" Color="Color.Default" />
+                    <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small" Color="Color.Default" />
+                    <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Share" Size="Size.Small" Color="Color.Default" />
                 </CardHeaderActions>
             </MudCardHeader>
             <a href="/ProductDetails/@item.Id">
@@ -38,7 +38,7 @@
             </a>
             <MudCardContent Class="d-flex justify-space-between align-center">
                 <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText>
-                <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
+                <MudButton Disabled="true" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
                        Add
                  </MudButton>
             </MudCardContent>

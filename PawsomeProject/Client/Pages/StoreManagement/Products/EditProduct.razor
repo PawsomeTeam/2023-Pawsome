@@ -1,4 +1,4 @@
-@page "/EditProduct/{Id:int}"
+@page "/manage/products/update/{Id:int}"
 @inherits EditProductBase
 
 <MudText Align="Align.Center" Typo="Typo.h3">Edit Product</MudText>
@@ -27,8 +27,9 @@ else
                        @onclick="() => (Update_Product_Click(Product.Id, Product.Name, Product.Description, Product.Price, Product.Qty))">
                 Update Product
             </MudButton>
+            
 
-            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Warning"
+            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Error"
                        @onclick="() => (Delete_Product_Click(Product.Id))">
                 Delete Product
             </MudButton>

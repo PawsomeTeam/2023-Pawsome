@@ -1,4 +1,4 @@
-@page "/CreateProduct"
+@page "/manage/products/new"
 @inherits CreateProductBase
 
 <MudText Align="Align.Center" Typo="Typo.h3">Create Product</MudText>
@@ -16,8 +16,13 @@
 
         <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
                    @onclick="() => (Create_Product_Click(Product.Name, Product.Description, Product.Price, Product.Qty))">
-            Update Product
+           Add Product
         </MudButton>
+         <MudButton Variant="Variant.Filled" Color="Color.Error"
+                           Class="my-3 mx-auto"
+                           Link="manage/products">
+                    Cancel
+                </MudButton>
 
 
 
