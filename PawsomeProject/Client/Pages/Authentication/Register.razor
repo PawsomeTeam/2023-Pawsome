@@ -1,0 +1,109 @@
+@page "/register"
+@layout AuthLayout
+@inject NavigationManager navigationManager
+@inject CustomStateProvider authStateProvider
+
+@using System.ComponentModel.DataAnnotations
+
+<MudText Align="Align.Center" Typo="Typo.h3">Register</MudText>
+
+
+@*<EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="registerRequest">
+    <DataAnnotationsValidator />
+    <label for="inputLastName" class="sr-only">Last Name</label>
+    <InputText id="inputLastName" class="form-control" placeholder="Last Name" autofocus @bind-Value="@registerRequest.LastName" />
+    <ValidationMessage For="@(() => registerRequest.LastName)" />
+    <label for="inputLastName" class="sr-only">Last Name</label>
+    <InputText id="inputLastName" class="form-control" placeholder="Last Name" autofocus @bind-Value="@registerRequest.LastName" />
+    <ValidationMessage For="@(() => registerRequest.LastName)" />
+    <label for="inputUsername" class="sr-only">User Name</label>
+    <InputText id="inputUsername" class="form-control" placeholder="Username" autofocus @bind-Value="@registerRequest.UserName" />
+    <ValidationMessage For="@(() => registerRequest.UserName)" />
+    <label for="inputPassword" class="sr-only">Password</label>
+    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="@registerRequest.Password" />
+    <ValidationMessage For="@(() => registerRequest.Password)" />
+    <label for="inputPasswordConfirm" class="sr-only">Password Confirmation</label>
+    <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="Password Confirmation" @bind-Value="@registerRequest.PasswordConfirm" />
+    <ValidationMessage For="@(() => registerRequest.PasswordConfirm)" />
+    <label for="inputEmail" class="sr-only">Email</label>
+    <InputText id="inputEmail" class="form-control" placeholder="Email" autofocus @bind-Value="@registerRequest.Email" />
+    <ValidationMessage For="@(() => registerRequest.Email)" />
+    <label for="inputPhoneNumber" class="sr-only">Phone Number</label>
+    <InputText id="inputPhoneNumber" class="form-control" placeholder="Phone Number" autofocus @bind-Value="@registerRequest.PhoneNumber" />
+    <ValidationMessage For="@(() => registerRequest.PhoneNumber)" />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
+    <label class="text-danger">@error</label>
+    <NavLink href="login">
+        <h6 class="font-weight-normal text-center">Already have an account? Click here to login</h6>
+    </NavLink>
+</EditForm>*@
+
+
+
+
+<EditForm Model="registerRequest" OnValidSubmit="OnSubmit">
+
+    <DataAnnotationsValidator /> 
+    <div class="d-flex flex-column align-stretch gap-3">
+        <MudTextField T="string" Label="First Name" 
+                      @bind-Value="registerRequest.FirstName"
+                      For="@(() => registerRequest.FirstName)" />
+
+        <MudTextField T="string" Label="Last Name" i
+                      @bind-Value="registerRequest.LastName"
+                      For="@(() => registerRequest.LastName)" />
+
+        <MudTextField T="string" Label="Username" 
+                      @bind-Value="registerRequest.UserName"
+                      For="@(() => registerRequest.UserName)" />
+
+        <MudTextField T="string" Label="Password" i
+                      InputType="InputType.Password"
+                      @bind-Value="registerRequest.Password"
+                      For="@(() => registerRequest.Password)" />
+                  
+        <MudTextField T="string" Label="Password Confirmation" 
+                      InputType="InputType.Password"
+                      @bind-Value="registerRequest.PasswordConfirm"
+                      For="@(() => registerRequest.PasswordConfirm)" />
+
+        <MudTextField T="string" Label="Email" 
+                      InputType="InputType.Email"
+                      @bind-Value="registerRequest.Email"
+                      For="@(() => registerRequest.Email)" />
+
+        <MudTextField T="string"  Label="Email" 
+                      @bind-Value="registerRequest.PhoneNumber"
+                      For="@(() => registerRequest.PhoneNumber)" />
+
+        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                   Class="my-3 mx-auto"
+                   ButtonType="ButtonType.Submit">
+            Register
+        </MudButton>
+        <div>
+            <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
+            Already have an Account? <MudLink Href="login" Typo="Typo.body2">
+                Login
+            </MudLink>
+        </div>
+    </div>
+</EditForm>
+
+@functions{
+    RegisterRequest registerRequest { get; set; } = new RegisterRequest();
+    string error { get; set; }
+    async Task OnSubmit()
+    {
+        error = null;
+        try
+        {
+            await authStateProvider.Register(registerRequest);
+            navigationManager.NavigateTo("");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}

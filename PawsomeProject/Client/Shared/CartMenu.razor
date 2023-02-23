@@ -1,0 +1,40 @@
+@implements IDisposable
+@inject IShoppingCartService shoppingCartService
+
+@if(shoppingCartItemCount > 0)
+{
+<MudBadge Content="@shoppingCartItemCount" Overlap="true" Origin="Origin.CenterRight" Color="Color.Secondary" Class="mx-3 my-0">
+    <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" aria-label="cart" Color="Color.Inherit" Size="Size.Medium" Link="/ShoppingCart"></MudIconButton>
+</MudBadge>
+}
+else
+{
+     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" aria-label="cart" Color="Color.Inherit" Size="Size.Medium" Link="/ShoppingCart"></MudIconButton>
+}
+
+@* <a href="/ShoppingCart" class="btn btn-info">
+    <i class="oi oi-cart"></i>&nbsp;Cart
+<MudIcon Icon="@Icons.Material.Filled.ShoppingCart" Title="Cart" />
+    <span class="badge bg-dark">@shoppingCartItemCount</span>
+</a> *@
+
+@code {
+    private int shoppingCartItemCount = 0;
+    
+    protected override void OnInitialized()
+    {
+        shoppingCartService.OnShoppingCartChanged += ShoppingCartChanged;
+    }
+    
+    protected void ShoppingCartChanged(int totalQty)
+    {
+        shoppingCartItemCount = totalQty;
+        StateHasChanged();
+    }
+    
+    void IDisposable.Dispose()
+    {
+        shoppingCartService.OnShoppingCartChanged -= ShoppingCartChanged;
+    }
+
+}

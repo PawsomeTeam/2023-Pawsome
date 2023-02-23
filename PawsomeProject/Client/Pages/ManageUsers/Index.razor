@@ -1,0 +1,105 @@
+@page "/manage/users"
+@* <head>
+       <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <link href="app.css" rel="stylesheet" />
+</head> *@
+@inject IAuthService authService
+
+@if(Users == null && error == null)
+{
+       <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+             Loading ...
+        </MudText>
+}
+else if(error != null)
+{
+    <DisplayError ErrorMessage="@error"></DisplayError>
+}
+else
+{
+
+    <MudToolBar class="pr-0 pl-0">
+        <MudText Typo="Typo.h6">All Products</MudText>
+        <MudSpacer />
+        <div class="mx-5">
+            <MudTextField @bind-Value="searchInput" Placeholder="Search"  Class="mt-0" 
+        Adornment="Adornment.Start" AdornmentColor="Color.Primary"
+        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"
+        Variant="Variant.Outlined" Width="100px" Margin="Margin.Dense" ></MudTextField>
+            @* <MudButton Color="Color.Primary" Variant="Variant.Outlined" Class="mr-2" OnClick="@(() => NavigationManager.NavigateTo("/manage/products/create"))">Create</MudButton> *@
+        </div>
+        
+        <MudButton Link="/register" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Person">Register New</MudButton>
+    </MudToolBar>
+
+<MudTable Items="@Users" Hover="true" SortLabel="Sort By" Filter="new Func<FindUser,bool>(FilterFunc1)" Loading="@loading" LoadingProgressColor="Color.Primary">
+    <HeaderContent>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<FindUser, object>(x=>x.UserName)">User Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<FindUser, object>(x=>x.FirstName)">Full Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.PhoneNumber)">Phone</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Role)">Role</MudTableSortLabel></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Username">@context.UserName</MudTd>
+        <MudTd DataLabel="Name">
+            <MudText Typo="Typo.subtitle2">@context.FirstName @context.LastName</MudText>
+        </MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
+        <MudTd DataLabel="Phone">@context.Role</MudTd>
+        <MudTd DataLabel="Price">
+            @{
+                    //TODO: make these into a Dialog instad of URLs
+                var editUrl = $"/manage/users/update/{context.Email}/";
+                // var deleteUrl = $"manage/products/delete/{context.Id}";
+            }
+            <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
+                <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
+                @* <MudIconButton Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  /> *@
+            </MudTooltip>
+            
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{10, 50, 100}" />
+    </PagerContent>
+</MudTable>
+
+
+}
+
+
+@code {
+    private IEnumerable<FindUser> Users { get; set; } = new List<FindUser>();
+    private string? error { get; set; } = null;
+    bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Users = await authService.GetAllUsers();
+            loading = false;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+
+    //searching
+    private string searchInput = "";
+    private bool FilterFunc1(FindUser element) => FilterFunc(element, searchInput);
+    private bool FilterFunc(FindUser element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if ($"{element.UserName} {element.Email} {element.FirstName} {element.LastName} {element.PhoneNumber}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

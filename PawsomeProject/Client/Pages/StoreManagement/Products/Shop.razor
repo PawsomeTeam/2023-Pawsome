@@ -1,0 +1,39 @@
+@page "/shop"
+@inherits ProductsBase
+<head>
+    @*    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="app.css" rel="stylesheet"/>
+</head>
+
+@if (Products == null && ErrorMessage == null)
+{
+    <DisplaySpinner/>
+}
+else if (ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+    <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Products</MudText>
+    <MudText Typo="Typo.body1" Class="mb-8" Align="Align.Center">This is the Public product list</MudText>
+
+    @* <a href="CreateProduct">
+        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
+            Create New Product
+        </MudButton>
+    </a> *@
+    var productCount = Products.Count();
+
+    @if (productCount > 0)
+    {
+        @foreach (var prodGroup in GetGroupedProductsByCategory())
+        {
+            <MudText Typo="Typo.h4" Class="mb-3">@GetCategoryName(prodGroup)</MudText>
+            <MudGrid Class="mb-16">
+                <DisplayProducts Products="@prodGroup.Take(4)"></DisplayProducts>
+
+            </MudGrid>
+        }
+    }
+}

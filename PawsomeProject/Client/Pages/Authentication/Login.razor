@@ -1,0 +1,83 @@
+@page "/login"
+@layout AuthLayout
+@inject NavigationManager navigationManager
+@inject CustomStateProvider authStateProvider
+@using System.ComponentModel.DataAnnotations
+
+
+    <MudText Align="Align.Center"  Typo="Typo.h3">Login</MudText>
+
+    
+@*<EditForm Model="loginRequest" OnValidSubmit="OnSubmit" M class="form-signin">
+        <DataAnnotationsValidator />
+        <label for="inputUsername" class="sr-only">User Name</label>
+        <InputText id="inputUsername" class="form-control" @bind-Value="loginRequest.UserName" autofocus placeholder="Username" />
+        <ValidationMessage For="@(() => loginRequest.UserName)" />
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="loginRequest.Password" />
+        <ValidationMessage For="@(() => loginRequest.Password)" />
+
+        <div class="form-check m-3">
+            <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="@loginRequest.RememberMe" />
+            <label class="form-check-label" for="inputRememberMe">Remember Me</label>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <label class="text-danger">@error</label>
+
+        <MudCardActions>
+            <NavLink href="register">
+                <h6 class="font-weight-normal text-center">Create account</h6>
+            </NavLink>
+        </MudCardActions>
+    </EditForm>*@
+
+<EditForm Model="loginRequest" OnValidSubmit="OnSubmit">
+
+   <DataAnnotationsValidator />
+    <div class="d-flex flex-column align-stretch gap-3">
+       <MudTextField T="string" Label="Username" 
+                      @bind-Value="loginRequest.UserName" For="@(() => loginRequest.UserName)" />
+
+        <MudTextField T="string" Label="Password" InputType="InputType.Password"
+                      @bind-Value="loginRequest.Password" For="@(() => loginRequest.Password)" />
+
+        <MudCheckBox T="bool" Label="Remember Me" 
+                         UnCheckedColor="Color.Default" Color="Color.Primary" Dense="true" Size="Size.Small"
+                     @bind-Value="@loginRequest.RememberMe" For="@(() => loginRequest.RememberMe)" />
+
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="my-3 mx-auto" ButtonType="ButtonType.Submit">
+                Login
+         </MudButton>
+
+        <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
+
+        <div class="d-flex align-center justify-space-between">
+            <MudLink Href="#" Typo="Typo.body2">Forgot password?</MudLink>
+            <MudLink Href="register" Typo="Typo.body2">Create account</MudLink>
+        </div>
+    </div>
+</EditForm>
+
+@code{
+    @* bool success;
+    EditForm? form; *@
+    LoginRequest loginRequest { get; set; } = new LoginRequest();
+    string? error { get; set; }
+    async Task OnSubmit()
+    {
+        error = null;
+
+            try
+            {
+                await authStateProvider.Login(loginRequest);
+                navigationManager.NavigateTo("");
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+    }
+}

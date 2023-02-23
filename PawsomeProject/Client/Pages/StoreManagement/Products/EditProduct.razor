@@ -1,0 +1,40 @@
+@page "/manage/products/update/{Id:int}"
+@inherits EditProductBase
+
+<MudText Align="Align.Center" Typo="Typo.h3">Edit Product</MudText>
+
+@if (Product == null && ErrorMessage == null)
+{
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
+}
+else if (ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+    <MudGrid Class="mb-16">
+        <MudItem xs="12" md="6" lg="4">
+            <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs"/>
+        </MudItem>
+        <MudItem xs="12" md="6" lg="8">
+            <MudTextField @bind-Value="@Product.Name" Label="Name" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
+            <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined"/>
+
+            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                       @onclick="() => (Update_Product_Click(Product.Id, Product.Name, Product.Description, Product.Price, Product.Qty))">
+                Update Product
+            </MudButton>
+            
+
+            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Error"
+                       @onclick="() => (Delete_Product_Click(Product.Id))">
+                Delete Product
+            </MudButton>
+
+
+        </MudItem>
+    </MudGrid>
+}

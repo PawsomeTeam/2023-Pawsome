@@ -1,0 +1,51 @@
+@page "/ProductDetails/{Id:int}"
+@inherits ProductDetailsBase
+@*<head>
+        <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <link href="app.css" rel="stylesheet" />
+</head>*@
+@if (Product == null && ErrorMessage == null)
+{
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+}
+else if (ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+      <MudGrid Class="mb-16">
+           <MudItem xs="12" md="6" lg="4">
+                <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs" />
+           </MudItem>
+            <MudItem xs="12" md="6" lg="8">
+                <MudText Typo="Typo.h4">@Product?.Name</MudText>
+                <MudText Typo="Typo.body1" Class="mb-4">
+                <i>Brand | @Product?.CategoryName</i>
+                </MudText>
+                <MudText Typo="Typo.body1" Class="mb-4">@Product?.Description</MudText>
+            <MudText Typo="Typo.h6" Class="mb-4">
+                <b class="h1">@Product?.Price.ToString("C")</b>
+                    (
+                        @if(@Product?.Qty > 5)
+                        {
+                    <span class="green-text">@Product.Qty</span>
+                        }else{
+                    <span class="red-text">@Product?.Qty</span>
+                        }
+                        items in stock)
+                </MudText>
+
+                <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                           @onclick="() => (AddToCart_Click(new CartItemAddToDto { CartId = 1, ProductId = Product.Id, Qty = 1 }))">
+                    Add to Cart
+                </MudButton>
+                 @* <a href="EditProduct/@Product.Id">
+                        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
+                            Edit Product
+                        </MudButton>
+                    </a> *@
+            </MudItem>
+    </MudGrid>
+
+}

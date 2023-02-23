@@ -1,0 +1,109 @@
+@page "/manage/products"
+@inherits ProductsBase
+@* <head>
+       <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <link href="app.css" rel="stylesheet" />
+</head> *@
+
+@if(Products == null && ErrorMessage == null)
+{
+       <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+             Loading ...
+        </MudText>
+}
+else if(ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Manage Products</MudText>
+
+    <MudToolBar class="pr-0 pl-0">
+        <MudText Typo="Typo.h6">All Products</MudText>
+        <MudSpacer />
+        <div class="mx-5">
+            <MudTextField @bind-Value="searchInput" Placeholder="Search"  Class="mt-0" 
+        Adornment="Adornment.Start" AdornmentColor="Color.Primary"
+        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"
+        Variant="Variant.Outlined" Width="100px" Margin="Margin.Dense" ></MudTextField>
+            @* <MudButton Color="Color.Primary" Variant="Variant.Outlined" Class="mr-2" OnClick="@(() => NavigationManager.NavigateTo("/manage/products/create"))">Create</MudButton> *@
+        </div>
+        
+        <MudButton Link="/manage/products/new" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add">Add New</MudButton>
+    </MudToolBar>
+
+<MudTable Items="@Products" Hover="true" SortLabel="Sort By" Filter="new Func<ProductDto,bool>(FilterFunc1)">
+    <HeaderContent>
+        <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<ProductDto, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+        <MudTh>Thumbnail</MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<ProductDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.CategoryName)">Category</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.Qty)">In Stock</MudTableSortLabel></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        @{string DisplayUrl = $"/ProductDetails/{context.Id}";}
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Image">
+            <MudLink Href="@DisplayUrl">
+                <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.ImageURL" Alt="@context.Name" Elevation="25" Class="rounded-lg"/>
+            </MudLink>
+          
+        </MudTd>
+        <MudTd DataLabel="Name">
+            <MudLink Href="@DisplayUrl">
+                <MudText Typo="Typo.subtitle1">@context.Name</MudText>
+            </MudLink>
+            <MudText Typo="Typo.caption"> @(context.Description.Length > maxLen ? context.Description.Substring(0,maxLen) : context.Description)</MudText>
+        </MudTd>
+        <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
+        <MudTd DataLabel="Price">@context.CategoryName</MudTd>
+        <MudTd DataLabel="Price">@context.Qty</MudTd>
+        <MudTd DataLabel="Price">
+
+        
+            @{
+                    //TODO: make these into a Dialog instad of URLs
+                var editUrl = $"manage/products/update/{context.Id}";
+                var deleteUrl = $"manage/products/delete/{context.Id}";
+            }
+            <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
+                <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
+                <MudIconButton Disabled="true" Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  />
+            </MudTooltip>
+            
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{10, 50, 100}" />
+    </PagerContent>
+</MudTable>
+
+
+}
+
+
+@code {
+    int maxLen = 30;//max product description length
+
+    //searching
+     private string searchInput = "";
+
+      private bool FilterFunc1(ProductDto element) => FilterFunc(element, searchInput);
+
+      private bool FilterFunc(ProductDto element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        @* if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true; *@
+        if ($"{element.Name} {element.Description} {element.CategoryName}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

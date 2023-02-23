@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawsomeProject.Client", "Client\PawsomeProject.Client.csproj", "{083571CE-986F-45DB-AD3E-F0470465F66D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PawsomeProject.Client", "Client\PawsomeProject.Client.csproj", "{083571CE-986F-45DB-AD3E-F0470465F66D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawsomeProject.Server", "Server\PawsomeProject.Server.csproj", "{C0A259EC-B2D3-436B-AB77-1D9F63CF7D12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PawsomeProject.Server", "Server\PawsomeProject.Server.csproj", "{C0A259EC-B2D3-436B-AB77-1D9F63CF7D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawsomeProject.Shared", "Shared\PawsomeProject.Shared.csproj", "{31044C93-8C65-414E-ABFF-15A07ACAAEDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PawsomeProject.Shared", "Shared\PawsomeProject.Shared.csproj", "{31044C93-8C65-414E-ABFF-15A07ACAAEDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

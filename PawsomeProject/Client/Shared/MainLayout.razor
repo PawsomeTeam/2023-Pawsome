@@ -1,34 +1,93 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+@inject CustomStateProvider authStateProvider
 
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
-<MudLayout>
+<MudLayout Class="deep-purple lighten-5" style="height:100vh">
     <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
+        <MudText Typo="Typo.h6">Pawsome</MudText>
+        <MudSpacer/>
+        <CartMenu/>
+        <MudButton Color="Color.Inherit" OnClick="LogoutClick">Logout</MudButton>
+         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.End" OnClick="@((e) => MenuDrawerToggle())"/>
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h6">PawsomeProject</MudText>
+
+    <AuthorizeView>
+        <Authorized>
+            @if (context.User.IsInRole("Admin"))
+            {
+                <MudDrawer @bind-Open="_dashDrawerOpen" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true" >
+                    <MudDrawerHeader Class="pa-3">
+                        <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Large" />
+                        @if(_dashDrawerOpen){
+                            <MudText Typo="Typo.h6">Admin</MudText>
+                        }
+                    </MudDrawerHeader>
+                    <DashNavMenu/>
+                </MudDrawer>
+            }
+
+            @code {
+                bool _dashDrawerOpen = false;
+                void DashDrawerToggle() => _dashDrawerOpen = !_dashDrawerOpen;
+            }
+        </Authorized>
+        <Authorizing>
+            <h1>Loading ...</h1>
+        </Authorizing>
+    </AuthorizeView>
+    <MudDrawer @bind-Open="_menuDrawerOpen" Elevation="1" Anchor="Anchor.End"  Variant="@DrawerVariant.Temporary">
+        <MudDrawerHeader Class="pa-3">
+            <MudText Typo="Typo.h6">Main Menu</MudText>
         </MudDrawerHeader>
-        <NavMenu />
+        <NavMenu/>
     </MudDrawer>
+ 
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
             @Body
         </MudContainer>
     </MudMainContent>
+ <MudAppBar Bottom="true" Fixed="true" Color="Color.Dark" Elevation="1">
+        <MudText Typo="Typo.caption">Designed by Team Pawsome</MudText>
+        <MudSpacer />
+        <div>
+
+        <MudText Typo="Typo.caption">Pawsome© 2021</MudText>
+        <MudText Typo="Typo.caption">All rights reserved</MudText>
+        </div>
+        <MudSpacer />
+       <MudText Typo="Typo.caption">[social links]</MudText>
+    </MudAppBar>>
 </MudLayout>
 
 @code {
-    bool _drawerOpen = true;
+    bool _menuDrawerOpen = false;
+    void MenuDrawerToggle() => _menuDrawerOpen = !_menuDrawerOpen;
+}
 
-    void DrawerToggle()
+
+
+@functions{
+@* 
+    [CascadingParameter]
+    Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnParametersSetAsync()
     {
-        _drawerOpen = !_drawerOpen;
+        if ((await AuthenticationState) == null || !(await AuthenticationState).User.Identity.IsAuthenticated)
+        {
+            navigationManager.NavigateTo("/login");
+        }
+    } *@
+
+    async Task LogoutClick()
+    {
+        await authStateProvider.Logout();
+        navigationManager.NavigateTo("/login");
     }
+
 }

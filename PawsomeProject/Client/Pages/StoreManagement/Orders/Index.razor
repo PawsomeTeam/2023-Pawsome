@@ -1,0 +1,37 @@
+@page "/manage/orders"
+
+
+<MudContainer>
+
+
+
+<MudText Typo="Typo.h4" Class="mud-my-4">Orders Comming soon..</MudText>
+
+    @* <MudTable Data="@Orders" Class="mud-table-responsive">
+        <HeaderContent>
+            <MudTh>Order Id</MudTh>
+            <MudTh>Customer</MudTh>
+            <MudTh>Order Date</MudTh>
+            <MudTh>Ship Date</MudTh>
+            <MudTh>Ship To</MudTh>
+            <MudTh>Order Total</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate Context="order">
+            <MudTd DataLabel="Order Id">@order.OrderId</MudTd>
+            <MudTd DataLabel="Customer">@order.CustomerName</MudTd>
+            <MudTd DataLabel="Order Date">@order.OrderDate</MudTd>
+            <MudTd DataLabel="Ship Date">@order.ShipDate</MudTd>
+            <MudTd DataLabel="Ship To">@order.ShipTo</MudTd>
+            <MudTd DataLabel="Order Total">@order.OrderTotal</MudTd>
+            <MudTd DataLabel="Actions">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@(() => ShowOrderDetails(order))">
+                    <MudIcon Icon="Edit" />
+                </MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@(() => DeleteOrder(order))">
+                    <MudIcon Icon="Delete" />
+                </MudButton>
+            </MudTd>
+        </RowTemplate>
+    </MudTable> *@
+</MudContainer>

@@ -1,0 +1,119 @@
+﻿@page "/manage"
+@inject NavigationManager navigationManager
+@inject IAuthService authService
+
+<AuthorizeView>
+    <Authorized>
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+     
+ <h1>Hello @context.User.Identity.Name !!</h1>
+        <p class="pb-6">Welcome to Your Admin Dashboard</p>
+<MudGrid>
+    <MudItem xs="12" sm="6" >
+        <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h3">Users</MudText>
+            <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">You can manage all users</MudText>
+            <MudButton Align="Align.Center" Link="/manage/users" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Manage</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" >
+        <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h3">Products</MudText>
+            <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">Your Shop manager is in chagrge of this but you can help out</MudText>
+            <MudButton Align="Align.Center" Link="manage/products" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Manage</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" >
+        <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h3">Animals</MudText>
+            <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">Your Pet manager is in chagrge of this but you can help out</MudText>
+            <MudButton Align="Align.Center" Link="/manage/animals" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Manage</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" >
+        <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h3">My Account</MudText>
+            <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">Manage your account info</MudText>
+            <MudButton Align="Align.Center" Link="/account" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">My Account</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" >
+        <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h3">Orders</MudText>
+            <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">Your Shop manager is in chagrge of this but you can help out</MudText>
+            <MudButton Align="Align.Center" Disabled="true" Link="/tips" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Manage</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" >
+        <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h3">Adoptions</MudText>
+            <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">Your Pet manager is in chagrge of this but you can help out</MudText>
+            <MudButton Align="Align.Center" Disabled="true" Link="/tips" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Manage</MudButton>
+        </MudPaper>
+    </MudItem>
+    @* <MudItem xs="12" sm="6">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=6 sm=3</MudPaper>
+    </MudItem> *@
+</MudGrid>
+      
+</MudContainer>
+
+
+
+
+
+
+
+
+
+
+       
+        @* @if (context.User.IsInRole("Admin"))
+        {
+            <p>
+                Full Name: @CurrentUser.FullName
+            </p>
+            <p>
+                Email: @CurrentUser.Email
+            </p>
+            <p>
+                Phone: @CurrentUser.PhoneNumber
+            </p>
+            <p>
+                Username: @CurrentUser.UserName
+            </p>
+            var editUrl = $"UserUpdate/{CurrentUser.Email}/";
+            var usersUrl = $"manage/users";
+            <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
+            <MudIconButton Link="@usersUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.VerifiedUser" Variant="Variant.Outlined"   Size="Size.Small"  />
+        } *@
+        <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
+    </Authorized>
+    <Authorizing>
+        <h1>Loading ...</h1>
+    </Authorizing>
+</AuthorizeView>
+
+
+
+
+@code
+{
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
+
+    string? error { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        error = null;
+        try
+        {
+            CurrentUser = await authService.CurrentUserInfo();
+            @* navigationManager.NavigateTo(""); *@
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}

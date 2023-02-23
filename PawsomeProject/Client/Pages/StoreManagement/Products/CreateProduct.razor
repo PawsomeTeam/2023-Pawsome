@@ -1,0 +1,30 @@
+@page "/manage/products/new"
+@inherits CreateProductBase
+
+<MudText Align="Align.Center" Typo="Typo.h3">Create Product</MudText>
+
+
+<MudGrid Class="mb-16">
+    <MudItem xs="12" md="6" lg="4">
+        <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs"/>
+    </MudItem>
+    <MudItem xs="12" md="6" lg="8">
+        <MudTextField @bind-Value="@Product.Name" Label="Name" Variant="Variant.Outlined"/>
+        <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined"/>
+        <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
+        <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined"/>
+
+        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                   @onclick="() => (Create_Product_Click(Product.Name, Product.Description, Product.Price, Product.Qty))">
+           Add Product
+        </MudButton>
+         <MudButton Variant="Variant.Filled" Color="Color.Error"
+                           Class="my-3 mx-auto"
+                           Link="manage/products">
+                    Cancel
+                </MudButton>
+
+
+
+    </MudItem>
+</MudGrid>

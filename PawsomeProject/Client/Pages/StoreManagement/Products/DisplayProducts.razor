@@ -1,0 +1,48 @@
+@inherits DisplayProductBase
+<style>    
+    .mud-card,
+    .mudCardMediaWrapper {
+        overflow: hidden;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+    
+    .mud-card a:hover .mud-card-media {
+        transform: scale(1.07);
+    }
+    
+    .mud-card-media {
+        transition: 0.5s ease-in-out;
+    }
+
+</style>
+@foreach(var item in Products)
+{
+    <MudItem xs="12" sm="6" md="4">
+        <MudCard>
+            <MudCardHeader>
+            <CardHeaderContent>
+                    <MudText Typo="Typo.h6">@item.Name</MudText>
+                    <MudText Typo="Typo.body2">Brand | @item.CategoryName </MudText>
+            </CardHeaderContent>
+               
+                <CardHeaderActions>
+                    <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small" Color="Color.Default" />
+                    <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Share" Size="Size.Small" Color="Color.Default" />
+                </CardHeaderActions>
+            </MudCardHeader>
+            <a href="/ProductDetails/@item.Id">
+                <div class="mudCardMediaWrapper" style="height:200px" >
+                     <MudCardMedia Image="@item.ImageURL" Height="200" />
+                </div>
+               
+            </a>
+            <MudCardContent Class="d-flex justify-space-between align-center">
+                <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText>
+                <MudButton Disabled="true" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
+                       Add
+                 </MudButton>
+            </MudCardContent>
+        </MudCard>
+</MudItem>
+                   
+}

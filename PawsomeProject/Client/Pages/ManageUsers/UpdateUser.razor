@@ -1,0 +1,91 @@
+@page "/manage/users/update/{Email}/"
+@layout AuthLayout
+@inject NavigationManager navigationManager
+@inject CustomStateProvider authStateProvider
+@inject IAuthService authService
+
+        <MudText Align="Align.Center" Typo="Typo.h3">Update</MudText>
+
+        <EditForm Model="updateRequest" OnValidSubmit="OnSubmit">
+
+            <DataAnnotationsValidator/>
+            <div class="d-flex flex-column align-stretch gap-3">
+                <MudTextField T="string" Label="First Name"
+                              @bind-Value="updateRequest.FirstName"
+                              For="@(() => updateRequest.FirstName)"/>
+
+                <MudTextField T="string" Label="Last Name" 
+                              @bind-Value="updateRequest.LastName"
+                              For="@(() => updateRequest.LastName)"/>
+
+                <MudTextField T="string" Label="Email"
+                              InputType="InputType.Email"
+                              @bind-Value="updateRequest.Email"
+                              For="@(() => updateRequest.Email)"/>
+
+                <MudTextField T="string" Label="PhoneNumber"
+                              @bind-Value="updateRequest.PhoneNumber"
+                              For="@(() => updateRequest.PhoneNumber)"/>
+
+                <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                           Class="my-3 mx-auto"
+                           ButtonType="ButtonType.Submit">
+                    Update
+                </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Error"
+                           Class="my-3 mx-auto"
+                           Link="manage/users">
+                    Cancel
+                </MudButton>
+                @* <div>
+                    <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
+                    Already have an Account?
+                    <MudLink Href="login" Typo="Typo.body2">
+                        Login
+                    </MudLink>
+                </div> *@
+            </div>
+        </EditForm>
+@functions{
+
+    [Parameter]
+    public string Email { get; set; }
+
+    FindUser FindUser = new FindUser();
+
+    UpdateRequest updateRequest { get; set; } = new UpdateRequest();
+
+    private string error { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        error = null;
+        try
+        {
+            FindUser = await authService.GetUserByEmail(Email);
+            updateRequest.Email = FindUser.Email;
+            updateRequest.FirstName = FindUser.FirstName;
+            updateRequest.LastName = FindUser.LastName;
+            updateRequest.PhoneNumber = FindUser.PhoneNumber;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    async Task OnSubmit()
+    {
+        error = null;
+        try
+        {
+            await authStateProvider.Update(Email, updateRequest);
+            navigationManager.NavigateTo("");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+}
