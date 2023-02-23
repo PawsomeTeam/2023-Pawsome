@@ -1,0 +1,67 @@
+﻿@page "/account"
+@inject NavigationManager navigationManager
+@inject IAuthService authService
+
+
+<AuthorizeView>
+    <Authorized>
+
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+                     <MudItem xs="12" Class="pa-4 d-flex flex-column justify-center">
+                    <MudText Align="Align.Center" Typo="Typo.h2">Welcome  @context.User.Identity!.Name !!</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h6" Class="mt-4">You can find some information related to your acocunt here</MudText>
+                </MudItem>
+            <MudText Color="@Color.Error" Class="mb-3"> @error </MudText> 
+            <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6 white"  Elevation="4" Centered="true">
+                <MudTabPanel Text="Account Settings" Icon="@Icons.Material.Filled.Settings">
+                        <div>
+
+                        <MudText Typo="Typo.body1" Class="mb-4"> <b>Full Name:</b> @CurrentUser.FullName</MudText>
+                        <MudText Typo="Typo.body1" Class="mb-4"> <b>Email:</b> @CurrentUser.Email</MudText>
+                        <MudText Typo="Typo.body1" Class="mb-4"> <b>Phone:</b> @CurrentUser.PhoneNumber</MudText>
+                        <MudText Typo="Typo.body1" Class="mb-4"> <b>UserName:</b> @CurrentUser.UserName</MudText>              
+                        <MudButton Align="Align.Center" Link="/account/update" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Edit</MudButton>
+                        </div>
+
+                </MudTabPanel>
+                <MudTabPanel Text="Adoption" Icon="@Icons.Material.Filled.Favorite">
+                    <MudText Typo="Typo.body1" Class="mb-4">Comming soon...</MudText>
+                </MudTabPanel>
+                 <MudTabPanel Text="Orders" Icon="@Icons.Material.Filled.ShoppingCart">
+                    <MudText Typo="Typo.body1" Class="mb-4">Comming soon...</MudText>
+                </MudTabPanel>
+            </MudTabs>
+        </MudContainer>
+    </Authorized>
+    <Authorizing>
+        <h1>Loading ...</h1>
+    </Authorizing>
+</AuthorizeView>
+
+
+
+
+@code
+{
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
+
+    string? error { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        error = null;
+        try
+        {
+            CurrentUser = await authService.CurrentUserInfo();
+            if(CurrentUser == null){
+                navigationManager.NavigateTo("/login");
+                return;
+            }
+            navigationManager.NavigateTo("/account");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}
