@@ -1,5 +1,4 @@
-@page "/UserUpdate/{Email}/"
-@layout AuthLayout
+@page "/manage/users/update/{Email}/"
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
 @inject IAuthService authService
@@ -32,13 +31,18 @@
                            ButtonType="ButtonType.Submit">
                     Update
                 </MudButton>
-                <div>
+                <MudButton Variant="Variant.Filled" Color="Color.Error"
+                           Class="my-3 mx-auto"
+                           Link="manage/users">
+                    Cancel
+                </MudButton>
+                @* <div>
                     <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
                     Already have an Account?
                     <MudLink Href="login" Typo="Typo.body2">
                         Login
                     </MudLink>
-                </div>
+                </div> *@
             </div>
         </EditForm>
 @functions{
