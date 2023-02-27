@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Blobs.Specialized;
 using Microsoft.AspNetCore.Mvc;
 using PawsomeProject.Server.Data;
 using PawsomeProject.Server.Models;
@@ -149,7 +151,7 @@ public class ProductController : ControllerBase
     
     [Route("[action]")]
     [HttpPost]
-    public async Task<IActionResult> Upload()
+    public async Task<IActionResult> UploadImage()
     {
         try
         {
@@ -184,6 +186,34 @@ public class ProductController : ControllerBase
             }
             return BadRequest();
         }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex}");
+        }
+    }
+
+    // [Route("[action]")]
+    [HttpDelete("{file}")]
+    public async Task<IActionResult> DeleteImage(string file)
+    {
+        try
+        {
+            var container = new BlobContainerClient(blobConnectionString, productContainerName);
+            // var imageUrl = url;
+            // string filename = "";
+
+            if (file != null)
+            {
+                // Match match = Regex.Match(imageUrl, @"([^/]+\.[^/]+)$");
+                // filename = match.Groups[1].Value;
+
+                var blcokBlobClient = container.GetBlockBlobClient(file);
+                blcokBlobClient.DeleteIfExists(DeleteSnapshotsOption.IncludeSnapshots);
+                return Ok("A image deleted");
+            }
+            return BadRequest("File is empty");
+        }
+
         catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex}");
