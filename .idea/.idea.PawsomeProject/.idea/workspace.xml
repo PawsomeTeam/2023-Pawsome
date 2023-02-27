@@ -6,8 +6,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9df71bbf-b597-45f8-a996-be19bf839f20" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Shared/Models/ProductCategoryDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProduct.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProduct.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProductBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProductBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/ProductsBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/ProductsBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Services/IProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Services/IProductService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Services/ProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Services/ProductService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/ProductController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,25 +39,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/Users/jingyu/Library/Application Support/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
-      &quot;/Users/jingyu/Library/Application Support/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
-      &quot;/Users/jingyu/.local/share/Symbols/src&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "azure"
+    ],
+    "rider.external.source.directories": [
+      "/Users/jingyu/Library/Application Support/JetBrains/Rider2022.3/resharper-host/DecompilerCache",
+      "/Users/jingyu/Library/Application Support/JetBrains/Rider2022.3/resharper-host/SourcesCache",
+      "/Users/jingyu/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.PawsomeProject.Server">
     <configuration name="PawsomeProject.Client: PawsomeProject" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Client/PawsomeProject.Client.csproj" />
@@ -96,7 +103,7 @@
       <workItem from="1677240992554" duration="4125000" />
       <workItem from="1677262627088" duration="600000" />
       <workItem from="1677380415485" duration="29788000" />
-      <workItem from="1677502936720" duration="6739000" />
+      <workItem from="1677502936720" duration="11321000" />
     </task>
     <servers />
   </component>

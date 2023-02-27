@@ -19,7 +19,13 @@ public class CreateProductBase : ComponentBase
     
     public string ErrorMessage { get; set; }
 
-  
+    public IEnumerable<ProductCategoryDto> Categories { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = await ProductService.GetCategories();
+    }
+
     protected async Task Create_Product_Click(ProductDto product)
     {
         try
@@ -32,8 +38,8 @@ public class CreateProductBase : ComponentBase
                     ImageURL = product.ImageURL,
                     Price = product.Price,
                     Qty = product.Qty,
-                    CategoryId = 1,
-                    CategoryName = "Beauty"
+                    CategoryId = product.CategoryId,
+                    CategoryName = ""
                 };
 
                await this.ProductService.CreateItem(productDto);

@@ -34,7 +34,6 @@ public class ProductService : IProductService
             {
                 var message = await response.Content.ReadAsStringAsync();
                 throw new Exception(message);
-
             }
         }
         catch (Exception e)
@@ -62,9 +61,7 @@ public class ProductService : IProductService
             {
                 var message = await response.Content.ReadAsStringAsync();
                 throw new Exception(message);
-
             }
-
         }
         catch (Exception e)
         {
@@ -127,16 +124,44 @@ public class ProductService : IProductService
 
             var response = await httpClient.PatchAsync($"api/Product/{productDto.Id}", content);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<ProductDto>();
             }
-            return null;
 
+            return null;
         }
         catch (Exception)
         {
             //Log exception
+            throw;
+        }
+    }
+
+    public async Task<List<ProductCategoryDto>> GetCategories()
+    {
+        
+        try
+        {
+            var response = await this.httpClient.GetAsync("api/Product/GetCategories");
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                {
+                    return Enumerable.Empty<ProductCategoryDto>().ToList();
+                }
+
+                return await response.Content.ReadFromJsonAsync<List<ProductCategoryDto>>();
+            }
+            else
+            {
+                var message = await response.Content.ReadAsStringAsync();
+                throw new Exception(message);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
             throw;
         }
     }

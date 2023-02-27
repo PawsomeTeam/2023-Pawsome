@@ -24,7 +24,7 @@ public class ProductController : ControllerBase
         blobConnectionString = configuration.GetValue<string>("BlobConnectionString");
         productContainerName = configuration.GetValue<string>("ProductContainerName");
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetItems()
     {
@@ -63,14 +63,14 @@ public class ProductController : ControllerBase
                 var productCategory = await this.productRepository.GetCategory(product.CategoryId);
                 var productDto = product.ConvertToDto(productCategory);
                 return Ok(productDto);
-            } 
+            }
         }
         catch (Exception)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<ProductDto>> PostItem([FromBody] ProductDto productDto)
     {
@@ -86,14 +86,14 @@ public class ProductController : ControllerBase
             var newProductItemDto = newProductItem.ConvertToDto(newProductCategory);
 
             return CreatedAtAction(nameof(GetItems), new { id = newProductItemDto.Id }, newProductItemDto);
-       }
+        }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
     }
-    
+
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<CartItemDto>> DeleteItem(int id)
     {
@@ -118,7 +118,6 @@ public class ProductController : ControllerBase
         {
             Console.WriteLine(e);
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
-
         }
     }
 
@@ -127,12 +126,12 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var productItem = await this.productRepository.UpdateItem(id,productDto);
+            var productItem = await this.productRepository.UpdateItem(id, productDto);
             if (productItem == null)
             {
                 return NotFound();
             }
-            
+
             var productCategory = await this.productRepository.GetCategory(productItem.CategoryId);
             if (productCategory == null)
             {
@@ -148,7 +147,7 @@ public class ProductController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
     }
-    
+
     [Route("[action]")]
     [HttpPost]
     public async Task<IActionResult> UploadImage()
@@ -156,17 +155,17 @@ public class ProductController : ControllerBase
         try
         {
             var formCollection = await Request.ReadFormAsync();
-            
+
             var file = formCollection.Files.First();
-            
-            if(file.Length > 0)
+
+            if (file.Length > 0)
             {
                 var container = new BlobContainerClient(blobConnectionString, productContainerName);
                 var createResponse = await container.CreateIfNotExistsAsync();
-                
-                if(createResponse != null && createResponse.GetRawResponse().Status == 201)
+
+                if (createResponse != null && createResponse.GetRawResponse().Status == 201)
                     await container.SetAccessPolicyAsync(PublicAccessType.Blob);
-                
+
 
                 var invalids = Path.GetInvalidPathChars();
                 var newFileName = String
@@ -176,14 +175,16 @@ public class ProductController : ControllerBase
                 var uploadFileName = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss-fff") + "_" +
                                      newFileName;
                 var blob = container.GetBlobClient(uploadFileName);
-                
+
                 await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
                 using (var fileStream = file.OpenReadStream())
                 {
                     await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
                 }
+
                 return Ok(blob.Uri.ToString());
             }
+
             return BadRequest();
         }
         catch (Exception ex)
@@ -192,7 +193,6 @@ public class ProductController : ControllerBase
         }
     }
 
-    // [Route("[action]")]
     [HttpDelete("{file}")]
     public async Task<IActionResult> DeleteImage(string file)
     {
@@ -211,6 +211,7 @@ public class ProductController : ControllerBase
                 blcokBlobClient.DeleteIfExists(DeleteSnapshotsOption.IncludeSnapshots);
                 return Ok("A image deleted");
             }
+
             return BadRequest("File is empty");
         }
 
@@ -219,4 +220,24 @@ public class ProductController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex}");
         }
     }
-}       
+
+    [Route("[action]")]
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductCategoryDto>>> GetCategories()
+    {
+        try
+        {
+            var categories = await this.productRepository.GetCategories();
+            if (categories == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(categories);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+        }
+    }
+}
