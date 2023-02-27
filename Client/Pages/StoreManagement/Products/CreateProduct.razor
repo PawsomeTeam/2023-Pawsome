@@ -19,6 +19,12 @@
         <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined"/>
         <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
         <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined"/>
+        <MudSelect T="int" @bind-Value="@Product.CategoryId" Label="Categories" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+            @foreach (var item in Categories)
+            {
+                <MudSelectItem Value="item.Id">@item.Name</MudSelectItem>
+            }
+        </MudSelect>
         <InputFile id="imageInput" OnChange="HandleSelectedImage" hidden accept=".jpg, .jpeg, .png"/>
         <MudButton HtmlTag="label"
                    Variant="Variant.Filled"
