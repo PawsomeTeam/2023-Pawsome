@@ -1,3 +1,5 @@
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Mvc;
 using PawsomeProject.Server.Data;
 using PawsomeProject.Server.Models;
@@ -11,10 +13,14 @@ namespace PawsomeProject.Server.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductRepository productRepository;
+    private readonly string blobConnectionString;
+    private readonly string productContainerName;
 
-    public ProductController(IProductRepository productRepository)
+    public ProductController(IConfiguration configuration, IProductRepository productRepository)
     {
-        this.productRepository = productRepository; 
+        this.productRepository = productRepository;
+        blobConnectionString = configuration.GetValue<string>("BlobConnectionString");
+        productContainerName = configuration.GetValue<string>("ProductContainerName");
     }
     
     [HttpGet]
@@ -141,4 +147,46 @@ public class ProductController : ControllerBase
         }
     }
     
+    [Route("[action]")]
+    [HttpPost]
+    public async Task<IActionResult> Upload()
+    {
+        try
+        {
+            var formCollection = await Request.ReadFormAsync();
+            
+            var file = formCollection.Files.First();
+            
+            if(file.Length > 0)
+            {
+                var container = new BlobContainerClient(blobConnectionString, productContainerName);
+                var createResponse = await container.CreateIfNotExistsAsync();
+                
+                if(createResponse != null && createResponse.GetRawResponse().Status == 201)
+                    await container.SetAccessPolicyAsync(PublicAccessType.Blob);
+                
+
+                var invalids = Path.GetInvalidPathChars();
+                var newFileName = String
+                    .Join("_", file.FileName.Split(invalids, StringSplitOptions.RemoveEmptyEntries))
+                    .TrimEnd('.');
+
+                var uploadFileName = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss-fff") + "_" +
+                                     newFileName;
+                var blob = container.GetBlobClient(uploadFileName);
+                
+                await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+                using (var fileStream = file.OpenReadStream())
+                {
+                    await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
+                }
+                return Ok(blob.Uri.ToString());
+            }
+            return BadRequest();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex}");
+        }
+    }
 }       

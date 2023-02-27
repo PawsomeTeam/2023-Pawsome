@@ -20,18 +20,18 @@ public class CreateProductBase : ComponentBase
     public string ErrorMessage { get; set; }
 
   
-    protected async Task Create_Product_Click(string name,string description, decimal price, int qty)
+    protected async Task Create_Product_Click(ProductDto product)
     {
         try
         {
             var productDto = new ProductDto
                 {
                     Id = Id,
-                    Name = name,
-                    Description = description,
-                    ImageURL = "/Images/Beauty/Beauty1.png",
-                    Price = price,
-                    Qty = qty,
+                    Name = product.Name,
+                    Description = product.Description,
+                    ImageURL = product.ImageURL,
+                    Price = product.Price,
+                    Qty = product.Qty,
                     CategoryId = 1,
                     CategoryName = "Beauty"
                 };
@@ -41,7 +41,6 @@ public class CreateProductBase : ComponentBase
         }
         catch (Exception)
         {
-
             throw;
         }
 

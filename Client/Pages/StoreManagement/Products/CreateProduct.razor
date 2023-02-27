@@ -1,4 +1,5 @@
 @page "/manage/products/new"
+@using System.Net.Http.Headers
 @inherits CreateProductBase
 
 <MudText Align="Align.Center" Typo="Typo.h3">Create Product</MudText>
@@ -13,18 +14,46 @@
         <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined"/>
         <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
         <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined"/>
-
+        <InputFile OnChange="HandleSelected" accept=".jpg, .jpeg, .png"/>
+        @if (ImgUrl != null)
+        {
+            <div>
+                <img src="@ImgUrl" class="image-preview" />
+            </div>
+        }
         <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
-                   @onclick="() => (Create_Product_Click(Product.Name, Product.Description, Product.Price, Product.Qty))">
-           Add Product
+                   @onclick="() => (Create_Product_Click(Product))">
+            Add Product
         </MudButton>
-         <MudButton Variant="Variant.Filled" Color="Color.Error"
-                           Class="my-3 mx-auto"
-                           Link="manage/products">
-                    Cancel
-                </MudButton>
-
-
-
+        <MudButton Variant="Variant.Filled" Color="Color.Error"
+                   Class="my-3 mx-auto"
+                   Link="manage/products">
+            Cancel
+        </MudButton>
     </MudItem>
 </MudGrid>
+
+@code
+{
+    [Inject]
+    public HttpClient HttpClient { get; set; }
+    public string ImgUrl { get; set; }
+    private async Task HandleSelected(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+        if (imageFile == null)
+            return;
+        
+        var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500);
+        
+        using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+        {
+            var content = new MultipartFormDataContent();
+            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+            content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", imageFile.Name);
+            var response = await HttpClient.PostAsync("api/Product/Upload", content);
+            
+            Product.ImageURL = await response.Content.ReadAsStringAsync();
+        }
+    }
+}
