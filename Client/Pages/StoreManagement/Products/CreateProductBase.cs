@@ -19,21 +19,27 @@ public class CreateProductBase : ComponentBase
     
     public string ErrorMessage { get; set; }
 
-  
-    protected async Task Create_Product_Click(string name,string description, decimal price, int qty)
+    public IEnumerable<ProductCategoryDto> Categories { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = await ProductService.GetCategories();
+    }
+
+    protected async Task Create_Product_Click(ProductDto product)
     {
         try
         {
             var productDto = new ProductDto
                 {
                     Id = Id,
-                    Name = name,
-                    Description = description,
-                    ImageURL = "/Images/Beauty/Beauty1.png",
-                    Price = price,
-                    Qty = qty,
-                    CategoryId = 1,
-                    CategoryName = "Beauty"
+                    Name = product.Name,
+                    Description = product.Description,
+                    ImageURL = product.ImageURL,
+                    Price = product.Price,
+                    Qty = product.Qty,
+                    CategoryId = product.CategoryId,
+                    CategoryName = ""
                 };
 
                await this.ProductService.CreateItem(productDto);
@@ -41,7 +47,6 @@ public class CreateProductBase : ComponentBase
         }
         catch (Exception)
         {
-
             throw;
         }
 

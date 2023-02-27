@@ -25,7 +25,7 @@
         <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
             <MudText Align="Align.Center" Typo="Typo.h3">Animals</MudText>
             <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">take a look at some opptions! They are all adorable and in need of a loving home.</MudText>
-            <MudButton Align="Align.Center" Disabled="true" Link="/animals" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Pawsome Animals</MudButton>
+            <MudButton Align="Align.Center" Link="/animals" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Pawsome Animals</MudButton>
         </MudPaper>
     </MudItem>
     <MudItem xs="12" sm="6" >
@@ -44,39 +44,16 @@
         <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
             <MudText Align="Align.Center" Typo="Typo.h3">Your Adoption</MudText>
             <MudText Align="Align.Center"  Typo="Typo.subtitle1" Class="mt-4">If you already started a process you can go to your account</MudText>
-            @if(CurrentUser == null)
-            {
-               <MudButton Align="Align.Center" Link="/login" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Your Account</MudButton>
-            } else 
-            {
-                <MudButton Align="Align.Center"  Link="/account" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Your Account</MudButton>
-            }
+            <AuthorizeView>
+                <Authorized>
+                    <MudButton Align="Align.Center"  Link="/account" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Your Account</MudButton>
+                </Authorized>
+                <NotAuthorized>
+                    <MudButton Align="Align.Center" Link="/login" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Your Account</MudButton>
+                </NotAuthorized>
+            </AuthorizeView>
         </MudPaper>
     </MudItem>
-    @* <MudItem xs="12" sm="6">
-        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=6 sm=3</MudPaper>
-    </MudItem> *@
 </MudGrid>
       
 </MudContainer>
-
-@code
-{
-    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
-
-    string? error { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        error = null;
-        try
-        {
-            CurrentUser = await authService.CurrentUserInfo();
-            @* navigationManager.NavigateTo(""); *@
-        }
-        catch (Exception ex)
-        {
-            error = ex.Message;
-        }
-    }
-}

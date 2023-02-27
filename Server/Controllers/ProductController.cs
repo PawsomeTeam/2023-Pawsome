@@ -1,3 +1,7 @@
+using System.Text.RegularExpressions;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Blobs.Specialized;
 using Microsoft.AspNetCore.Mvc;
 using PawsomeProject.Server.Data;
 using PawsomeProject.Server.Models;
@@ -11,12 +15,16 @@ namespace PawsomeProject.Server.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductRepository productRepository;
+    private readonly string blobConnectionString;
+    private readonly string productContainerName;
 
-    public ProductController(IProductRepository productRepository)
+    public ProductController(IConfiguration configuration, IProductRepository productRepository)
     {
-        this.productRepository = productRepository; 
+        this.productRepository = productRepository;
+        blobConnectionString = configuration.GetValue<string>("BlobConnectionString");
+        productContainerName = configuration.GetValue<string>("ProductContainerName");
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetItems()
     {
@@ -55,14 +63,14 @@ public class ProductController : ControllerBase
                 var productCategory = await this.productRepository.GetCategory(product.CategoryId);
                 var productDto = product.ConvertToDto(productCategory);
                 return Ok(productDto);
-            } 
+            }
         }
         catch (Exception)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<ProductDto>> PostItem([FromBody] ProductDto productDto)
     {
@@ -78,14 +86,14 @@ public class ProductController : ControllerBase
             var newProductItemDto = newProductItem.ConvertToDto(newProductCategory);
 
             return CreatedAtAction(nameof(GetItems), new { id = newProductItemDto.Id }, newProductItemDto);
-       }
+        }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
     }
-    
+
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<CartItemDto>> DeleteItem(int id)
     {
@@ -110,7 +118,6 @@ public class ProductController : ControllerBase
         {
             Console.WriteLine(e);
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
-
         }
     }
 
@@ -119,12 +126,12 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var productItem = await this.productRepository.UpdateItem(id,productDto);
+            var productItem = await this.productRepository.UpdateItem(id, productDto);
             if (productItem == null)
             {
                 return NotFound();
             }
-            
+
             var productCategory = await this.productRepository.GetCategory(productItem.CategoryId);
             if (productCategory == null)
             {
@@ -140,5 +147,97 @@ public class ProductController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
     }
-    
-}       
+
+    [Route("[action]")]
+    [HttpPost]
+    public async Task<IActionResult> UploadImage()
+    {
+        try
+        {
+            var formCollection = await Request.ReadFormAsync();
+
+            var file = formCollection.Files.First();
+
+            if (file.Length > 0)
+            {
+                var container = new BlobContainerClient(blobConnectionString, productContainerName);
+                var createResponse = await container.CreateIfNotExistsAsync();
+
+                if (createResponse != null && createResponse.GetRawResponse().Status == 201)
+                    await container.SetAccessPolicyAsync(PublicAccessType.Blob);
+
+
+                var invalids = Path.GetInvalidPathChars();
+                var newFileName = String
+                    .Join("_", file.FileName.Split(invalids, StringSplitOptions.RemoveEmptyEntries))
+                    .TrimEnd('.');
+
+                var uploadFileName = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss-fff") + "_" +
+                                     newFileName;
+                var blob = container.GetBlobClient(uploadFileName);
+
+                await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+                using (var fileStream = file.OpenReadStream())
+                {
+                    await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
+                }
+
+                return Ok(blob.Uri.ToString());
+            }
+
+            return BadRequest();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex}");
+        }
+    }
+
+    [HttpDelete("{file}")]
+    public async Task<IActionResult> DeleteImage(string file)
+    {
+        try
+        {
+            var container = new BlobContainerClient(blobConnectionString, productContainerName);
+            // var imageUrl = url;
+            // string filename = "";
+
+            if (file != null)
+            {
+                // Match match = Regex.Match(imageUrl, @"([^/]+\.[^/]+)$");
+                // filename = match.Groups[1].Value;
+
+                var blcokBlobClient = container.GetBlockBlobClient(file);
+                blcokBlobClient.DeleteIfExists(DeleteSnapshotsOption.IncludeSnapshots);
+                return Ok("A image deleted");
+            }
+
+            return BadRequest("File is empty");
+        }
+
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex}");
+        }
+    }
+
+    [Route("[action]")]
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductCategoryDto>>> GetCategories()
+    {
+        try
+        {
+            var categories = await this.productRepository.GetCategories();
+            if (categories == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(categories);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+        }
+    }
+}

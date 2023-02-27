@@ -13,6 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
 
 // Add services to the container.
+builder.Services.AddCors(policy =>
+{
+    policy.AddPolicy("CorsPolicy", opt => opt
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -81,6 +88,7 @@ using (var scope = app.Services.CreateScope())
 }
  
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
