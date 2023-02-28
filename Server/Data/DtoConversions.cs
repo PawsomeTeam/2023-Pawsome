@@ -44,6 +44,7 @@ public static class DtoConversions
         {
             var newImageDto = new ImageDto
             {
+                Id = image.Id,
                 URL = image.URL,
                 Type = image.Type
             };

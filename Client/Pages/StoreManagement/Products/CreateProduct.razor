@@ -1,6 +1,5 @@
 @page "/manage/products/new"
 @using System.Net.Http.Headers
-@using System.Text.RegularExpressions
 @inherits CreateProductBase
 
 <MudText Align="Align.Center" Typo="Typo.h3">Create Product</MudText>
@@ -80,7 +79,7 @@
     private async Task HandleDeleteImage(string url)
     {
         var imageURL = url;
-        var filename = fileName(imageURL);
+        var filename = ProductService.fileName(imageURL);
         var response = await HttpClient.DeleteAsync($"api/Product/{filename}");
         if (response.IsSuccessStatusCode)
         {
@@ -95,7 +94,7 @@
         foreach (var image in Product.Images)
         {
             var imageURL = image.URL;
-            var filename = fileName(imageURL);
+            var filename = ProductService.fileName(imageURL);
             var response = await HttpClient.DeleteAsync($"api/Product/{filename}");
             if (response.IsSuccessStatusCode)
             {
@@ -105,11 +104,5 @@
             }
         }
         NavigationManager.NavigateTo("manage/products");
-    }
-
-    private string fileName(string url)
-    {
-        Match match = Regex.Match(url, @"([^/]+\.[^/]+)$");
-        return match.Groups[1].Value;
     }
 }

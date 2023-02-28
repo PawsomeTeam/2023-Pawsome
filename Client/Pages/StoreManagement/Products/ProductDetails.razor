@@ -18,10 +18,8 @@
 
 <MudGrid Class="mb-16">
     <MudItem xs="12" md="6" lg="4">
-        <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs" />
         @foreach (var image in Product.Images)
         {
-            Console.WriteLine(image);
             <MudImage Fluid="true" Src="@image.URL" Alt="@Product?.Name" Class="rounded-xs"/>
         }
     </MudItem>

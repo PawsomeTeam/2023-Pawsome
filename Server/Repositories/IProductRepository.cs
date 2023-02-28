@@ -13,5 +13,6 @@ public interface IProductRepository
     
     Task<Product> CreateItem(ProductDto product);
     Task<Product> UpdateItem(int id, ProductDto product);
-    Task<Product> DeleteItem(int id);
+    Task DeleteItem(int id);
+    Task DeleteImage(int id);
 }

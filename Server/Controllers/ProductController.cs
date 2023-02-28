@@ -58,6 +58,7 @@ public class ProductController : ControllerBase
             {
                 return BadRequest();
             }
+
             var productCategory = await productRepository.GetCategory(product.CategoryId);
             var images = await productRepository.GetImages(product.Id);
             product.Images = images;
@@ -94,24 +95,24 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult<CartItemDto>> DeleteItem(int id)
+    public async Task<ActionResult> DeleteItem(int id)
     {
         try
         {
-            var productItem = await this.productRepository.DeleteItem(id);
-            if (productItem == null)
+            await productRepository.DeleteItem(id);
+
+            var images = await productRepository.GetImages(id);
+            string filename = "";
+
+            foreach (var image in images)
             {
-                return NotFound();
+                Match match = Regex.Match(image.URL, @"([^/]+\.[^/]+)$");
+                filename = match.Groups[1].Value;
+                await DeleteImage(filename);
+                await productRepository.DeleteImage(image.Id);
             }
 
-            var productCategory = await this.productRepository.GetCategory(productItem.CategoryId);
-            if (productCategory == null)
-            {
-                return NotFound();
-            }
-
-            var cartItemDto = productItem.ConvertToDto(productCategory);
-            return Ok(cartItemDto);
+            return Ok();
         }
         catch (Exception e)
         {
@@ -198,14 +199,9 @@ public class ProductController : ControllerBase
         try
         {
             var container = new BlobContainerClient(blobConnectionString, productContainerName);
-            // var imageUrl = url;
-            // string filename = "";
 
             if (file != null)
             {
-                // Match match = Regex.Match(imageUrl, @"([^/]+\.[^/]+)$");
-                // filename = match.Groups[1].Value;
-
                 var blcokBlobClient = container.GetBlockBlobClient(file);
                 blcokBlobClient.DeleteIfExists(DeleteSnapshotsOption.IncludeSnapshots);
                 return Ok("A image deleted");
@@ -218,6 +214,14 @@ public class ProductController : ControllerBase
         {
             return StatusCode(500, $"Internal server error: {ex}");
         }
+    }
+
+    [Route("[action]/{id}")]
+    [HttpDelete]
+    public async Task<IActionResult> DeleteEImage(int id)
+    {
+        await productRepository.DeleteImage(id);
+        return Ok();
     }
 
     [Route("[action]")]

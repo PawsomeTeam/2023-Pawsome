@@ -50,7 +50,8 @@ public class ProductDetailsBase : ComponentBase
 
     protected async Task DeleteProductItem_Click(int id)
     {
-        var productDto = await ProductService.DeleteItem(id);
+        await ProductService.DeleteItem(id);
+        NavigationManager.NavigateTo("");
     }
 
 }

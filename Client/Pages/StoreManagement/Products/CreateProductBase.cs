@@ -19,7 +19,7 @@ public class CreateProductBase : ComponentBase
     
     public string ErrorMessage { get; set; }
 
-    public IEnumerable<ProductCategoryDto> Categories { get; set; }
+    public IEnumerable<ProductCategoryDto> Categories { get; set; } = new List<ProductCategoryDto>();
 
     protected override async Task OnInitializedAsync()
     {
