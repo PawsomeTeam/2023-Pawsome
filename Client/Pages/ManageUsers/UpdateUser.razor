@@ -4,49 +4,54 @@
 @inject CustomStateProvider authStateProvider
 @inject IAuthService authService
 
-        <MudText Align="Align.Center" Typo="Typo.h3">Update</MudText>
+<MudText Align="Align.Center" Typo="Typo.h3">Update</MudText>
 
-        <EditForm Model="updateRequest" OnValidSubmit="OnSubmit">
+<EditForm Model="updateRequest" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator/>
+    <div class="d-flex flex-column align-stretch gap-3">
+        <MudTextField T="string" Label="First Name"
+                      @bind-Value="updateRequest.FirstName"
+                      For="@(() => updateRequest.FirstName)"/>
 
-            <DataAnnotationsValidator/>
-            <div class="d-flex flex-column align-stretch gap-3">
-                <MudTextField T="string" Label="First Name"
-                              @bind-Value="updateRequest.FirstName"
-                              For="@(() => updateRequest.FirstName)"/>
+        <MudTextField T="string" Label="Last Name"
+                      @bind-Value="updateRequest.LastName"
+                      For="@(() => updateRequest.LastName)"/>
 
-                <MudTextField T="string" Label="Last Name" 
-                              @bind-Value="updateRequest.LastName"
-                              For="@(() => updateRequest.LastName)"/>
+        <MudTextField T="string" Label="Email"
+                      InputType="InputType.Email"
+                      @bind-Value="updateRequest.Email"
+                      For="@(() => updateRequest.Email)"/>
 
-                <MudTextField T="string" Label="Email"
-                              InputType="InputType.Email"
-                              @bind-Value="updateRequest.Email"
-                              For="@(() => updateRequest.Email)"/>
+        <MudTextField T="string" Label="PhoneNumber"
+                      @bind-Value="updateRequest.PhoneNumber"
+                      For="@(() => updateRequest.PhoneNumber)"/>
 
-                <MudTextField T="string" Label="PhoneNumber"
-                              @bind-Value="updateRequest.PhoneNumber"
-                              For="@(() => updateRequest.PhoneNumber)"/>
+        <MudCheckBox @bind-Checked="@AdminCheckBox" Disabled="true">Admin</MudCheckBox>
+        <MudCheckBox @bind-Checked="@ProductManagerCheckBox" Color="Color.Primary">Product Manager</MudCheckBox>
+        <MudCheckBox @bind-Checked="@AnimalManagerCheckBox" Color="Color.Secondary">Animal Manager</MudCheckBox>
+        <MudCheckBox @bind-Checked="@UserCheckBox" Color="Color.Info">User</MudCheckBox>
 
-                <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                           Class="my-3 mx-auto"
-                           ButtonType="ButtonType.Submit">
-                    Update
-                </MudButton>
-                <MudButton Variant="Variant.Filled" Color="Color.Error"
-                           Class="my-3 mx-auto"
-                           Link="manage/users">
-                    Cancel
-                </MudButton>
-                @* <div>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                   Class="my-3 mx-auto"
+                   ButtonType="ButtonType.Submit">
+            Update
+        </MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error"
+                   Class="my-3 mx-auto"
+                   Link="manage/users">
+            Cancel
+        </MudButton>
+        @* <div>
                     <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
                     Already have an Account?
                     <MudLink Href="login" Typo="Typo.body2">
                         Login
                     </MudLink>
                 </div> *@
-            </div>
-        </EditForm>
-@functions{
+    </div>
+</EditForm>
+
+@code{
 
     [Parameter]
     public string Email { get; set; }
@@ -55,7 +60,12 @@
 
     UpdateRequest updateRequest { get; set; } = new UpdateRequest();
 
-    private string error { get; set; }
+    private string? error { get; set; }
+
+    private bool AdminCheckBox { get; set; } = false;
+    private bool ProductManagerCheckBox { get; set; } = false;
+    private bool AnimalManagerCheckBox { get; set; } = false;
+    private bool UserCheckBox { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,6 +77,15 @@
             updateRequest.FirstName = FindUser.FirstName;
             updateRequest.LastName = FindUser.LastName;
             updateRequest.PhoneNumber = FindUser.PhoneNumber;
+            updateRequest.Roles = new List<string>();
+            foreach (var item in FindUser.Roles)
+            {
+                Console.WriteLine(item);
+                if (item == "Admin") AdminCheckBox = true;
+                if (item == "ProductManager") ProductManagerCheckBox = true;
+                if (item == "AnimalManager") AnimalManagerCheckBox = true;
+                if (item == "User") UserCheckBox = true;
+            }
         }
         catch (Exception ex)
         {
@@ -79,12 +98,18 @@
         error = null;
         try
         {
+            if (AdminCheckBox) updateRequest.Roles.Add("Admin");
+            if (ProductManagerCheckBox) updateRequest.Roles.Add("ProductManager");
+            if (AnimalManagerCheckBox) updateRequest.Roles.Add("AnimalManager");
+            if (UserCheckBox) updateRequest.Roles.Add("User");
+
             await authStateProvider.Update(Email, updateRequest);
             navigationManager.NavigateTo("");
         }
         catch (Exception ex)
         {
             error = ex.Message;
+            Console.WriteLine(error);
         }
     }
 

@@ -6,7 +6,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/Account/UpdateAccount.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Account/UpdateAccount.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/ManageUsers/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/ManageUsers/Index.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/ManageUsers/UpdateUser.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/ManageUsers/UpdateUser.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shared/Models/FindUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Models/FindUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shared/Models/UpdateRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Models/UpdateRequest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,17 +24,45 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/134a6267445f46b7a8730761c018e904811000/a8/dbcbefe1/MudFileUploader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/239d5395bba836e0f78d6c0a977814a9975d461ca2b06b8df1a9a2f0d5d49/MultipartFormDataContent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2852aaeea7cbb1bc2837fafbb34228c2ca751653b44d343d29b62035582f/WebAssemblyHostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3d1513538fba54e0f812177bd89294125a7d32dfe5ab96d08b32c3151e8c/DeveloperExceptionPageExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/46ccc69269c2c5ea1ee5a471e87d31f57b2bed35eadf737ebfbca6a37e16f/HttpContentJsonExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4ea681aa1df24442c1a5e1e18582b1a2d29ac5bfd41390c94a5d2cc958b5ff/UserManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6014824068c41c6469abcd7f3cd8b5cf882bdaa583e43a177b3bced6d823287/HttpContent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6083bc26d94ccf44fe82d69edbd61b8d822a2f6f2fe1132aea688e707270bf/AuthenticationState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/608710c970c749fbf3b2770da238f7a1a2e9b7a2cf9d69ab012b02caefef833/LayoutComponentBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/81118a823fc3237c4619faed35d869bfa9664a394499d9f72547c9acef1b/BrowserFileExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/94d6ef92b8779f6c4edef872bc091cc1af82540886c65bd48586796daf2d11e/IWebAssemblyHostEnvironment.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a44825aa5e78437f8555e87ede4ceab63cc00/_2c1f2/HttpStatusCode.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2MKruAjETumXIkTtM9O9LpCfZxD" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/Users/jingyu/Library/Application Support/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
+      &quot;/Users/jingyu/Library/Application Support/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
+      &quot;/Users/jingyu/.local/share/Symbols/src&quot;
+    ]
+  }
+}</component>
   <component name="RunManager">
-    <configuration name="Unnamed" type="LaunchSettings" factoryName=".NET Launch Settings Profile" nameIsGenerated="true">
+    <configuration name="Pawsome" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Server/PawsomeProject.Server.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
       <option name="LAUNCH_PROFILE_NAME" value="PawsomeProject.Server" />
@@ -43,8 +78,21 @@
       </method>
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="" />
+      <created>1677527334280</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677527334280</updated>
+      <workItem from="1677527336158" duration="5069000" />
+      <workItem from="1677543734329" duration="9012000" />
+    </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
 </project>
