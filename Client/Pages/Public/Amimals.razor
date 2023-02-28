@@ -1,30 +1,5 @@
 ﻿@page "/animals"
 
-@* <MudTable Items="@_animals" Hover="true" Striped="true" Bordered="true" Loading="@_loading" LoadingProgressColor="Color.Info">
-    <HeaderContent>
-        <MudTh>Dogs Name</MudTh>
-        <MudTh>Age</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh>Image</MudTh>
-        <MudTh>Action</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Dogs Name">@context.Name</MudTd>
-        <MudTd DataLabel="Age">@context.Age</MudTd>
-        <MudTd DataLabel="Description">@context.Description</MudTd>
-        <MudTd DataLabel="Image">
-            @if (String.IsNullOrEmpty(context.Main_Image_Url) == false)
-            {
-                    <MudImage Src="context.Main_Image_Url" />
-            }
-
-        </MudTd>
-        <MudTd DataLabel="Molar mass">
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" />
-        </MudTd>
-    </RowTemplate>
-</MudTable> *@
-
 <style>    
     .mud-card,
     .mudCardMediaWrapper {
@@ -41,68 +16,79 @@
     }
 </style>
 
-  <MudGrid Class="mb-16">
-@foreach(var item in _animals)
-{
-    <MudItem xs="12" sm="6" md="4">
-        <MudCard>
-            <MudCardHeader>
-            <CardHeaderContent>
-                    <MudText Typo="Typo.h6">@item.Name</MudText>
-                    <MudText Typo="Typo.body2">type (cat or dog) </MudText>
-            </CardHeaderContent>
-               
-                <CardHeaderActions>
-                    <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small" Color="Color.Default" />
-                    <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Share" Size="Size.Small" Color="Color.Default" />
-                </CardHeaderActions>
-            </MudCardHeader>
-            <a href="/ProductDetails/@item.Id">
-                <div class="mudCardMediaWrapper" style="height:200px" >
-                     <MudCardMedia Image="@item.Main_Image_Url" Height="200" />
-                </div>
-               
-            </a>
-            <MudCardContent Class="d-flex justify-space-between align-center">
-                @* <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText> *@
-                <MudText Typo="Typo.body1">@item.Age</MudText>
-                <MudButton Disabled="true" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
-                       Adopt
-                 </MudButton>
-            </MudCardContent>
-        </MudCard>
-</MudItem>
-                   
+
+@if(error != null){
+    <MudAlert Severity="Severity.Error" Class="mb-16">@error</MudAlert>
+    return;
 }
 
+@if(loading == true ){
+    <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+}else {
+
+  <MudGrid Class="mb-16">
+    @foreach(var item in _animals)
+    {
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard>
+                <MudCardHeader>
+                <CardHeaderContent>
+                        <MudText Typo="Typo.h6">@item.Name</MudText>
+                        <MudText Typo="Typo.body2">@temp_type</MudText>
+                </CardHeaderContent>
+                
+                    <CardHeaderActions>
+                        <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small" Color="Color.Default" />
+                        <MudIconButton Disabled="true" Icon="@Icons.Material.Filled.Share" Size="Size.Small" Color="Color.Default" />
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <a href="/animals/@item.Id">
+                    <div class="mudCardMediaWrapper" style="height:200px" >
+                        @if(item.Main_Image_Url == null)
+                        {
+                            <MudCardMedia Image="https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg" Height="200" />
+                        } else {
+                            <MudCardMedia Image="https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg" Height="200" />
+                        }
+                    </div>
+                
+                </a>
+                <MudCardContent Class="d-flex justify-space-between align-center">
+                    @* <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText> *@
+                    <MudText Typo="Typo.body1">@temp_price.ToString("C")</MudText>
+                    @* <MudButton Link="animals/" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
+                        Adopt
+                    </MudButton> *@
+                </MudCardContent>
+            </MudCard>
+    </MudItem>               
+    }
 </MudGrid>
+}
 
 
 @code {
 
     [Inject] IAnimalService Service { get; set; }
 
-    private bool _loading = true;
+    private bool loading = true;
+    private string? error = null;
     private List<Animal> _animals = new();
+
+            @* temp variables *@
+    public double temp_price = 400.00;
+    public string temp_type = "dog";
+
 
     protected override async Task OnInitializedAsync()
     {
-        _animals = await Service.GetAll();
-        _loading = false;
-    }
-
-    //description length
-    private int maxLen = 30;
-
-    //searching
-    private string searchInput = "";
-    private bool FilterFunc1(Animal element) => FilterFunc(element, searchInput);
-    private bool FilterFunc(Animal element, string searchString)
-    {
-        if (string.IsNullOrWhiteSpace(searchString))
-            return true;
-        if ($"{element.Name} {element.Age} {element.Description}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return false;
+        try{
+            _animals = await Service.GetAll();
+            loading = false;
+        } catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        
     }
 }

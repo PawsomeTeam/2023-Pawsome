@@ -28,7 +28,7 @@
 <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Manage Animals</MudText>
 
     <MudToolBar class="pr-0 pl-0">
-        <MudText Typo="Typo.h6">All Products</MudText>
+        <MudText Typo="Typo.h6">All Animals</MudText>
         <MudSpacer />
         <div class="mx-5">
             <MudTextField @bind-Value="searchInput" Placeholder="Search"  Class="mt-0" 
@@ -43,7 +43,7 @@
     <HeaderContent>
         <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<Animal, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
         <MudTh>Thumbnail</MudTh>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Animal, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Animal, object>(x=> (x.Name != null ? x.Name : ' '))">Name</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<Animal, object>(x=>x.Age)">Age</MudTableSortLabel></MudTh>
         <MudTh></MudTh>
     </HeaderContent>
@@ -93,7 +93,7 @@
 
 @code {
 
-    [Inject] IAnimalService Service { get; set; }
+    [Inject] IAnimalService Service { get; set; } = default!;
 
     private bool _loading = true;
     private List<Animal> _animals = new();
