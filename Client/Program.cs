@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
+using OpenAI.Net;
 using PawsomeProject.Client;
 using PawsomeProject.Client.Services;
 
@@ -15,6 +16,12 @@ builder.Services.AddScoped<CustomStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAnimalService, HttpBasedAnimalService> ();
+
+//Add OpenAIServices
+builder.Services.AddOpenAIServices(o =>
+{
+    o.ApiKey = builder.Configuration["OpenAI:ApiKey"];
+});
 
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

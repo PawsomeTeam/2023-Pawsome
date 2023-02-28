@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>1ddccafb-3e49-497d-bf3a-7846c50c90fb</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,6 +13,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
 		<PackageReference Include="MudBlazor" Version="6.0.13" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="OpenAI.Net.Client" Version="1.0.15" />
 	</ItemGroup>
 
 	<ItemGroup>

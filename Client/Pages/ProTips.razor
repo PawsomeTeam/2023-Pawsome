@@ -1,0 +1,57 @@
+﻿@page "/protips"
+
+<PageTitle>Pawesome Chat</PageTitle>
+@using OpenAI.Net;
+@using PawsomeProject.Client.Data;
+@inject IOpenAIService openAiService;
+
+
+<h3>Pawesome Chat</h3>
+
+<EditForm Mode.="@SearchModel" OnValidSubmit="Search">
+
+    <InputText @bind-Value="SearchModel.SearchText"></InputText>
+
+    <button type="submit">Search</button>
+
+</EditForm>
+
+<ul>
+    @foreach (var item in History)
+    {
+        <li>
+            <div>@item.User</div>
+            <div>@item.Message</div>
+        </li>
+    }
+
+
+</ul>
+
+@code {
+    private SearchInfo SearchModel = new SearchInfo();
+    private List<ChatInfo> History = new List<ChatInfo>();
+
+    private async Task Search()
+    {
+        History.Add(new ChatInfo() { Message = SearchModel.SearchText, User = "CurrentUser" });
+        History.Add(new ChatInfo() { Message = "", User = "Pawesome Assistant" });
+
+        await foreach (var response in openAiService.TextCompletion.GetStream(SearchModel.SearchText, o =>
+        {
+            o.MaxTokens = 1024;
+        }))
+        {
+            History[History.Count - 1].Message += response.Result.Choices[0].Text;
+            StateHasChanged();
+        }
+
+        SearchModel.SearchText = "";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+}
