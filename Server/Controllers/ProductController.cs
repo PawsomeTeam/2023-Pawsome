@@ -53,17 +53,16 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var product = await this.productRepository.GetItem(id);
+            var product = await productRepository.GetItem(id);
             if (product == null)
             {
                 return BadRequest();
             }
-            else
-            {
-                var productCategory = await this.productRepository.GetCategory(product.CategoryId);
-                var productDto = product.ConvertToDto(productCategory);
-                return Ok(productDto);
-            }
+            var productCategory = await productRepository.GetCategory(product.CategoryId);
+            var images = await productRepository.GetImages(product.Id);
+            product.Images = images;
+            var productDto = product.ConvertToDto(productCategory);
+            return Ok(productDto);
         }
         catch (Exception)
         {
@@ -76,13 +75,13 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var newProductItem = await this.productRepository.CreateItem(productDto);
+            var newProductItem = await productRepository.CreateItem(productDto);
             if (newProductItem == null)
             {
                 return NoContent();
             }
 
-            var newProductCategory = await this.productRepository.GetCategory(newProductItem.CategoryId);
+            var newProductCategory = await productRepository.GetCategory(newProductItem.CategoryId);
             var newProductItemDto = newProductItem.ConvertToDto(newProductCategory);
 
             return CreatedAtAction(nameof(GetItems), new { id = newProductItemDto.Id }, newProductItemDto);
