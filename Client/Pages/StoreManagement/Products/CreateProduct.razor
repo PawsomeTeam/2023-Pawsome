@@ -1,5 +1,6 @@
 @page "/manage/products/new"
 @using System.Net.Http.Headers
+@using System.Text.RegularExpressions
 @inherits CreateProductBase
 
 <MudText Align="Align.Center" Typo="Typo.h3">Create Product</MudText>
@@ -7,27 +8,39 @@
 
 <MudGrid Class="mb-16">
     <MudItem xs="12" md="6" lg="4">
-        <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs"/>
+        @foreach (var image in Product.Images)
+        {
+            <MudImage Fluid="true" Src="@image.URL" Alt="@Product.Name" Class="rounded-xs"/>
+            <MudIconButton OnClick="() => HandleDeleteImage(image.URL)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
+        }
     </MudItem>
     <MudItem xs="12" md="6" lg="8">
         <MudTextField @bind-Value="@Product.Name" Label="Name" Variant="Variant.Outlined"/>
         <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined"/>
         <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
         <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined"/>
-        <InputFile OnChange="HandleSelected" accept=".jpg, .jpeg, .png"/>
-        @if (ImgUrl != null)
-        {
-            <div>
-                <img src="@ImgUrl" class="image-preview" />
-            </div>
-        }
+        <MudSelect T="int" @bind-Value="@Product.CategoryId" Label="Categories" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+            @foreach (var item in Categories)
+            {
+                <MudSelectItem Value="item.Id">@item.Name</MudSelectItem>
+            }
+        </MudSelect>
+        <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Success"
+                   StartIcon="@Icons.Filled.Image"
+                   Label="Load picture"
+                   for="imageInput">
+            Upload Files
+        </MudButton>
         <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
                    @onclick="() => (Create_Product_Click(Product))">
             Add Product
         </MudButton>
         <MudButton Variant="Variant.Filled" Color="Color.Error"
                    Class="my-3 mx-auto"
-                   Link="manage/products">
+                   OnClick="HandleDeleteAllImages">
             Cancel
         </MudButton>
     </MudItem>
@@ -37,23 +50,66 @@
 {
     [Inject]
     public HttpClient HttpClient { get; set; }
-    public string ImgUrl { get; set; }
-    private async Task HandleSelected(InputFileChangeEventArgs e)
+
+    private async Task HandleSelectedImage(InputFileChangeEventArgs e)
     {
-        var imageFile = e.File;
-        if (imageFile == null)
-            return;
-        
-        var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500);
-        
-        using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+        foreach (var file in e.GetMultipleFiles())
         {
-            var content = new MultipartFormDataContent();
-            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
-            content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", imageFile.Name);
-            var response = await HttpClient.PostAsync("api/Product/Upload", content);
-            
-            Product.ImageURL = await response.Content.ReadAsStringAsync();
+            var resizedFile = await file.RequestImageFileAsync("image/png", 300, 500);
+
+            using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+            {
+                var content = new MultipartFormDataContent();
+                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", file.Name);
+                var response = await HttpClient.PostAsync("api/Product/UploadImage", content);
+
+                var url = await response.Content.ReadAsStringAsync();
+                var imageDto = new ImageDto
+                {
+                    URL = url,
+                    Type = "type"
+                };
+
+                Product.Images.Add(imageDto);
+            }
         }
+        Product.ImageURL = Product.Images.ElementAt(0).URL;
+    }
+
+    private async Task HandleDeleteImage(string url)
+    {
+        var imageURL = url;
+        var filename = fileName(imageURL);
+        var response = await HttpClient.DeleteAsync($"api/Product/{filename}");
+        if (response.IsSuccessStatusCode)
+        {
+            var imageDto = Product.Images.Find(i => i.URL == url);
+            Product.Images.Remove(imageDto);
+            Console.WriteLine("Image File is deleted");
+        }
+    }
+
+    private async Task HandleDeleteAllImages()
+    {
+        foreach (var image in Product.Images)
+        {
+            var imageURL = image.URL;
+            var filename = fileName(imageURL);
+            var response = await HttpClient.DeleteAsync($"api/Product/{filename}");
+            if (response.IsSuccessStatusCode)
+            {
+                var imageDto = Product.Images.Find(i => i.URL == imageURL);
+                Product.Images.Remove(imageDto);
+                Console.WriteLine("Image File is deleted with Cancel");
+            }
+        }
+        NavigationManager.NavigateTo("manage/products");
+    }
+
+    private string fileName(string url)
+    {
+        Match match = Regex.Match(url, @"([^/]+\.[^/]+)$");
+        return match.Groups[1].Value;
     }
 }

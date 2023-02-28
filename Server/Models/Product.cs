@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace PawsomeProject.Server.Models
 {
@@ -9,7 +10,7 @@ namespace PawsomeProject.Server.Models
         public string Description { get; set; }
         public string ImageURL { get; set; }
         
-        public List<Image> Images { get; set; } = new List<Image>();
+        public List<Image> Images { get; set; }
         public decimal Price { get; set; }
         public int Qty { get; set; }
         public int CategoryId { get; set; }

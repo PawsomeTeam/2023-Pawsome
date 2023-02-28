@@ -30,6 +30,12 @@ public class ProductRepository : IProductRepository
         var product = await pawsomeDbContext.Products.FindAsync(id);
         return product;
     }
+    
+    public async Task<List<Image>> GetImages(int id)
+    {
+        var images = await pawsomeDbContext.Images.Where(o => o.Product.Id == id).ToListAsync();
+        return images;
+    }
 
     public async Task<ProductCategory> GetCategory(int id)
     {
@@ -45,13 +51,26 @@ public class ProductRepository : IProductRepository
             Description = product.Description,
             ImageURL = product.ImageURL,
             Price = product.Price,
+            Images = new List<Image>(),
             Qty = product.Qty,
             CategoryId = product.CategoryId
         };
+
+        foreach (var image in product.Images)
+        {
+            Image newImage = new Image
+            {
+                URL = image.URL,
+                Type = image.Type
+            };
+            item.Images.Add(newImage);
+        }
+        
         if (item != null)
         {
-            var result = await this.pawsomeDbContext.Products.AddAsync(item);
-            await this.pawsomeDbContext.SaveChangesAsync();
+            await pawsomeDbContext.Images.AddRangeAsync(item.Images);
+            var result = await pawsomeDbContext.Products.AddAsync(item);
+            await pawsomeDbContext.SaveChangesAsync();
             return result.Entity;
         }
 

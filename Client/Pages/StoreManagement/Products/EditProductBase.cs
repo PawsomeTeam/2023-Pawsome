@@ -8,17 +8,17 @@ public class EditProductBase : ComponentBase
 {
     [Parameter]
     public int Id { get; set; }
-    
+
     [Inject]
-    public IProductService ProductService { get; set; }
-    
+    public IProductService ProductService { get; set; } = default!;
+
     [Inject]
-    public NavigationManager NavigationManager { get; set; }
-    
-    public ProductDto Product { get; set; }
-    
-    public string ErrorMessage { get; set; }
-    
+    public NavigationManager NavigationManager { get; set; } = default!;
+
+    public ProductDto? Product { get; set; }
+
+    public string ErrorMessage { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -30,24 +30,24 @@ public class EditProductBase : ComponentBase
             ErrorMessage = e.Message;
         }
     }
-    protected async Task Update_Product_Click(int id, string name,string description, decimal price, int qty)
+    protected async Task Update_Product_Click(int id, string name, string description, decimal price, int qty)
     {
         try
         {
             var productDto = new ProductDto
-                {
-                    Id = id,
-                    Name = name,
-                    Description = description,
-                    ImageURL = "/Images/Beauty/Beauty1.png",
-                    Price = price,
-                    Qty = qty,
-                    CategoryId = 1,
-                    CategoryName = "Beauty"
-                };
+            {
+                Id = id,
+                Name = name,
+                Description = description,
+                ImageURL = "/Images/Beauty/Beauty1.png",
+                Price = price,
+                Qty = qty,
+                CategoryId = 1,
+                CategoryName = "Beauty"
+            };
 
-                var returnedUpdateItemDto = await this.ProductService.UpdateItem(productDto);
-                NavigationManager.NavigateTo("");
+            var returnedUpdateItemDto = await this.ProductService.UpdateItem(productDto);
+            NavigationManager.NavigateTo("");
         }
         catch (Exception)
         {
@@ -56,12 +56,12 @@ public class EditProductBase : ComponentBase
         }
 
     }
-    
+
     protected async Task Delete_Product_Click(int id)
     {
         var cartItemDto = await ProductService.DeleteItem(id);
         NavigationManager.NavigateTo("");
     }
 
-    
+
 }

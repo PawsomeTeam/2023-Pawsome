@@ -27,17 +27,30 @@ public static class DtoConversions
     public static ProductDto ConvertToDto(this Product product,
         ProductCategory productCategory)
     {
-        return new ProductDto
+        var newProductDto = new ProductDto
         {
             Id = product.Id,
             Name = product.Name,
             Description = product.Description,
             ImageURL = product.ImageURL,
+            Images = new List<ImageDto>(),
             Price = product.Price,
             Qty = product.Qty,
             CategoryId = product.CategoryId,
             CategoryName = productCategory.Name
         };
+
+        foreach (var image in product.Images)
+        {
+            var newImageDto = new ImageDto
+            {
+                URL = image.URL,
+                Type = image.Type
+            };
+            newProductDto.Images.Add(newImageDto);
+        }
+
+        return newProductDto;
     }
 
     public static IEnumerable<CartItemDto> ConvertToDto(this IEnumerable<CartItem> cartItems,

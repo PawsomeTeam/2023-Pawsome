@@ -54,8 +54,9 @@
         <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
 
         <div class="d-flex align-center justify-space-between">
-            <MudLink Href="#" Typo="Typo.body2">Forgot password?</MudLink>
-            <MudLink Href="register" Typo="Typo.body2">Create account</MudLink>
+            <MudButton Link="/" Variant="Variant.Text" Style="text-transform:none" StartIcon="@Icons.Material.Filled.KeyboardBackspace" Color="Color.Primary">Home</MudButton>
+            <MudButton Link="/#" Variant="Variant.Text" Style="text-transform:none" Color="Color.Primary">Forgot password?</MudButton>
+            <MudButton Link="/register" Variant="Variant.Text" Style="text-transform:none" Color="Color.Primary">Create account</MudButton>
         </div>
     </div>
 </EditForm>
