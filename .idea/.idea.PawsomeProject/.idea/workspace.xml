@@ -6,13 +6,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Client/Pages/ManageUsers/DeleteUser.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/ManageUsers/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/ManageUsers/Index.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/ManageUsers/UpdateUser.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/ManageUsers/UpdateUser.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Services/AuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Services/CustomStateProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Services/CustomStateProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProduct.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProduct.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProductBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/CreateProductBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/ProductDetails.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/ProductDetails.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shared/Models/ImageDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Models/ImageDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shared/Models/ProductDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Models/ProductDto.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +48,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
@@ -88,7 +89,7 @@
       <option name="presentableId" value="Default" />
       <updated>1677527334280</updated>
       <workItem from="1677527336158" duration="5069000" />
-      <workItem from="1677543734329" duration="12705000" />
+      <workItem from="1677543734329" duration="20641000" />
     </task>
     <servers />
   </component>
@@ -96,4 +97,7 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
 </project>
