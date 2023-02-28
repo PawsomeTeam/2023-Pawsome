@@ -1,24 +1,12 @@
 @page "/manage/products"
 @inherits ProductsBase
-@* <head>
-       <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
-        <link href="app.css" rel="stylesheet" />
-</head> *@
 
-@if(Products == null && ErrorMessage == null)
-{
-       <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
-            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
-             Loading ...
-        </MudText>
-}
-else if(ErrorMessage != null)
-{
-    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
-}
-else
-{
 <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Manage Products</MudText>
+
+@if(ErrorMessage != null){
+    <MudAlert Severity="Severity.Error" Class="mb-16">@ErrorMessage</MudAlert>
+    return;
+}
 
     <MudToolBar class="pr-0 pl-0">
         <MudText Typo="Typo.h6">All Products</MudText>
@@ -34,7 +22,7 @@ else
         <MudButton Link="/manage/products/new" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add">Add New</MudButton>
     </MudToolBar>
 
-<MudTable Items="@Products" Hover="true" SortLabel="Sort By" Filter="new Func<ProductDto,bool>(FilterFunc1)">
+<MudTable Items="@Products" Hover="true" SortLabel="Sort By" Loading="@IsLoading"  Filter="new Func<ProductDto,bool>(FilterFunc1)">
     <HeaderContent>
         <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<ProductDto, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
         <MudTh>Thumbnail</MudTh>
@@ -45,7 +33,7 @@ else
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        @{string DisplayUrl = $"/ProductDetails/{context.Id}";}
+        @{string DisplayUrl = $"/shop/products/{context.Id}";}
         <MudTd DataLabel="Id">@context.Id</MudTd>
         <MudTd DataLabel="Image">
             <MudLink Href="@DisplayUrl">
@@ -83,8 +71,6 @@ else
 </MudTable>
 
 
-}
-
 
 @code {
     int maxLen = 30;//max product description length
@@ -98,10 +84,7 @@ else
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        @* if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true; *@
+
         if ($"{element.Name} {element.Description} {element.CategoryName}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
