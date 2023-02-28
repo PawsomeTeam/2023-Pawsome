@@ -39,12 +39,12 @@
         <MudButton Link="/manage/animals/new" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add">Add New</MudButton>
     </MudToolBar>
 
-<MudTable Items="@_animals" Hover="true" SortLabel="Sort By" Filter="new Func<Animal,bool>(FilterFunc1)"  Loading="@_loading" LoadingProgressColor="Color.Primary">
+<MudTable Items="@_animals" Hover="true" SortLabel="Sort By" Filter="new Func<AnimalDto,bool>(FilterFunc1)"  Loading="@_loading" LoadingProgressColor="Color.Primary">
     <HeaderContent>
-        <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<Animal, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<AnimalDto, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
         <MudTh>Thumbnail</MudTh>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Animal, object>(x=> (x.Name != null ? x.Name : ' '))">Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Animal, object>(x=>x.Age)">Age</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AnimalDto, object>(x=> (x.Name != null ? x.Name : ' '))">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AnimalDto, object>(x=>x.Age)">Age</MudTableSortLabel></MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -96,7 +96,7 @@
     [Inject] IAnimalService Service { get; set; } = default!;
 
     private bool _loading = true;
-    private List<Animal> _animals = new();
+    private List<AnimalDto> _animals = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -109,8 +109,8 @@
 
     //searching
     private string searchInput = "";
-    private bool FilterFunc1(Animal element) => FilterFunc(element, searchInput);
-    private bool FilterFunc(Animal element, string searchString)
+    private bool FilterFunc1(AnimalDto element) => FilterFunc(element, searchInput);
+    private bool FilterFunc(AnimalDto element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;

@@ -1,5 +1,6 @@
 ﻿using PawsomeProject.Shared.Models;
 using System.Net.Http.Json;
+using System.Net;
 
 namespace PawsomeProject.Client.Services
 {
@@ -12,18 +13,37 @@ namespace PawsomeProject.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Animal>> GetAll()
+        public async Task<List<AnimalDto>> GetAll()
         {
-            var response = await _httpClient.GetFromJsonAsync<List<Animal>>("api/animal");
+            var response = await _httpClient.GetFromJsonAsync<List<AnimalDto>>("api/animal");
             return response;
         }
 
-        public async Task<Animal> AddAnimal(Animal animal)
+        public async Task<AnimalDto> AddAnimal(AnimalDto animalDto)
         {
-            var response = await _httpClient.PostAsJsonAsync<Animal>("api/animal", animal);
-            return await response.Content.ReadFromJsonAsync<Animal>();
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync<AnimalDto>("api/animal", animalDto);
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(AnimalDto);
+                    }
+
+                    return await response.Content.ReadFromJsonAsync<AnimalDto>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status : {response.StatusCode} Message - {message}");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
-
-
     }
 }

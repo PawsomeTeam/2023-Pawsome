@@ -4,6 +4,6 @@ namespace PawsomeProject.Client.Services;
 
 public interface IAnimalService
 {
-    Task<List<Animal>> GetAll();
-    Task<Animal> AddAnimal(Animal animal);
+    Task<List<AnimalDto>> GetAll();
+    Task<AnimalDto> AddAnimal(AnimalDto animal);
 }

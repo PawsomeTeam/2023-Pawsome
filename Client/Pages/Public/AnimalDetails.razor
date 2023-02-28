@@ -41,7 +41,7 @@
     [Parameter]
     public int Id { get; set; }
 
-    public Animal Animal = new Animal();
+    public AnimalDto Animal = new AnimalDto();
     public bool loading = true;
     public string? error = null;
 
@@ -54,18 +54,11 @@
         try
         {
             @* Animal = await _animalService.Get(Id); *@
-
             @* temporary animal for testing *@
             Animal.Name = "Temp name";
             Animal.Description = "Temp animal description";
             Animal.Main_Image_Url = "https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg";
             Animal.Age = 10;
-            Animal.date_adopted = null;
-            Animal.Reservation_Date = null;
-
-
-
-
             loading = false;
         }
         catch (System.Exception ex)
