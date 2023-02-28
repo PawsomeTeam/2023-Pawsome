@@ -1,0 +1,21 @@
+﻿@page "/manage/create-animal"
+
+<EditForm Model="@newAnimal" OnValidSubmit="HandleValidSubmit">
+    <MudTextField Label="Name" @bind-Value="newAnimal.Name" />
+    <MudTextField Label="Description" @bind-Value="newAnimal.Description" />
+    <MudTextField Label="Age" @bind-Value="newAnimal.Age" />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Type="submit">Create</MudButton>
+</EditForm>
+
+@code {
+    [Inject] IAnimalService Service { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; }
+    private Animal newAnimal = new Animal();
+
+    private async Task HandleValidSubmit()
+    {
+        await Service.AddAnimal(newAnimal);
+        
+        NavigationManager.NavigateTo("/manage/animals");
+    }
+}

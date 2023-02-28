@@ -17,5 +17,13 @@ namespace PawsomeProject.Client.Services
             var response = await _httpClient.GetFromJsonAsync<List<Animal>>("api/animal");
             return response;
         }
+
+        public async Task<Animal> AddAnimal(Animal animal)
+        {
+            var response = await _httpClient.PostAsJsonAsync<Animal>("api/animal", animal);
+            return await response.Content.ReadFromJsonAsync<Animal>();
+        }
+
+
     }
 }
