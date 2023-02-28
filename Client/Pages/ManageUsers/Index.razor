@@ -59,11 +59,11 @@ else
             @{
                     //TODO: make these into a Dialog instad of URLs
                 var editUrl = $"/manage/users/update/{context.Email}/";
-                // var deleteUrl = $"manage/products/delete/{context.Id}";
+                var deleteUrl = $"manage/users/delete/{context.Email}";
             }
             <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
                 <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
-                @* <MudIconButton Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  /> *@
+                <MudIconButton Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  />
             </MudTooltip>
             
         </MudTd>

@@ -170,8 +170,8 @@ public class UserController : ControllerBase
         return BadRequest("User does not exist");
     }
 
-    [Authorize(Roles = "Admin")]
-    [HttpDelete]
+    [Authorize]
+    [HttpDelete("{email}")]
     public async Task<IActionResult> DeleteUser(string email)
     {
         var user = await userManager.FindByEmailAsync(email);
