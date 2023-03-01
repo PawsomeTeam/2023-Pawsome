@@ -42,7 +42,7 @@
         </MudText>
 
         <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
-                    @onclick="() => (AddToCart_Click(new CartItemAddToDto { CartId = 1, ProductId = Product!.Id, Qty = 1 }))">
+                    @onclick="() => (AddToCart_Click(new CartItemAddToDto { ProductId = Product.Id, Qty = 1 }))">
             Add to Cart
         </MudButton>
     </MudItem>

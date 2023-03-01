@@ -10,19 +10,22 @@ public class ShoppingCartBase : ComponentBase
 {
     [Inject] public IShoppingCartService ShoppingCartService { get; set; }
 
-    public List <CartItemDto> ShoppingCartItems { get; set; }
+    public List<CartItemDto> ShoppingCartItems { get; set; } = new List<CartItemDto>();
     
     [Inject]
     public IJSRuntime Js { get; set; }
     public string ErrorMessage { get; set; }
     protected string TotalPrice { get; set; }
     protected int TotalQuantity { get; set; }
-
+    [Inject] 
+    public IAuthService authService { get; set; } = default!;
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            ShoppingCartItems = await ShoppingCartService.GetItems(1);
+            CurrentUser = await authService.CurrentUserInfo();
+            ShoppingCartItems = await ShoppingCartService.GetItems(CurrentUser.Email);
             CartChange();
         }
         catch (Exception e)
@@ -101,11 +104,8 @@ public class ShoppingCartBase : ComponentBase
                 var returnedUpdateItemDto = await this.ShoppingCartService.UpdateQty(updateItemDto);
 
                 UpdateItemTotalPrice(returnedUpdateItemDto);
-                    
                 CartChange();
-
                 await MakeUpdateQtyButtonVisible(id, false);
-
 
             }
             else
@@ -117,13 +117,11 @@ public class ShoppingCartBase : ComponentBase
                     item.Qty = 1;
                     item.TotalPrice = item.Price;
                 }
-
             }
-
         }
-        catch (Exception)
+        catch (Exception e)
         {
-
+            Console.WriteLine(e);
             throw;
         }
 

@@ -18,7 +18,10 @@ public class ProductDetailsBase : ComponentBase
     [Inject]
     public NavigationManager NavigationManager { get; set; } = default!;
 
+    [Inject] public IAuthService authService { get; set; } = default!;
     public ProductDto? Product { get; set; }
+
+    public CurrentUser CurrentUser { get; set; } = new CurrentUser();
 
     public string? ErrorMessage { get; set; } = null;
 
@@ -36,8 +39,11 @@ public class ProductDetailsBase : ComponentBase
 
     protected async Task AddToCart_Click(CartItemAddToDto cartItemAddToDto)
     {
+        
         try
         {
+            CurrentUser = await authService.CurrentUserInfo();
+            cartItemAddToDto.UserEmail = CurrentUser.Email;
             var cartItemDto = await ShoppingCartService.AddItem(cartItemAddToDto);
             NavigationManager.NavigateTo("/ShoppingCart");
         }
@@ -46,12 +52,6 @@ public class ProductDetailsBase : ComponentBase
             Console.WriteLine(e);
             throw;
         }
-    }
-
-    protected async Task DeleteProductItem_Click(int id)
-    {
-        await ProductService.DeleteItem(id);
-        NavigationManager.NavigateTo("");
     }
 
 }
