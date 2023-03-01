@@ -32,6 +32,7 @@ else
                        Variant="Variant.Filled"
                        Color="Color.Success"
                        StartIcon="@Icons.Filled.Image"
+                       EndIcon="@Icons.Material.Filled.Add"
                        Label="Load picture"
                        for="imageInput">
                 Upload Files
@@ -43,8 +44,8 @@ else
             </MudButton>
 
 
-            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Error"
-                       @onclick="() => (Delete_Product_Click(Product.Id))">
+            <MudButton Variant="Variant.Filled" Color="Color.Error"
+                       @onclick="() => (Delete_Product_Click(Product.Images, Product.Id))">
                 Delete Product
             </MudButton>
 
