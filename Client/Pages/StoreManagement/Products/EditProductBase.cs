@@ -58,8 +58,13 @@ public class EditProductBase : ComponentBase
         }
     }
 
-    protected async Task Delete_Product_Click(int id)
+    protected async Task Delete_Product_Click(List<ImageDto> images, int id)
     {
+        foreach (var image in images.ToList())
+        {
+            await HandleDeleteImage(image.URL, image.Id);
+        }
+
         await ProductService.DeleteItem(id);
         NavigationManager.NavigateTo("");
     }
@@ -88,8 +93,10 @@ public class EditProductBase : ComponentBase
                 Product.Images.Add(imageDto);
             }
         }
+
         Product.ImageURL = Product.Images.ElementAt(0).URL;
     }
+
     protected async Task HandleDeleteImage(string url, int id)
     {
         var imageURL = url;
