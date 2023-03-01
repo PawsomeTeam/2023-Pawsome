@@ -1,45 +1,23 @@
 ﻿@page "/manage/animals"
 
-@* <MudTable Items="@_animals" Hover="true" Striped="true" Bordered="true" Loading="@_loading" LoadingProgressColor="Color.Info">
-    <HeaderContent>
-        <MudTh>Dogs Name</MudTh>
-        <MudTh>Age</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh>Image</MudTh>
-        <MudTh>Action</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Dogs Name">@context.Name</MudTd>
-        <MudTd DataLabel="Age">@context.Age</MudTd>
-        <MudTd DataLabel="Description">@context.Description</MudTd>
-        <MudTd DataLabel="Image">
-            @if (String.IsNullOrEmpty(context.Main_Image_Url) == false)
-            {
-                    <MudImage Src="context.Main_Image_Url" />
-            }
 
-        </MudTd>
-        <MudTd DataLabel="Molar mass">
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" />
-        </MudTd>
-    </RowTemplate>
-</MudTable> *@
+
 
 <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Manage Animals</MudText>
 
-    <MudToolBar class="pr-0 pl-0">
-        <MudText Typo="Typo.h6">All Animals</MudText>
-        <MudSpacer />
-        <div class="mx-5">
-            <MudTextField @bind-Value="searchInput" Placeholder="Search"  Class="mt-0" 
-            Adornment="Adornment.Start" AdornmentColor="Color.Primary"
-            AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"
-            Variant="Variant.Outlined" Width="100px" Margin="Margin.Dense" ></MudTextField>
-        </div>
-        <MudButton Link="/manage/animals/new" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add">Add New</MudButton>
-    </MudToolBar>
+<MudToolBar class="pr-0 pl-0">
+    <MudText Typo="Typo.h6">All Animals</MudText>
+    <MudSpacer />
+    <div class="mx-5">
+        <MudTextField @bind-Value="searchInput" Placeholder="Search" Class="mt-0"
+                      Adornment="Adornment.Start" AdornmentColor="Color.Primary"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"
+                      Variant="Variant.Outlined" Width="100px" Margin="Margin.Dense"></MudTextField>
+    </div>
+    <MudButton Link="/manage/animals/new" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add">Add New</MudButton>
+</MudToolBar>
 
-<MudTable Items="@_animals" Hover="true" SortLabel="Sort By" Filter="new Func<AnimalDto,bool>(FilterFunc1)"  Loading="@_loading" LoadingProgressColor="Color.Primary">
+<MudTable Items="@_animals" Hover="true" SortLabel="Sort By" Filter="new Func<AnimalDto,bool>(FilterFunc1)" Loading="@_loading" LoadingProgressColor="Color.Primary">
     <HeaderContent>
         <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<AnimalDto, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
         <MudTh>Thumbnail</MudTh>
@@ -56,33 +34,43 @@
             @* @if (String.IsNullOrEmpty(context.Main_Image_Url) == false)
             {
             <MudLink Href="@DisplayUrl">
-                <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg"/>
+            <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg"/>
             </MudLink>
             } *@
-          
-                <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg"/>
-   
+
+            <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg" />
+
         </MudTd>
         <MudTd DataLabel="Name">
             @* <MudLink Href="@DisplayUrl">
-                <MudText Typo="Typo.subtitle1">@context.Name</MudText>
+            <MudText Typo="Typo.subtitle1">@context.Name</MudText>
             </MudLink> *@
-                <MudText Typo="Typo.subtitle1">@context.Name</MudText>
+            <MudText Typo="Typo.subtitle1">@context.Name</MudText>
             <MudText Typo="Typo.caption"> @(context.Description?.Length > maxLen ? context.Description.Substring(0, maxLen) : context.Description)</MudText>
             </MudTd>
             <MudTd DataLabel="Age">@context.Age</MudTd>
-        <MudTd DataLabel="Actions">
+            <MudTd DataLabel="Actions">
 
 
-            @{
-            //TODO: make these into a Dialog instad of URLs
-            var editUrl = $"manage/animals/update/{context.Id}";
-            var deleteUrl = $"manage/animals/delete/{context.Id}";
-        }
+                @{
+                //TODO: make these into a Dialog instad of URLs
+                var editUrl = $"manage/animals/update/{context.Id}";
+                var deleteUrl = $"manage/animals/delete/{context.Id}";
+            }
             <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
-                <MudIconButton Disabled="true" Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
-                <MudIconButton Disabled="true" Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  />
+                <MudIconButton Disabled="true" Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Size="Size.Small" />
+                <MudIconButton OnClick="@(() => ShowConfirmDeleteDialog(context))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
             </MudTooltip>
+            <MudDialog @bind-IsOpen="_confirmDeleteDialogVisible">
+                <DialogContent>
+                    Are you sure you want to delete this animal?
+                </DialogContent>
+                <DialogActions>
+                    <MudButton Color="Color.Primary" Variant="Variant.Outlined" OnClick="@(() => _confirmDeleteDialogVisible = false)">Cancel</MudButton>
+                    <MudButton Color="Color.Error" Variant="Variant.Outlined" OnClick="@(() => DeleteAnimalConfirmed(_animalToDelete))">Delete</MudButton>
+                </DialogActions>
+            </MudDialog>
+
 
         </MudTd>
     </RowTemplate>
@@ -92,17 +80,18 @@
 </MudTable>
 
 @code {
+    @inject NavigationManager navigationManager
 
-    [Inject] IAnimalService Service { get; set; } = default!;
+    @inject IAnimalService animalService
 
     private bool _loading = true;
     private List<AnimalDto> _animals = new();
 
-    protected override async Task OnInitializedAsync()
-    {
-        _animals = await Service.GetAll();
-        _loading = false;
-    }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    _animals = await Service.GetAll();
+    //    _loading = false;
+    //}
 
     //description length
     private int maxLen = 30;
@@ -117,5 +106,35 @@
         if ($"{element.Name} {element.Age} {element.Description}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+    }
+
+    // Delete Confirmation
+    private bool _confirmDeleteDialogVisible = false;
+    private AnimalDto _animalToDelete;
+
+    private async Task DeleteAnimal(AnimalDto animal)
+    {
+        _confirmDeleteDialogVisible = false;
+        _loading = true;
+        await animalService.DeleteAnimal(animal.Id);
+        _animals.Remove(animal);
+        _loading = false;
+    }
+
+    private async Task DeleteAnimalConfirmed(AnimalDto animal)
+    {
+        await DeleteAnimal(animal);
+    }
+
+    private void ShowConfirmDeleteDialog(AnimalDto animal)
+    {
+        _animalToDelete = animal;
+        _confirmDeleteDialogVisible = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _animals = await animalService.GetAll();
+        _loading = false;
     }
 }
