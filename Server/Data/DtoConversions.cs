@@ -59,16 +59,15 @@ public static class DtoConversions
     {
         return (from cartItem in cartItems
             join product in products
-                on cartItem.ProductId equals product.Id
+                on cartItem.Product.Id equals product.Id
             select new CartItemDto
             {
                 Id = cartItem.Id,
-                ProductId = cartItem.ProductId,
+                ProductId = cartItem.Product.Id,
                 ProductName = product.Name,
                 ProductDescription = product.Description,
                 ProductImageURL = product.ImageURL,
                 Price = product.Price,
-                CartId = cartItem.CartId,
                 Qty = cartItem.Qty,
                 TotalPrice = product.Price * cartItem.Qty
             }).ToList();
@@ -80,12 +79,11 @@ public static class DtoConversions
         return new CartItemDto
         {
             Id = cartItem.Id,
-            ProductId = cartItem.ProductId,
+            ProductId = cartItem.Product.Id,
             ProductName = product.Name,
             ProductDescription = product.Description,
             ProductImageURL = product.ImageURL,
             Price = product.Price,
-            CartId = cartItem.CartId,
             Qty = cartItem.Qty,
             TotalPrice = product.Price * cartItem.Qty
         };
