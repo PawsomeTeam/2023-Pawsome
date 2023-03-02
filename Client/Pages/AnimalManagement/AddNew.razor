@@ -1,0 +1,112 @@
+@page "/manage/animals/new"
+@inject NavigationManager navigationManager
+@using System.Net.Http.Headers
+@* @inject IAnimalService HttpBasedAnimalService *@
+
+@using System.ComponentModel.DataAnnotations
+<MudText Align="Align.Center" Typo="Typo.h3">Register</MudText>
+<MudPaper Class="pa-8 ma-8">
+
+<EditForm Model="NewAnimal" OnValidSubmit="OnSubmit">
+
+    <DataAnnotationsValidator /> 
+    <div class="d-flex flex-column align-stretch gap-3">
+        <MudTextField T="string" Label="Name" 
+                      @bind-Value="NewAnimal.Name"
+                      For="@(() => NewAnimal.Name)" />
+
+     <MudTextField T="string" Label="Description" Lines="5"
+                      @bind-Value="NewAnimal.Description"
+                      For="@(() => NewAnimal.Description)" />
+
+    <MudNumericField T="int" Label="Age" 
+                      @bind-Value="NewAnimal.Age"
+                      For="@(() => NewAnimal.Age)" />
+<div class="d-flex">
+
+    <InputFile  T="IBrowserFile" FilesChanged="UploadFiles" hidden id="test" Accept=".jpg, .jpeg, .png"/>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="test">
+            Upload Image
+        </MudButton>
+</div>
+
+
+@* 
+<MudFileUpload T="IBrowserFile">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   for="@context">
+            Single File
+        </MudButton>
+    </ButtonTemplate>
+    <SelectedTemplate>
+        @if (context != null)
+        {
+            <MudText>@context.Name</MudText>
+        }
+        else
+        {
+            <MudText>No File</MudText>
+        }
+    </SelectedTemplate>
+</MudFileUpload> *@
+
+        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                   Class="my-3 mx-auto"
+                   ButtonType="ButtonType.Submit">
+            Add
+        </MudButton>
+         <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
+    </div>
+</EditForm>
+</MudPaper>
+
+
+
+@code {
+    
+    @* temporary class
+    public class FileModel
+    {
+        public string Name { get; set; }
+        public IBrowserFile? File ;
+    }
+    public FileModel ImgFile { get; set; } = new FileModel(); *@
+    public IBrowserFile? File ;
+
+    public AnimalDto NewAnimal { get; set; } = new AnimalDto();
+    string? error { get; set; } = null;
+
+
+
+
+    async Task OnSubmit()
+    {
+        error = null;
+        try
+        {
+            @* await HttpBasedAnimalService.Create(NewAnimal); *@
+            @* navigationManager.NavigateTo("/manage/animals"); *@
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    async Task UploadFile(IBrowserFile  file)
+    {
+        //await add file to blob
+
+        //add url to animal
+        NewAnimal.Main_Image_Url = file.Name;
+    }
+
+ 
+}
