@@ -1,4 +1,150 @@
 
+## Wednesday - 2023-03-01
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+NOTE: CI for JIRA, Github and Azure for entire project
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+	- Completed Animals display
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Finalize Animal section
+
+3. Where do I need assistance? What do I need to figure out?
+	- 
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+	- Product images (BLOB)
+	- Create delete image
+	- Admin manage roles, delete users
+	- Admin can upload multiple images
+	- Animals BLOB
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Test product section
+	- Assist in Animal section
+	
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+	- Modified database (products)
+	- Finish Cart
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Testing Prodcuct
+	- Verify cart, payment and transactions
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+	- BLOB
+	- Create Animal form, improve product form
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- UI adjustments
+	- Functionality for adoption
+	
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+	- UI Chat
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Discount page
+	 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+## Tuesday - 2023-02-28
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+NOTE: CI for JIRA, Github and Azure for entire project
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+	- Completed Animals display
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Admin form to create animal for adoptions
+
+3. Where do I need assistance? What do I need to figure out?
+	- maybe
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+	- Product images (BLOB)
+	- Create delete image
+	- Admin manage roles, delete users
+	- Admin can upload multiple images
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Animals BLOB
+	
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+	- BLOB product
+	- Fininalize products 
+
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Modified database (products)
+	- Finish Cart	
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+	- Animal UI, cart, checkout, general UI for application
+	- UI to display Animals
+	- Working on forms
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- BLOB
+	- Create Animal form, improve product form
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+	- Finish implementing UI
+	- Front end AI page
+
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- UI Chat
+	 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 ## Monday - 2023-02-27
 
 1. What I have done / not done since last Scrum?

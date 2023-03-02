@@ -117,7 +117,7 @@ public class UserController : ControllerBase
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Role = userManager.GetRolesAsync(user).Result.FirstOrDefault(),
+                Roles = userManager.GetRolesAsync(user).Result.ToList(),
                 PhoneNumber = user.PhoneNumber
             });
         }
@@ -125,7 +125,7 @@ public class UserController : ControllerBase
         return findUsers;
     }
 
-    
+
     [Authorize]
     [HttpGet("{email}")]
     public async Task<ActionResult<FindUser>> GetUserByEmail(string email)
@@ -139,6 +139,7 @@ public class UserController : ControllerBase
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+                Roles = userManager.GetRolesAsync(user).Result.ToList(),
                 PhoneNumber = user.PhoneNumber,
             };
         }
@@ -159,14 +160,18 @@ public class UserController : ControllerBase
             user.PhoneNumber = updateRequest.PhoneNumber;
             var result = await userManager.UpdateAsync(user);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            foreach (var role in updateRequest.Roles)
+            {
+                var resultRole = await userManager.AddToRoleAsync(user, role);
+            }
             return Ok();
         }
 
         return BadRequest("User does not exist");
     }
 
-    [Authorize(Roles = "Admin")]
-    [HttpDelete]
+    [Authorize]
+    [HttpDelete("{email}")]
     public async Task<IActionResult> DeleteUser(string email)
     {
         var user = await userManager.FindByEmailAsync(email);

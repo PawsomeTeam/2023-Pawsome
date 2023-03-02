@@ -8,19 +8,22 @@ public class ProductDetailsBase : ComponentBase
 {
     [Parameter]
     public int Id { get; set; }
-    
+
     [Inject]
-    public IProductService ProductService { get; set; }
-    
+    public IProductService ProductService { get; set; } = default!;
+
     [Inject]
-    public IShoppingCartService ShoppingCartService { get; set; }
-    
+    public IShoppingCartService ShoppingCartService { get; set; } = default!;
+
     [Inject]
-    public NavigationManager NavigationManager { get; set; }
-    
-    public ProductDto Product { get; set; }
-    
-    public string ErrorMessage { get; set; }
+    public NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject] public IAuthService authService { get; set; } = default!;
+    public ProductDto? Product { get; set; }
+
+    public CurrentUser CurrentUser { get; set; } = new CurrentUser();
+
+    public string? ErrorMessage { get; set; } = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,8 +39,11 @@ public class ProductDetailsBase : ComponentBase
 
     protected async Task AddToCart_Click(CartItemAddToDto cartItemAddToDto)
     {
+        
         try
         {
+            CurrentUser = await authService.CurrentUserInfo();
+            cartItemAddToDto.UserEmail = CurrentUser.Email;
             var cartItemDto = await ShoppingCartService.AddItem(cartItemAddToDto);
             NavigationManager.NavigateTo("/ShoppingCart");
         }
@@ -46,11 +52,6 @@ public class ProductDetailsBase : ComponentBase
             Console.WriteLine(e);
             throw;
         }
-    }
-    
-    protected async Task DeleteProductItem_Click(int id)
-    {
-        var productDto = await ProductService.DeleteItem(id);
     }
 
 }

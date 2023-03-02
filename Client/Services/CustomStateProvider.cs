@@ -69,4 +69,10 @@ public class CustomStateProvider : AuthenticationStateProvider
         await api.UpdateUser(email, updateRequest);
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
+    
+    public async Task Delete(string email)
+    {
+        await api.DeleteUser(email);
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+    }
 }

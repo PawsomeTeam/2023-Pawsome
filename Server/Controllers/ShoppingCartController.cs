@@ -21,12 +21,12 @@ public class ShoppingCartController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{userId}/GetItems")]
-    public async Task<ActionResult<IEnumerable<CartItemDto>>> GetItems(int userId)
+    [Route("{userEmail}/GetItems")]
+    public async Task<ActionResult<IEnumerable<CartItemDto>>> GetItems(string userEmail)
     {
         try
         {
-            var cartItems = await this.shoppingCartRepository.GetItems(userId);
+            var cartItems = await this.shoppingCartRepository.GetItems(userEmail);
             if (cartItems == null)
             {
                 return NoContent(); // 204
@@ -87,7 +87,7 @@ public class ShoppingCartController : ControllerBase
                 return NoContent();
             }
 
-            var product = await productRepository.GetItem(newCartItem.ProductId);
+            var product = await productRepository.GetItem(newCartItem.Product.Id);
             if (product == null)
             {
                 throw new Exception(
@@ -115,7 +115,7 @@ public class ShoppingCartController : ControllerBase
                 return NotFound();
             }
 
-            var product = await this.productRepository.GetItem(cartItem.ProductId);
+            var product = await this.productRepository.GetItem(cartItem.Product.Id);
             if (product == null)
             {
                 return NotFound();
@@ -141,8 +141,8 @@ public class ShoppingCartController : ControllerBase
             {
                 return NotFound();
             }
-
-            var product = await productRepository.GetItem(cartItem.ProductId);
+            
+            var product = await productRepository.GetItem(cartItem.Product.Id);
             var cartItemDto = cartItem.ConvertToDto(product);
             return Ok(cartItemDto);
         }

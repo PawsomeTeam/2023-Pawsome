@@ -4,7 +4,7 @@ namespace PawsomeProject.Client.Services;
 
 public interface IShoppingCartService
 {
-    Task<List<CartItemDto>> GetItems(int userId);
+    Task<List<CartItemDto>> GetItems(string userEmail);
     Task<CartItemDto> AddItem(CartItemAddToDto cartItemAddToDto);
     Task<CartItemDto> DeleteItem(int id);
     Task<CartItemDto> UpdateQty(CartItemQtyUpdateDto cartItemQtyUpdateDto);

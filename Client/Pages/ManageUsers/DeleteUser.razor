@@ -1,4 +1,4 @@
-@page "/manage/users/update/{Email}/"
+@page "/manage/users/delete/{Email}/"
 @layout AuthLayout
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
@@ -6,35 +6,40 @@
 
 <MudText Align="Align.Center" Typo="Typo.h3">Update</MudText>
 
-<EditForm Model="updateRequest" OnValidSubmit="OnSubmit">
+<EditForm Model="FindUser" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator/>
     <div class="d-flex flex-column align-stretch gap-3">
         <MudTextField T="string" Label="First Name"
-                      @bind-Value="updateRequest.FirstName"
-                      For="@(() => updateRequest.FirstName)"/>
+                      @bind-Value="FindUser.FirstName"
+                      Disabled="true"
+                      For="@(() => FindUser.FirstName)"/>
 
         <MudTextField T="string" Label="Last Name"
-                      @bind-Value="updateRequest.LastName"
-                      For="@(() => updateRequest.LastName)"/>
+                      @bind-Value="FindUser.LastName"
+                      Disabled="true"
+                      For="@(() => FindUser.LastName)"/>
 
         <MudTextField T="string" Label="Email"
                       InputType="InputType.Email"
-                      @bind-Value="updateRequest.Email"
-                      For="@(() => updateRequest.Email)"/>
+                      @bind-Value="FindUser.Email"
+                      Disabled="true"
+                      For="@(() => FindUser.Email)"/>
 
         <MudTextField T="string" Label="PhoneNumber"
-                      @bind-Value="updateRequest.PhoneNumber"
-                      For="@(() => updateRequest.PhoneNumber)"/>
+                      @bind-Value="FindUser.PhoneNumber"
+                      Disabled="true"
+                      For="@(() => FindUser.PhoneNumber)"/>
 
         <MudCheckBox @bind-Checked="@AdminCheckBox" Disabled="true">Admin</MudCheckBox>
-        <MudCheckBox @bind-Checked="@ProductManagerCheckBox" Color="Color.Primary">Product Manager</MudCheckBox>
-        <MudCheckBox @bind-Checked="@AnimalManagerCheckBox" Color="Color.Secondary">Animal Manager</MudCheckBox>
-        <MudCheckBox @bind-Checked="@UserCheckBox" Color="Color.Info">User</MudCheckBox>
+        <MudCheckBox @bind-Checked="@ProductManagerCheckBox" Disabled="true" Color="Color.Primary">Product Manager</MudCheckBox>
+        <MudCheckBox @bind-Checked="@AnimalManagerCheckBox" Disabled="true" Color="Color.Secondary">Animal Manager</MudCheckBox>
+        <MudCheckBox @bind-Checked="@UserCheckBox" Disabled="true" Color="Color.Info">User</MudCheckBox>
 
         <MudButton Variant="Variant.Filled" Color="Color.Primary"
                    Class="my-3 mx-auto"
+                   Disabled="AdminCheckBox"
                    ButtonType="ButtonType.Submit">
-            Update
+            Delete
         </MudButton>
         <MudButton Variant="Variant.Filled" Color="Color.Error"
                    Class="my-3 mx-auto"
@@ -58,8 +63,6 @@
 
     FindUser FindUser = new FindUser();
 
-    UpdateRequest updateRequest { get; set; } = new UpdateRequest();
-
     private string? error { get; set; }
 
     private bool AdminCheckBox { get; set; } = false;
@@ -73,11 +76,6 @@
         try
         {
             FindUser = await authService.GetUserByEmail(Email);
-            updateRequest.Email = FindUser.Email;
-            updateRequest.FirstName = FindUser.FirstName;
-            updateRequest.LastName = FindUser.LastName;
-            updateRequest.PhoneNumber = FindUser.PhoneNumber;
-            updateRequest.Roles = new List<string>();
             foreach (var item in FindUser.Roles)
             {
                 Console.WriteLine(item);
@@ -98,12 +96,7 @@
         error = null;
         try
         {
-            if (AdminCheckBox) updateRequest.Roles.Add("Admin");
-            if (ProductManagerCheckBox) updateRequest.Roles.Add("ProductManager");
-            if (AnimalManagerCheckBox) updateRequest.Roles.Add("AnimalManager");
-            if (UserCheckBox) updateRequest.Roles.Add("User");
-
-            await authStateProvider.Update(Email, updateRequest);
+            await authStateProvider.Delete(Email);
             navigationManager.NavigateTo("manage/users");
         }
         catch (Exception ex)

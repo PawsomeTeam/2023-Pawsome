@@ -1,0 +1,71 @@
+@page "/animals/{Id:int}"
+@inject IAnimalService _animalService
+
+@if(error != null){
+    <MudAlert Severity="Severity.Error" Class="mb-16">@error</MudAlert>
+    return;
+}
+
+@if(loading == true ){
+    <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+} else
+{
+      <MudGrid Class="mb-16" Model="@Animal">
+           <MudItem xs="12" md="6" lg="4">
+                <MudImage Fluid="true" Src="@Animal.Main_Image_Url" Alt="@Animal.Name" Class="rounded-xs" />
+           </MudItem>
+            <MudItem xs="12" md="6" lg="8">
+                <MudText Typo="Typo.h4">@Animal.Name</MudText>
+                <MudText Typo="Typo.body1" Class="mb-4">
+                <i>@temp_type</i>
+                </MudText>
+                <MudText Typo="Typo.body1" Class="mb-4">@Animal.Description</MudText>
+            <MudText Typo="Typo.h6" Class="mb-4">
+                <i>Age: @Animal.Age</i>
+                </MudText>
+                @{string adoptUrl = "animals/adopt/" + Animal.Id;}
+                <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Link="@adoptUrl">
+                  Adopt
+                </MudButton>
+                 @* <a href="EditProduct/@Product.Id">
+                        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
+                            Edit Product
+                        </MudButton>
+                    </a> *@
+            </MudItem>
+    </MudGrid>
+
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    public AnimalDto Animal = new AnimalDto();
+    public bool loading = true;
+    public string? error = null;
+
+    @* temp variables *@
+    public double temp_price = 400.00;
+    public string temp_type = "dog";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            @* Animal = await _animalService.Get(Id); *@
+            @* temporary animal for testing *@
+            Animal.Name = "Temp name";
+            Animal.Description = "Temp animal description";
+            Animal.Main_Image_Url = "https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg";
+            Animal.Age = 10;
+            loading = false;
+        }
+        catch (System.Exception ex)
+        {   
+            error = ex.Message;
+        }
+    }
+
+
+}

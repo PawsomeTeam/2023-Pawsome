@@ -1,29 +1,32 @@
 @page "/ShoppingCart"
 @inherits ShoppingCartBase
-<head>
+@* <head>
     <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="app.css" rel="stylesheet" />
 
-</head>
+</head> *@
 <style>
     .update-qty{
         display: none;
     }
 </style>
-@if (ShoppingCartItems == null && ErrorMessage == null)
-{
-    <DisplaySpinner></DisplaySpinner>
+
+<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Shopping Cart</MudText>
+
+@if(ErrorMessage != null){
+    <MudAlert Severity="Severity.Error" Class="mb-16">@ErrorMessage</MudAlert>
+    return;
 }
-else if (ErrorMessage != null)
+
+@if (ShoppingCartItems.Count() <= 0)
 {
-    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+    <div class="d-flex flex-column align-center">
+        <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">Your Cart is Empty. Check out some of our cool products</MudText>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="mb-8" Align="Align.Center" Href="/shop">Shop Now</MudButton>
+    </div>
+    return;
 }
-else
-{
-    <h3 class="mb-5">Shopping Cart</h3>
-    @if (ShoppingCartItems.Count() > 0)
-    {
-        <div class="row mb-5">
+        @* <div class="row mb-5">
             <div class="col-md-9">
                 @foreach (var item in ShoppingCartItems)
                 {
@@ -34,7 +37,7 @@ else
                         <div class="col-md-8">
                             <h5>@item.ProductName</h5>
                             <div class="mb-4">@item.ProductDescription</div>
-                            @* <span>Price : <b>@item.Price.ToString("C ")</b></span> *@
+               
                             <span>Price : @item.Price</span>
                             &nbsp; <span>Qty : </span> <input @oninput="()=>UpdateQty_Input(item.Id)" type = "number" @bind="@item.Qty"/>
                             <button data-itemId="@item.Id" class ="btn btn-info btn-sm update-qty" @onclick="(() => UpdateQtyCartItem_Click(item.Id, item.Qty))">Update Qty</button>
@@ -57,10 +60,50 @@ else
                     </a>
                 </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <h4> There are currently no items in your shopping cart</h4>
-    }
-}
+        </div> *@
+
+<MudToolBar class="pr-0 pl-0">
+    <MudText Typo="Typo.h6">@TotalQuantity items</MudText>
+    <MudSpacer />        
+    <MudButton Link="/shop" Color="Color.Primary" Variant="Variant.Filled">Shop</MudButton>
+</MudToolBar>
+
+<MudTable Items="@ShoppingCartItems" Hover="true">
+    <HeaderContent>
+
+        <MudTh>Thumbnail</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Price</MudTh>
+        <MudTh>Qty</MudTh>
+        <MudTh>Total</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        @{string DisplayUrl = $"/shop/products/{context.ProductId}";}
+        <MudTd DataLabel="Image">
+            <MudLink Href="@DisplayUrl">
+                <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.ProductImageURL" Alt="@context.ProductName" Elevation="25" Class="rounded-lg"/>
+            </MudLink>
+        </MudTd>
+        <MudTd DataLabel="Name">
+            <MudLink Href="@DisplayUrl">
+                <MudText Typo="Typo.subtitle1">@context.ProductName</MudText>
+            </MudLink>
+        </MudTd>
+        <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
+        <MudTd DataLabel="Quantity">
+            <input @oninput="()=>UpdateQty_Input(context.Id)" type="number" @bind="@context.Qty" class="pa-2" style="max-width:50px;"/>
+            <MudButton data-itemId="@context.Id"  Color="Color.Primary" Variant="Variant.Outlined" Class="update-qty" Align="Align.Center" OnClick="(() => UpdateQtyCartItem_Click(context.Id, context.Qty))">Update</MudButton>
+        </MudTd>
+        <MudTd DataLabel="Total">@context.TotalPrice.ToString("C")</MudTd>
+        <MudTd DataLabel="">
+             <MudIconButton  Color="Color.Error" Class="" Icon="@Icons.Material.Filled.Delete" @onclick="() => DeleteCartItem_Click(context.Id)"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+<MudText Typo="Typo.h5" Class="mt-8" Align="Align.End">Total</MudText>
+<MudText Typo="Typo.h5" Class="" Align="Align.End"><b>@TotalPrice</b></MudText>
+<div class="d-flex">
+    <MudButton Link="/Checkout" Color="Color.Primary" Variant="Variant.Filled" Class="ms-auto mt-2" EndIcon="@Icons.Material.Filled.ArrowRightAlt">Proceed to Checkout</MudButton>
+</div>

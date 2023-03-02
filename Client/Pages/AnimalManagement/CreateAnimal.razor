@@ -1,0 +1,70 @@
+﻿@page "/manage/create-animal"
+@inject NavigationManager navigationManager
+@inject IAnimalService animalService
+
+<MudText Align="Align.Center" Typo="Typo.h3">Register Pet</MudText>
+
+<MudGrid Class="mb-16">
+    <MudItem xs="12" md="6" lg="4">
+    </MudItem>
+    <MudItem xs="12" md="6" lg="8">
+        <MudTextField @bind-Value="@newAnimal.Name" Label="Name" Variant="Variant.Outlined" />
+        <MudTextField @bind-Value="@newAnimal.Description" Label="Description" Variant="Variant.Outlined" />
+        <MudTextField @bind-Value="@newAnimal.Age" Label="Age" Variant="Variant.Outlined" />
+        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                   @onclick="() => (HandleValidSubmit(newAnimal))">
+            Add Pet
+        </MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error"
+                   Class="my-3 mx-auto">
+            @* OnClick="HandleDeleteAllImages"> *@
+            Cancel
+        </MudButton>
+     @* <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Primary"
+                   @onclick="() => (DeleteAnimal(newAnimal))">
+            Delete Pet
+        </MudButton>*@
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AnimalDto newAnimal { get; set; } = new AnimalDto();
+
+    string? error { get; set; } = null;
+
+    private async Task HandleValidSubmit(AnimalDto animal)
+    {
+        error = null;
+        try
+        {
+            var animalDto = new AnimalDto
+                {
+                    Id = Id,
+                    Name = animal.Name,
+                    Description = animal.Description,
+                    Age = animal.Age,
+                    Main_Image_Url = ""
+                };
+            await animalService.AddAnimal(animalDto);
+
+            navigationManager.NavigateTo("/manage/animals");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    //private async Task DeleteAnimal(AnimalDto animal)
+    //{
+    //    if (animal != null && animal.Id > 0)
+    //    {
+    //        await animalService.DeleteAnimal(animal.Id);
+    //        navigationManager.NavigateTo("/manage/animals");
+    //    }
+    //}
+
+}

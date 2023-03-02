@@ -39,7 +39,7 @@ else
         <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<FindUser, object>(x=>x.FirstName)">Full Name</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.PhoneNumber)">Phone</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Role)">Role</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<FindUser, object>(x=>x.Roles)">Role</MudTableSortLabel></MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -49,16 +49,21 @@ else
         </MudTd>
         <MudTd DataLabel="Email">@context.Email</MudTd>
         <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
-        <MudTd DataLabel="Phone">@context.Role</MudTd>
+        <MudTd DataLabel="Role">
+            @foreach (var role in context.Roles)
+            {
+                <span>[@role]</span>
+            }
+        </MudTd>
         <MudTd DataLabel="Price">
             @{
                     //TODO: make these into a Dialog instad of URLs
                 var editUrl = $"/manage/users/update/{context.Email}/";
-                // var deleteUrl = $"manage/products/delete/{context.Id}";
+                var deleteUrl = $"manage/users/delete/{context.Email}";
             }
             <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
                 <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
-                @* <MudIconButton Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  /> *@
+                <MudIconButton Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  />
             </MudTooltip>
             
         </MudTd>
@@ -94,6 +99,7 @@ else
     //searching
     private string searchInput = "";
     private bool FilterFunc1(FindUser element) => FilterFunc(element, searchInput);
+
     private bool FilterFunc(FindUser element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))

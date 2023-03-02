@@ -9,6 +9,6 @@ public interface IShoppingCartRepository
     Task<CartItem> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto);
     Task<CartItem> DeleteItem(int id);
     Task<CartItem> GetItem(int id);
-    Task<IEnumerable<CartItem>> GetItems(int userId);
+    Task<IEnumerable<CartItem>> GetItems(string userEmail);
 
 }

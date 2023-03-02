@@ -15,7 +15,9 @@ public class CheckoutBase : ComponentBase
     protected string PaymentDescription { get; set; }
     
     protected decimal PaymentAmount { get; set; }
-    
+    [Inject] 
+    public IAuthService authService { get; set; } = default!;
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
     [Inject]
     public IShoppingCartService ShoppingCartService { get; set; }
 
@@ -23,7 +25,8 @@ public class CheckoutBase : ComponentBase
     {
         try
         {
-            ShoppingCartItems = await ShoppingCartService.GetItems(1);
+            CurrentUser = await authService.CurrentUserInfo();
+            ShoppingCartItems = await ShoppingCartService.GetItems(CurrentUser.Email);
             if (ShoppingCartItems != null)
             {
                 Guid orderGuid = Guid.NewGuid();

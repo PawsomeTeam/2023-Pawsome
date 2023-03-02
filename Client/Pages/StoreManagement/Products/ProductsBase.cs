@@ -4,27 +4,29 @@ using PawsomeProject.Shared.Models;
 
 namespace PawsomeProject.Client.Pages.StoreManagement.Products;
 
-public class ProductsBase:ComponentBase
+public class ProductsBase : ComponentBase
 {
-    [Inject]
-    public IProductService ProductService { get; set; }
-    
-    [Inject]
-    public IShoppingCartService ShoppingCartService { get; set; }
+    [Inject] public IProductService ProductService { get; set; } = default!;
 
-    public IEnumerable<ProductDto> Products { get; set; }
-    // public IEnumerable<ProductCategoryDto> Categories { get; set; }
+    [Inject] public IShoppingCartService ShoppingCartService { get; set; } = default!;
+
+    [Inject] public IAuthService authService { get; set; } = default!;
+    public IEnumerable<ProductDto>? Products { get; set; }
+
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
+    public bool IsLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
         Products = await ProductService.GetItems();
-        // Categories = await ProductService.GetCategories();
-        var shoppingCartItems = await ShoppingCartService.GetItems(1);
+        CurrentUser = await authService.CurrentUserInfo();
+        var shoppingCartItems = await ShoppingCartService.GetItems(CurrentUser.Email);
+        IsLoading = false;
         var totalQty = shoppingCartItems.Sum(i => i.Qty);
         ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
     }
-    
-    public string ErrorMessage { get; set; }
+
+    public string? ErrorMessage { get; set; } = null;
 
     protected IOrderedEnumerable<IGrouping<int, ProductDto>> GetGroupedProductsByCategory()
     {
@@ -35,8 +37,8 @@ public class ProductsBase:ComponentBase
             select prodByCatGroup;
     }
 
-    protected string GetCategoryName(IGrouping<int, ProductDto> groupedProductDtos)
+    protected string? GetCategoryName(IGrouping<int, ProductDto> groupedProductDtos)
     {
-        return groupedProductDtos.FirstOrDefault(pg => pg.CategoryId == groupedProductDtos.Key).CategoryName;
+        return groupedProductDtos.FirstOrDefault(pg => pg.CategoryId == groupedProductDtos.Key)?.CategoryName;
     }
 }

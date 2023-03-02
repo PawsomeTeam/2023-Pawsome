@@ -19,11 +19,12 @@ public class CreateProductBase : ComponentBase
     
     public string ErrorMessage { get; set; }
 
-    public IEnumerable<ProductCategoryDto> Categories { get; set; }
+    public IEnumerable<ProductCategoryDto> Categories { get; set; } = new List<ProductCategoryDto>();
 
     protected override async Task OnInitializedAsync()
     {
         Categories = await ProductService.GetCategories();
+        Product.Images = new List<ImageDto>();
     }
 
     protected async Task Create_Product_Click(ProductDto product)
@@ -39,6 +40,7 @@ public class CreateProductBase : ComponentBase
                     Price = product.Price,
                     Qty = product.Qty,
                     CategoryId = product.CategoryId,
+                    Images = product.Images,
                     CategoryName = ""
                 };
 

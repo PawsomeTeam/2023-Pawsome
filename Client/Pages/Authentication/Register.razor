@@ -37,7 +37,7 @@
                       @bind-Value="registerRequest.Email"
                       For="@(() => registerRequest.Email)" />
 
-        <MudTextField T="string"  Label="Email" 
+        <MudTextField T="string"  Label="Phone Number" 
                       @bind-Value="registerRequest.PhoneNumber"
                       For="@(() => registerRequest.PhoneNumber)" />
 
@@ -63,7 +63,7 @@
 
 @functions {
     RegisterRequest registerRequest { get; set; } = new RegisterRequest();
-    string error { get; set; }
+    string? error { get; set; } = null;
     async Task OnSubmit()
     {
         error = null;
@@ -76,10 +76,5 @@
         {
             error = ex.Message;
         }
-    }
-
-        protected override async Task OnInitializedAsync()
-    {
-
     }
 }

@@ -8,7 +8,8 @@ public interface IProductService
     Task<ProductDto> GetItem(int id);
     Task<ProductDto> CreateItem(ProductDto productDto);
 
-    Task<ProductDto> DeleteItem(int id); 
+    Task DeleteItem(int id); 
     Task<ProductDto> UpdateItem(ProductDto productDto);
     Task<List<ProductCategoryDto>> GetCategories();
+    string fileName(string url);
 } 

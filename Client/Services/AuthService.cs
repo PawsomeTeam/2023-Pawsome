@@ -40,7 +40,7 @@ public class AuthService : IAuthService
 
     public async Task DeleteUser(string email)
     {
-        var result = await httpClient.DeleteAsync($"api/User/GetUserByEmail/{email}");
+        var result = await httpClient.DeleteAsync($"api/User/DeleteUser/{email}");
         if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
         result.EnsureSuccessStatusCode();
     }

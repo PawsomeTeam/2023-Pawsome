@@ -34,10 +34,31 @@ public class AnimalController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<Animal>> AddAnimal(Animal animal)
+	public async Task<ActionResult<AnimalDto>> AddAnimal(AnimalDto animalDto)
 	{
-		await _animalRepository.AddAnimal(animal);
-		return CreatedAtAction(nameof(GetAnimalById), new { id = animal.Id }, animal);
+		try
+		{
+			var newAnimal = await _animalRepository.AddAnimal(animalDto);
+			if (newAnimal == null)
+			{
+				return NoContent();
+			}
+
+			var newAnimalDto = new AnimalDto
+			{
+				Id = newAnimal.Id,
+				Name = newAnimal.Name,
+				Description = newAnimal.Description,
+				Age = newAnimal.Age,
+				Main_Image_Url = ""
+			};
+			return CreatedAtAction(nameof(GetAnimalById), new { id = newAnimalDto.Id }, newAnimalDto);
+		}
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 	}
 
 	[HttpPost("image/{id}")]
@@ -49,16 +70,17 @@ public class AnimalController : ControllerBase
 		//upload to blob storage
 		var uploadUrl = "";
 		var animal = await _animalRepository.GetAnimalById(id);
-		animal.Main_Image_Url = uploadUrl;
+		var animalDto = new AnimalDto();
+		// animal.Main_Image_Url = uploadUrl;
 
-		await _animalRepository.UpdateAnimal(animal);
+		await _animalRepository.UpdateAnimal(animalDto);
 
-		return Ok(animal);
+		return Ok(animalDto);
     }
 
 
     [HttpPut("{id}")]
-	public async Task<IActionResult> UpdateAnimal(int id, Animal animal)
+	public async Task<IActionResult> UpdateAnimal(int id, AnimalDto animal)
 	{
 		if (id != animal.Id)
 		{

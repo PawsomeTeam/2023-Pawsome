@@ -2,6 +2,7 @@
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
 
+
 <MudThemeProvider/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
@@ -80,18 +81,6 @@
 
 
 @functions{
-@* 
-    [CascadingParameter]
-    Task<AuthenticationState> AuthenticationState { get; set; }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if ((await AuthenticationState) == null || !(await AuthenticationState).User.Identity.IsAuthenticated)
-        {
-            navigationManager.NavigateTo("/login");
-        }
-    } *@
-
     async Task LogoutClick()
     {
         await authStateProvider.Logout();

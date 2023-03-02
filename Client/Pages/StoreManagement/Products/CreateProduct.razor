@@ -1,6 +1,5 @@
 @page "/manage/products/new"
 @using System.Net.Http.Headers
-@using System.Text.RegularExpressions
 @inherits CreateProductBase
 
 <MudText Align="Align.Center" Typo="Typo.h3">Create Product</MudText>
@@ -8,10 +7,10 @@
 
 <MudGrid Class="mb-16">
     <MudItem xs="12" md="6" lg="4">
-        @if (Product.ImageURL != null)
+        @foreach (var image in Product.Images)
         {
-            <MudImage Fluid="true" Src="@Product.ImageURL" Alt="@Product.Name" Class="rounded-xs"/>
-            <MudIconButton OnClick="() => HandleDeleteImage(Product.ImageURL)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
+            <MudImage Fluid="true" Src="@image.URL" Alt="@Product.Name" Class="rounded-xs"/>
+            <MudIconButton OnClick="() => HandleDeleteImage(image.URL)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
         }
     </MudItem>
     <MudItem xs="12" md="6" lg="8">
@@ -25,7 +24,7 @@
                 <MudSelectItem Value="item.Id">@item.Name</MudSelectItem>
             }
         </MudSelect>
-        <InputFile id="imageInput" OnChange="HandleSelectedImage" hidden accept=".jpg, .jpeg, .png"/>
+        <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
         <MudButton HtmlTag="label"
                    Variant="Variant.Filled"
                    Color="Color.Success"
@@ -51,62 +50,59 @@
     [Inject]
     public HttpClient HttpClient { get; set; }
 
-    public string ImgUrl { get; set; }
-
     private async Task HandleSelectedImage(InputFileChangeEventArgs e)
     {
-        var imageFile = e.File;
-        if (imageFile == null)
-            return;
-
-        var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500);
-
-        using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+        foreach (var file in e.GetMultipleFiles())
         {
-            var content = new MultipartFormDataContent();
-            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
-            content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", imageFile.Name);
-            var response = await HttpClient.PostAsync("api/Product/UploadImage", content);
+            var resizedFile = await file.RequestImageFileAsync("image/png", 300, 500);
 
-            if (Product.ImageURL != null)
+            using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
             {
-                Console.WriteLine("Image File is changed");
-                await HandleDeleteImage(Product.ImageURL);
+                var content = new MultipartFormDataContent();
+                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", file.Name);
+                var response = await HttpClient.PostAsync("api/Product/UploadImage", content);
+
+                var url = await response.Content.ReadAsStringAsync();
+                var imageDto = new ImageDto
+                {
+                    URL = url,
+                    Type = "type"
+                };
+
+                Product.Images.Add(imageDto);
             }
-            Product.ImageURL = await response.Content.ReadAsStringAsync();
         }
+        Product.ImageURL = Product.Images.ElementAt(0).URL;
     }
 
     private async Task HandleDeleteImage(string url)
     {
         var imageURL = url;
-        var filename = fileName(imageURL);
+        var filename = ProductService.fileName(imageURL);
         var response = await HttpClient.DeleteAsync($"api/Product/{filename}");
         if (response.IsSuccessStatusCode)
         {
+            var imageDto = Product.Images.Find(i => i.URL == url);
+            Product.Images.Remove(imageDto);
             Console.WriteLine("Image File is deleted");
-            Product.ImageURL = null;
         }
     }
 
     private async Task HandleDeleteAllImages()
     {
-        if (Product.ImageURL != null)
+        foreach (var image in Product.Images)
         {
-            var imageURL = Product.ImageURL;
-            var filename = fileName(imageURL);
+            var imageURL = image.URL;
+            var filename = ProductService.fileName(imageURL);
             var response = await HttpClient.DeleteAsync($"api/Product/{filename}");
             if (response.IsSuccessStatusCode)
             {
+                var imageDto = Product.Images.Find(i => i.URL == imageURL);
+                Product.Images.Remove(imageDto);
                 Console.WriteLine("Image File is deleted with Cancel");
             }
         }
         NavigationManager.NavigateTo("manage/products");
-    }
-
-    private string fileName(string url)
-    {
-        Match match = Regex.Match(url, @"([^/]+\.[^/]+)$");
-        return match.Groups[1].Value;
     }
 }

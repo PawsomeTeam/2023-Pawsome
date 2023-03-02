@@ -24,13 +24,21 @@ namespace PawsomeProject.Server.Repositories
             return await _dbContext.Animals.FindAsync(id);
         }
 
-        public async Task AddAnimal(Animal animal)
+        public async Task<Animal> AddAnimal(AnimalDto animalDto)
         {
-            _dbContext.Animals.Add(animal);
+            var newAnimal = new Animal
+            {
+                Name = animalDto.Name,
+                Description = animalDto.Description,
+                Age = animalDto.Age,
+                Main_Image_Url = "",
+            };
+            var result = await _dbContext.Animals.AddAsync(newAnimal);
             await _dbContext.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public async Task UpdateAnimal(Animal animal)
+        public async Task UpdateAnimal(AnimalDto animal)
         {
             _dbContext.Entry(animal).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();

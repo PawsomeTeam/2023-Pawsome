@@ -1,8 +1,45 @@
 @page "/Checkout"
 @inherits CheckoutBase 
 
-<h3>Checkout</h3>
-<div class="row">
+<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Checkout</MudText>
+<MudGrid>
+    <MudItem xs="12" lg="6">
+         <div id="smart-button-container">
+            <input type="hidden" name="descriptionInput" id="description" @bind="PaymentDescription" />
+            <input name="amountInput" type="hidden" id="amount" @bind="PaymentAmount">
+            <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
+        </div>
+    </MudItem>
+        <MudItem xs="12" lg="6">
+            <MudSimpleTable  Hover="true" Dense="true">
+                <thead>
+                <tr>
+                    <th colspan="2"><MudText Typo="Typo.h5" Class="my-3" Align="Align.Center">Order Summery</MudText></th>
+        
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in ShoppingCartItems)
+                    {
+                        <tr>
+                            <td>@item.Qty x @item.ProductName</td>
+                            <td>@item.TotalPrice.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><MudText Typo="Typo.h5" Class="mt-3" Align="Align.End">Total</MudText></td>
+                        <td><MudText Typo="Typo.h5" Class="mt-3"><b>@PaymentAmount.ToString("C")</b></MudText></td>
+                    </tr>
+                </tfoot>
+          
+            </MudSimpleTable>
+    </MudItem>
+</MudGrid>
+
+
+@* <div class="row">
     <div class="col-md-6">
         <h4 class="mb-2">Payment Method</h4>
         <div id="smart-button-container">
@@ -47,6 +84,6 @@ else
         {
             <p>You currently have no items in your shopping cart</p>
         }
-    </div>
+    </div> 
 }
-</div>
+</div> *@

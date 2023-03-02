@@ -27,17 +27,31 @@ public static class DtoConversions
     public static ProductDto ConvertToDto(this Product product,
         ProductCategory productCategory)
     {
-        return new ProductDto
+        var newProductDto = new ProductDto
         {
             Id = product.Id,
             Name = product.Name,
             Description = product.Description,
             ImageURL = product.ImageURL,
+            Images = new List<ImageDto>(),
             Price = product.Price,
             Qty = product.Qty,
             CategoryId = product.CategoryId,
             CategoryName = productCategory.Name
         };
+
+        foreach (var image in product.Images)
+        {
+            var newImageDto = new ImageDto
+            {
+                Id = image.Id,
+                URL = image.URL,
+                Type = image.Type
+            };
+            newProductDto.Images.Add(newImageDto);
+        }
+
+        return newProductDto;
     }
 
     public static IEnumerable<CartItemDto> ConvertToDto(this IEnumerable<CartItem> cartItems,
@@ -45,16 +59,15 @@ public static class DtoConversions
     {
         return (from cartItem in cartItems
             join product in products
-                on cartItem.ProductId equals product.Id
+                on cartItem.Product.Id equals product.Id
             select new CartItemDto
             {
                 Id = cartItem.Id,
-                ProductId = cartItem.ProductId,
+                ProductId = cartItem.Product.Id,
                 ProductName = product.Name,
                 ProductDescription = product.Description,
                 ProductImageURL = product.ImageURL,
                 Price = product.Price,
-                CartId = cartItem.CartId,
                 Qty = cartItem.Qty,
                 TotalPrice = product.Price * cartItem.Qty
             }).ToList();
@@ -66,12 +79,11 @@ public static class DtoConversions
         return new CartItemDto
         {
             Id = cartItem.Id,
-            ProductId = cartItem.ProductId,
+            ProductId = cartItem.Product.Id,
             ProductName = product.Name,
             ProductDescription = product.Description,
             ProductImageURL = product.ImageURL,
             Price = product.Price,
-            CartId = cartItem.CartId,
             Qty = cartItem.Qty,
             TotalPrice = product.Price * cartItem.Qty
         };

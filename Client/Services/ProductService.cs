@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using PawsomeProject.Shared.Models;
 
@@ -96,17 +97,12 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<ProductDto> DeleteItem(int id)
+    public async Task DeleteItem(int id)
     {
         try
         {
-            var response = await httpClient.DeleteAsync($"api/Product/{id}");
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<ProductDto>();
-            }
-
-            return default(ProductDto);
+            var result = await httpClient.DeleteAsync($"api/Product/{id}");
+            if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
         }
         catch (Exception e)
         {
@@ -140,7 +136,6 @@ public class ProductService : IProductService
 
     public async Task<List<ProductCategoryDto>> GetCategories()
     {
-        
         try
         {
             var response = await this.httpClient.GetAsync("api/Product/GetCategories");
@@ -164,5 +159,11 @@ public class ProductService : IProductService
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    public string fileName(string url)
+    {
+        Match match = Regex.Match(url, @"([^/]+\.[^/]+)$");
+        return match.Groups[1].Value;
     }
 }

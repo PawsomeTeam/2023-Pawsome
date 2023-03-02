@@ -14,11 +14,11 @@ public class ShoppingCartService : IShoppingCartService
     {
         this.httpClient = httpClient;
     }
-    public async Task<List<CartItemDto>> GetItems(int userId)
+    public async Task<List<CartItemDto>> GetItems(string userEmail)
     {
         try
         {
-            var response = await httpClient.GetAsync($"api/ShoppingCart/{userId}/GetItems");
+            var response = await httpClient.GetAsync($"api/ShoppingCart/{userEmail}/GetItems");
             if (response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -107,12 +107,12 @@ public class ShoppingCartService : IShoppingCartService
             {
                 return await response.Content.ReadFromJsonAsync<CartItemDto>();
             }
-            return null;
+            return default(CartItemDto);
 
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            //Log exception
+            Console.WriteLine(e);
             throw;
         }
     }
