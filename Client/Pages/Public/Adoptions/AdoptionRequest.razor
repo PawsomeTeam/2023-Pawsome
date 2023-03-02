@@ -1,0 +1,240 @@
+@page "/animals/adopt/{AnimalId:int}"
+@inject IAnimalService _animalService
+@inject CustomStateProvider authStateProvider
+@inject IAuthService authService
+
+@if(error != null){
+    <MudAlert Severity="Severity.Error" Class="mb-16">@error</MudAlert>
+    return;
+}
+
+@if(loading == true ){
+    <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+} else
+{
+
+<MudText Typo="Typo.h2" Align="Align.Center">Adoption Request</MudText>
+    <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mx-auto">
+
+
+ <MudTabs @ref="steps" Elevation="0" Rounded="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6" Centered="true" Color="Color.Transparent">
+       @* //////Info////// *@
+    <MudTabPanel Text="Your Info" Disabled="@(steps.ActivePanelIndex < 0)" Icon="@Icons.Material.Filled.VerifiedUser">
+       <AuthorizeView>
+         @* //////Logedin////// *@
+        <Authorized>
+            @if(pendingAdoption()){
+                <MudAlert Severity="Severity.Warning" Class="mb-16">You cannot submit an adoption request while you have a pending one</MudAlert>
+             }else{
+                 <MudText Typo="Typo.h5" Align="Align.Center"  Class="mb-6">Your Information</MudText>
+                <MudText Typo="Typo.body1"  Align="Align.Center" Class="mb-6">Please make sure your information is complete and up to date</MudText>
+                 var infoTitles = CurrentUserInfo?.GetType().GetProperties().Select(p => p.Name).ToList();
+                  var infoValues = CurrentUserInfo?.GetType().GetProperties().Select(p => p.GetValue(CurrentUserInfo)).ToList();
+                  <MudPaper MaxWidth="MaxWidth.ExtraSmall" class="pa-4 mb-6">
+                  @for (int i = 0; i < infoTitles.Count; i++){
+                    if(infoTitles[i] == "Roles"){continue;}
+                    <dl class="d-flex mb-2">
+                        <dt style="width:150px;"><b>@infoTitles[i]</b></dt>
+                        <dd>@infoValues[i]</dd>
+                    </dl>
+                  }
+                    </MudPaper>
+
+                <div Class="d-flex justify-center flex-grow-1 gap-3">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="account/update">Update Account Information</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@missingUserInfo()" OnClick="() => NextStep(1)">Proceed</MudButton>
+                </div>   
+             }
+        </Authorized>
+         @* //////NOT Logedin////// *@
+        <NotAuthorized>
+            <MudText Typo="Typo.h5"  Align="Align.Center" Class="mb-6">Register or Login if you already have an account</MudText>
+             <MudText Typo="Typo.body1" Align="Align.Center"  Class="mb-6">Knowing a bit ore about you will help us speen up the process</MudText>
+            <div Class="d-flex justify-center flex-grow-1 gap-3">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="login">Login</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="register">Register</MudButton>
+            </div>
+        </NotAuthorized>
+       </AuthorizeView>
+    </MudTabPanel>
+
+    @* //////RULES////// *@
+    <MudTabPanel Text="How it works" Disabled="@(steps.ActivePanelIndex < 1)" Icon="@Icons.Material.Filled.Warning">
+
+       <MudText Typo="Typo.h5" Align="Align.Center"  Class="my-6">Please read carefully and confirm.</MudText>
+       <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mx-auto">
+            <MudStack >
+                @if(RulesList != null){
+                    foreach (Rule r in RulesList)
+                    {
+                        <MudPaper Class="pa-3">
+                            @r.Text <MudCheckBox @bind-Checked="r.IsChecked" Label="I understand" Color="Color.Primary"/>
+                        </MudPaper>
+                    }
+                }
+            </MudStack>
+       </MudContainer>
+
+        <MudCard Class="my-3">
+            <MudCardHeader>   
+                <CardHeaderAvatar> <MudAvatar Size="Size.Large" Image="@Animal.Main_Image_Url" /></CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1" Class="mb-3">@Animal.Name </MudText>
+                        <MudText Typo="Typo.body2">Are you ready to Adopt me? Once you confirm I will be <b>taken off the Adoption list for 48h</b> Please proceed <b>only if you are ready</b> for me!</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+
+        <div Class="d-flex justify-center flex-grow-1 gap-3">
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" Target="_blank" Link="animals">Not Sure yet</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Disabled="@uncheckedRules()" OnClick="() => SubmitAdoptionRequest(2)">Submit!</MudButton>
+        </div>
+    </MudTabPanel>
+
+     @* //////Confirmation////// *@
+    <MudTabPanel Text="Confirm" Disabled="@(steps.ActivePanelIndex < 2)"  Icon="@Icons.Material.Filled.Check">
+        <MudText Typo="Typo.h5" Align="Align.Center"  Class="my-6">What's next?</MudText>
+        <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mx-auto">
+            <MudTimeline TimelinePosition="TimelinePosition.Start">
+                <MudTimelineItem Color="Color.Primary"> <MudText>We will contact you to set up a visit</MudText> </MudTimelineItem>
+                <MudTimelineItem><MudText>You will meet and spend some time with @Animal.Name</MudText></MudTimelineItem>
+                <MudTimelineItem><MudText>We will provide you with some useful informatin and answer your questons</MudText></MudTimelineItem>
+                <MudTimelineItem><MudText>We will finalize paperwork and settle the adoption costs</MudText></MudTimelineItem>
+                <MudTimelineItem><MudText>You will bring @Animal.Name home</MudText></MudTimelineItem>
+            </MudTimeline>
+         </MudContainer>
+             <MudCard Class="my-3">
+        <MudCardHeader>   
+            <CardHeaderAvatar>
+                <MudAvatar Size="Size.Large" Image="@Animal.Main_Image_Url" />
+            </CardHeaderAvatar>
+            <CardHeaderContent>
+                <MudText Typo="Typo.body1" Class="mb-3">@Animal.Name </MudText>
+                    <MudText Typo="Typo.body2">Did you know that Pawesome does not profit from the Adoption fees? They run this service thanks to their Shop. </MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+    </MudCard>
+            <div Class="d-flex justify-center flex-grow-1 gap-3">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Link="shop">Shop for @Animal.Name</MudButton>
+            </div>
+           
+    </MudTabPanel>
+</MudTabs>
+    </MudContainer>
+}
+
+@code {
+    [Parameter]
+    public int AnimalId { get; set; }
+    public string? error = null;
+
+    // adoption request variables
+    MudTabs? steps;
+    Rule[]? RulesList;
+
+    //user variables
+    private CurrentUser? CurrentUser { get; set; } = new CurrentUser();
+    FindUser? CurrentUserInfo = new FindUser();
+
+    //animal variables
+    public AnimalDto Animal = new AnimalDto();
+    public bool loading = true;
+    @* temp variables *@
+    public double temp_price = 400.00;
+    public string temp_type = "dog";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            @* Animal = await _animalService.Get(Id); *@
+            @* temporary animal for testing *@
+            Animal.Name = "Temp name";
+            Animal.Description = "Temp animal description";
+            Animal.Main_Image_Url = "https://pawsome.blob.core.windows.net/products/2023-03-01-03-54-24-053_dog-1194087_640.jpg";
+            Animal.Age = 10;
+
+            //get current user info
+             CurrentUser = await authService.CurrentUserInfo();
+            if (CurrentUser.IsAuthenticated)
+                CurrentUserInfo = await authService.GetUserByEmail(CurrentUser.Email);
+
+            //make rules
+            RulesList = new Rule[] {
+                new Rule { Text = $"Once you complete this last step we will contact you to set up a time for you to come see {@Animal.Name}." },
+                new Rule { Text = $"The associated costs with this adoption are {temp_price.ToString("C")}" },
+                new Rule { Text = $"You will be required to settle the amount at the end of your visit" },
+                new Rule { Text = $"While we are sure you will fall in love with {Animal.Name} , know that you are allowed to change your mind after you meet him." },
+                new Rule { Text = $"If that happens there will be no fees." },
+                new Rule { Text = $"If you are not reachable or miss your appointment, Adoption will be disabled for you for 3 months." },
+                new Rule { Text = $"You can always contact us with if there has been a mistake and see if we can rectivate Adoption for you." },    
+            };
+    
+            loading = false;
+        }
+        catch (System.Exception ex)
+        {   
+            error = ex.Message;
+        }
+    }
+
+    async Task SubmitAdoptionRequest(int panel)
+    {
+        if(uncheckedRules()) return;
+        try
+        {
+              //create and implement service
+            @* await adoptionService.Reserve(Animal); *@
+            NextStep(panel);
+        }
+        catch (System.Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+
+
+    void NextStep(int panel)
+    {
+        if(steps == null) return;
+        steps.ActivatePanel(panel, true);
+    }
+
+    public bool missingUserInfo()
+    {
+        var misingUserInfo = CurrentUserInfo?.GetType().GetProperties().Where(p => p.GetValue(CurrentUserInfo) == null).ToList();
+        if(misingUserInfo == null || misingUserInfo.Count <= 0)
+            return false;
+        return true;
+    }
+
+    bool uncheckedRules()
+    {
+        foreach (Rule r in RulesList)
+        {
+            if(r.IsChecked == false)
+                return true;
+        }
+        return false;
+    }
+
+     bool pendingAdoption()
+    {
+        //implement logic after creating service
+        @* Adoption pendingAdoption = await adoptionService.GetPendingAdoption(CurrentUser.Email);
+        if(pendingAdoption != null)
+            return true *@
+       return false;
+    }
+
+
+
+
+
+    public class Rule {
+        public string Text { get; set; } ="";
+        public bool IsChecked { get; set; } = false;
+    }
+}
+
