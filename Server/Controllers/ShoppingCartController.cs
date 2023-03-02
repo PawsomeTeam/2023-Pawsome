@@ -152,4 +152,17 @@ public class ShoppingCartController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
     }
+
+    [Route("[action]")]
+    public IActionResult GoToHome()
+    {
+        Console.WriteLine("test!!!!!!!!!!!!!!");
+        Console.WriteLine("test!!!!!!!!!!!!!!");
+        Console.WriteLine("test!!!!!!!!!!!!!!");
+        Console.WriteLine("test!!!!!!!!!!!!!!");
+        Console.WriteLine("test!!!!!!!!!!!!!!");
+        Console.WriteLine("test!!!!!!!!!!!!!!");
+        Console.WriteLine("test!!!!!!!!!!!!!!");
+        return LocalRedirect("https://localhost:5001/");
+    }
 }

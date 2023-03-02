@@ -9,8 +9,8 @@ public class CheckoutBase : ComponentBase
 {
     [Inject]
     public IJSRuntime Js { get; set; }
-    
-    protected IEnumerable<CartItemDto> ShoppingCartItems { get; set; }
+
+    protected IEnumerable<CartItemDto> ShoppingCartItems { get; set; } = new List<CartItemDto>();
     protected int TotalQty { get; set; }
     protected string PaymentDescription { get; set; }
     
