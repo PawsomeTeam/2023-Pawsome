@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using OpenAI_API.Completions;
@@ -25,19 +25,24 @@ public partial class ChatbotBase : ComponentBase
     [Inject] IJSRuntime _jsRuntime { get; set; }
 
     public string message { get; set; }
-    public string generatedText { get; set; } = "Answer will be displayed here.";
+    public string generatedText { get; set; } = "This is Pawesome Assistant. I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions and make you happy.😊";
     private readonly HttpClient _httpClient = new HttpClient();
+
+
 
     protected async Task GetResponseFromGPT3()
     {
-        generatedText = "Brain Storming...";
+        var persona = "veterinarian";
+        var introMessage = "This is Pawesome Assistant. I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions and make you happy.😊";
+        var prompt = $"{persona}: {introMessage}\nYou: {message}\n{persona}: ";
+        generatedText = "Fething response...";
         try
         { 
-            string apiKey = "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";
+            string apiKey = "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";
             string answer = string.Empty;
             var openai = new OpenAIAPI(apiKey);
             CompletionRequest completion = new CompletionRequest();
-            completion.Prompt = message;
+            completion.Prompt = prompt;
             completion.Model = OpenAI_API.Models.Model.DavinciText; //OpenAI_API.Model.DavinciText;
             completion.MaxTokens = 4000;
             completion.BestOf = 1;
