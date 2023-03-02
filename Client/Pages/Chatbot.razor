@@ -7,17 +7,84 @@
 
 
 
-<h1>Welcome to Pawsome Chat</h1>
+<h1 style="padding-bottom: 50px;" >Welcome to Pawsome Chat</h1>
+
+<MudGrid>
+
+    <MudItem>
+        <MudPaper Class="pa-16 ma-2" Style="border-radius: 20px;" Elevation="3">
+
+            <div style="line-height:40px;" class="h4 mb-4 text-center">
+                [ai avatar picure]
+            </div>
+
+            <div class="form-group text-center">
+                <input class="form-control my-4 text-center py-2 m-auto" style="width: 600px;
+                height: 60px;
+                padding-left: 15px;
+                border-radius: 20px;
+                margin-bottom: 20px;
+                background: rgba(255,255,255,.2);" type="text" @bind="@message" placeholder="Type your message here" />
+                
+            </div>
 
 
-<div style="line-height:40px;" class="h4 mb-4 text-center">
-    Here you can ask me for anything.
+            <div class="d-flex justify-content-center text-center">
+
+                <div style="width:600px; min-height:260px; width:700px;
+                    padding: 30px;
+                    border-radius: 20px;
+                    margin-bottom: 20px;
+                    background: rgba(255,255,255,.2);" class="mt-2container border border-1 rounded-2 p-3 text-center">
+                    @generatedText
+                </div>
+
+
+                <div style="display: flex; flex-direction: column;">
+                    
+
+                    <button class="btn btn-success mb-4 px-2" style="
+                        padding-top: 8px;
+                        font-size: 13px;
+                        text-transform: uppercase;
+                        text-align: center;
+                        color: white;
+                        width: 200px;
+                        height: 35px;
+	                    border: none;
+	                    border-radius: 20px;
+                        background-color: #594ae2;
+                        left: 0px;
+                        top: 0px;
+                        margin-top: -8px;" onclick="@GetResponseFromGPT3">
+                        Ask Me
+                    </button>
+
+                </div>  
+                
+                </div>
+
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+@*<div class="form-group text-center">
+                <MudTextField T="string" Label="Outlined" class="form-control" Variant="Variant.Outlined" type="text" @bind="@message" placeholder="Type your message here" Lines="3" />
+                @*<MudButton Align="Align.Center" Link="/shop" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto" onclick="@GetResponseFromGPT3">Ask Me</MudButton>
+                <button class="btn btn-success mb-4 px-2" style="max-width:200px;" onclick="@GetResponseFromGPT3">Ask Me</button>
+                <MudTextField T="string" Label="Outlined" Variant="Variant.Outlined" Text="@generatedText" Lines="10"/>
+                
+
+                <input class="form-control my-4 text-center py-2 m-auto" style="max-width:600px;" type="text" @bind="@message" placeholder="Type your message here" />
+
+                
 </div>
 
-<div class="form-group text-center">
-    <input class="form-control my-4 text-center py-2 m-auto" style="max-width:600px;" type="text" @bind="@message" placeholder="Type your message here" />
-    <button class="btn btn-success mb-4 px-2" style="max-width:200px;" onclick="@GetResponseFromGPT3">Ask Me</button>
-</div>
 <div class="d-flex justify-content-center text-center">
-    <div style="min-width:600px; min-height:260px; max-width:700px;" class="mt-2container border border-1 rounded-2 p-3 text-center">@generatedText</div>
-</div>
+
+                
+                
+    @*<div style="min-width:600px; min-height:260px; max-width:700px;" class="mt-2container border border-1 rounded-2 p-3 text-center">@generatedText</div>
+</div>*@
+
