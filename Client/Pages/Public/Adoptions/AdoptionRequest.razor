@@ -59,7 +59,7 @@
     </MudTabPanel>
 
     @* //////RULES////// *@
-    <MudTabPanel Text="How it works" Disabled="@(steps.ActivePanelIndex < 1)" Icon="@Icons.Material.Filled.Warning">
+    <MudTabPanel Text="Submit Request" Disabled="@(steps.ActivePanelIndex < 1)" Icon="@Icons.Material.Filled.Warning">
 
        <MudText Typo="Typo.h5" Align="Align.Center"  Class="my-6">Please read carefully and confirm.</MudText>
        <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mx-auto">
@@ -92,7 +92,7 @@
     </MudTabPanel>
 
      @* //////Confirmation////// *@
-    <MudTabPanel Text="Confirm" Disabled="@(steps.ActivePanelIndex < 2)"  Icon="@Icons.Material.Filled.Check">
+    <MudTabPanel Text="Completed" Disabled="@(steps.ActivePanelIndex < 2)"  Icon="@Icons.Material.Filled.Check">
         <MudText Typo="Typo.h5" Align="Align.Center"  Class="my-6">What's next?</MudText>
         <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mx-auto">
             <MudTimeline TimelinePosition="TimelinePosition.Start">
@@ -141,18 +141,12 @@
     public bool loading = true;
     @* temp variables *@
     public double temp_price = 400.00;
-    public string temp_type = "dog";
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            @* Animal = await _animalService.Get(Id); *@
-            @* temporary animal for testing *@
-            Animal.Name = "Temp name";
-            Animal.Description = "Temp animal description";
-            Animal.Main_Image_Url = "https://pawsome.blob.core.windows.net/products/2023-03-01-03-54-24-053_dog-1194087_640.jpg";
-            Animal.Age = 10;
+            Animal = await _animalService.GetAnimalById(AnimalId);
 
             //get current user info
              CurrentUser = await authService.CurrentUserInfo();
@@ -162,7 +156,7 @@
             //make rules
             RulesList = new Rule[] {
                 new Rule { Text = $"Once you complete this last step we will contact you to set up a time for you to come see {@Animal.Name}." },
-                new Rule { Text = $"The associated costs with this adoption are {temp_price.ToString("C")}" },
+                new Rule { Text = $"The associated costs with this adoption are {Animal.Price.ToString("C")}" },
                 new Rule { Text = $"You will be required to settle the amount at the end of your visit" },
                 new Rule { Text = $"While we are sure you will fall in love with {Animal.Name} , know that you are allowed to change your mind after you meet him." },
                 new Rule { Text = $"If that happens there will be no fees." },
