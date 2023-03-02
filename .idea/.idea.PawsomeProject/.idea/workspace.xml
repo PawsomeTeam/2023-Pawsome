@@ -6,12 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Client/Pages/ShoppingCartDelete.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/CheckoutBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/CheckoutBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Shared/CartMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Shared/CartMenu.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/wwwroot/js/paypal.js" beforeDir="false" afterPath="$PROJECT_DIR$/Client/wwwroot/js/paypal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Controllers/ShoppingCartController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/ShoppingCartController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +30,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/46ccc69269c2c5ea1ee5a471e87d31f57b2bed35eadf737ebfbca6a37e16f/HttpContentJsonExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4ea681aa1df24442c1a5e1e18582b1a2d29ac5bfd41390c94a5d2cc958b5ff/UserManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5059b2f129d6cb3b8a9dfc18a6ea43b382c63680777ca591f1e2f97e7a5/ClaimsPrincipal.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/518d75d322d1224c8bf8185e7d4d5c9fa8981624b0ce9713cc569914eba68/BlockBlobClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6014824068c41c6469abcd7f3cd8b5cf882bdaa583e43a177b3bced6d823287/HttpContent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6083bc26d94ccf44fe82d69edbd61b8d822a2f6f2fe1132aea688e707270bf/AuthenticationState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/608710c970c749fbf3b2770da238f7a1a2e9b7a2cf9d69ab012b02caefef833/LayoutComponentBase.cs" root0="SKIP_HIGHLIGHTING" />
@@ -104,6 +100,8 @@
       <workItem from="1677543734329" duration="20641000" />
       <workItem from="1677592797167" duration="9398000" />
       <workItem from="1677722689996" duration="1408000" />
+      <workItem from="1677767043052" duration="61000" />
+      <workItem from="1677767108170" duration="6846000" />
     </task>
     <servers />
   </component>

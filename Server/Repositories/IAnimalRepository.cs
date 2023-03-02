@@ -7,8 +7,10 @@ namespace PawsomeProject.Server.Repositories
 	{
 		Task<List<Animal>> GetAllAnimals();
 		Task<Animal> GetAnimalById(int id);
+		Task<List<Image>> GetImages(int id);
 		Task<Animal> AddAnimal(AnimalDto animalDto);
 		Task UpdateAnimal(AnimalDto animal);
 		Task DeleteAnimal(int id);
+		Task DeleteImage(int id);
 	}
 }
