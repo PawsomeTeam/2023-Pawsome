@@ -7,7 +7,7 @@
 
 <MudToolBar class="pr-0 pl-0">
     <MudText Typo="Typo.h6">All Animals</MudText>
-    <MudSpacer/>
+    <MudSpacer />
     <div class="mx-5">
         <MudTextField @bind-Value="searchInput" Placeholder="Search" Class="mt-0"
                       Adornment="Adornment.Start" AdornmentColor="Color.Primary"
@@ -15,7 +15,7 @@
                       Variant="Variant.Outlined" Width="100px" Margin="Margin.Dense">
         </MudTextField>
     </div>
-    <MudButton Link="/manage/animals/new" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add">Add New</MudButton>
+    <MudButton Link="/manage/animals/create-animal" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add">Add New</MudButton>
 </MudToolBar>
 
 <MudTable Items="@_animals" Hover="true" SortLabel="Sort By" Filter="new Func<AnimalDto, bool>(FilterFunc1)" Loading="@_loading" LoadingProgressColor="Color.Primary">
@@ -30,7 +30,13 @@
         <MudTh>
             <MudTableSortLabel SortBy="new Func<AnimalDto, object>(x => x.Age)">Age</MudTableSortLabel>
         </MudTh>
-        <MudTh></MudTh>
+        <MudTh>
+            <MudTableSortLabel SortBy="new Func<AnimalDto, object>(x => x.Price)">Price</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortBy="new Func<AnimalDto, object>(x => x.Type)">Type</MudTableSortLabel>
+        </MudTh>
+        <MudTh>Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
         @{
@@ -45,7 +51,7 @@
             </MudLink>
             } *@
 
-            <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg"/>
+            <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg" />
 
         </MudTd>
         <MudTd DataLabel="Name">
@@ -53,20 +59,22 @@
             <MudText Typo="Typo.subtitle1">@context.Name</MudText>
             </MudLink> *@
             <MudText Typo="Typo.subtitle1">@context.Name</MudText>
+           @* <MudText Typo="Typo.subtitle1">@context.Type</MudText>
             <MudText Typo="Typo.caption"> @(context.Description?.Length > maxLen ? context.Description.Substring(0, maxLen) : context.Description)</MudText>
-        </MudTd>
-        <MudTd DataLabel="Age">@context.Age</MudTd>
-        <MudTd DataLabel="Actions">
-
-
-            @{
+            *@
+            </MudTd>
+            <MudTd DataLabel="Age">@context.Age</MudTd>
+            <MudTd DataLabel="Price">@context.Price</MudTd>
+        <MudTd DataLabel="Type">@context.Type</MudTd>
+            <MudTd DataLabel="Actions">
+                @{
                 //TODO: make these into a Dialog instad of URLs
                 var editUrl = $"manage/animals/update/{context.Id}";
                 var deleteUrl = $"manage/animals/delete/{context.Id}";
             }
             <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
-                <MudIconButton Disabled="true" Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Size="Size.Small"/>
-                <MudIconButton OnClick="@(() => ShowConfirmDeleteDialog(context))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
+                <MudIconButton Disabled="true" Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Size="Size.Small" />
+                <MudIconButton OnClick="@(() => ShowConfirmDeleteDialog(context))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
 
                 <MudDialog @bind-IsVisible="_confirmDeleteDialogVisible">
                     <DialogContent>
@@ -82,7 +90,7 @@
         </MudTd>
     </RowTemplate>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new int[] { 10, 50, 100 }"/>
+        <MudTablePager PageSizeOptions="new int[] { 10, 50, 100 }" />
     </PagerContent>
 </MudTable>
 
