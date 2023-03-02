@@ -36,7 +36,9 @@ namespace PawsomeProject.Server.Repositories
             {
                 Name = animalDto.Name,
                 Description = animalDto.Description,
+                Type = animalDto.Type,
                 Age = animalDto.Age,
+                Price = animalDto.Price,
                 Main_Image_Url = animalDto.Main_Image_Url,
                 Images = new List<Image>()
             };

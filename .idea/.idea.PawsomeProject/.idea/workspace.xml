@@ -7,6 +7,9 @@
   <component name="ChangeListManager">
     <list default="true" id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/AnimalManagement/AddNew.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/AnimalManagement/AddNew.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Controllers/AnimalController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/AnimalController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Repositories/AnimalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Repositories/AnimalRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -58,7 +58,9 @@ public class AnimalController : ControllerBase
                 Id = newAnimal.Id,
                 Name = newAnimal.Name,
                 Description = newAnimal.Description,
+                Type = newAnimal.Type,
                 Age = newAnimal.Age,
+                Price = newAnimal.Price,
                 Main_Image_Url = newAnimal.Main_Image_Url,
                 Images = new List<ImageDto>()
             };

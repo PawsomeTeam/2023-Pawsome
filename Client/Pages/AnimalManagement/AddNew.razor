@@ -19,7 +19,9 @@
     <MudItem xs="12" md="6" lg="8">
         <MudTextField @bind-Value="@NewAnimal.Name" Label="Name" Variant="Variant.Outlined"/>
         <MudTextField @bind-Value="@NewAnimal.Description" Label="Description" Variant="Variant.Outlined"/>
+        <MudTextField @bind-Value="@NewAnimal.Type" Label="Type" Variant="Variant.Outlined"/>
         <MudNumericField @bind-Value="@NewAnimal.Age" Label="Age" Variant="Variant.Outlined"/>
+        <MudNumericField @bind-Value="@NewAnimal.Price" Label="Price" Variant="Variant.Outlined"/>
         <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
         <MudButton HtmlTag="label"
                    Variant="Variant.Filled"
@@ -39,67 +41,6 @@
         </MudButton>
     </MudItem>
 </MudPaper>
-
-@* $1$     <EditForm Model="NewAnimal" OnValidSubmit="OnSubmit"> #1# *@
-@* $1$ #1# *@
-@* $1$         <DataAnnotationsValidator/> #1# *@
-@* $1$         <div class="d-flex flex-column align-stretch gap-3"> #1# *@
-@* $1$             <MudTextField T="string" Label="Name" #1# *@
-@* $1$                           @bind-Value="NewAnimal.Name" #1# *@
-@* $1$                           For="@(() => NewAnimal.Name)"/> #1# *@
-@* $1$ #1# *@
-@* $1$             <MudTextField T="string" Label="Description" Lines="5" #1# *@
-@* $1$                           @bind-Value="NewAnimal.Description" #1# *@
-@* $1$                           For="@(() => NewAnimal.Description)"/> #1# *@
-@* $1$ #1# *@
-@* $1$             <MudNumericField T="int" Label="Age" #1# *@
-@* $1$                              @bind-Value="NewAnimal.Age" #1# *@
-@* $1$                              For="@(() => NewAnimal.Age)"/> #1# *@
-@* $1$             <div class="d-flex"> #1# *@
-@* $1$ #1# *@
-@* $1$                 $2$ <MudButton HtmlTag="label" #2# #1# *@
-@* $1$                 $2$            Variant="Variant.Filled" #2# #1# *@
-@* $1$                 $2$            Color="Color.Success" #2# #1# *@
-@* $1$                 $2$            StartIcon="@Icons.Filled.Image" #2# #1# *@
-@* $1$                 $2$            Label="Load picture" #2# #1# *@
-@* $1$                 $2$            for="imageInput"> #2# #1# *@
-@* $1$                 $2$     Upload Files #2# #1# *@
-@* $1$                 $2$ </MudButton> #2# #1# *@
-@* $1$                 $2$ <InputFile T="IBrowserFile" FilesChanged="UploadFiles" hidden id="test" Accept=".jpg, .jpeg, .png"/> #2# #1# *@
-@* $1$             </div> #1# *@
-@* $1$ #1# *@
-@* $1$ #1# *@
-@* $1$             $1$  #1# *@
-@* $1$ <MudFileUpload T="IBrowserFile"> #1# *@
-@* $1$     <ButtonTemplate> #1# *@
-@* $1$         <MudButton HtmlTag="label" #1# *@
-@* $1$                    Variant="Variant.Filled" #1# *@
-@* $1$                    Color="Color.Primary" #1# *@
-@* $1$                    for="@context"> #1# *@
-@* $1$             Single File #1# *@
-@* $1$         </MudButton> #1# *@
-@* $1$     </ButtonTemplate> #1# *@
-@* $1$     <SelectedTemplate> #1# *@
-@* $1$         @if (context != null) #1# *@
-@* $1$         { #1# *@
-@* $1$             <MudText>@context.Name</MudText> #1# *@
-@* $1$         } #1# *@
-@* $1$         else #1# *@
-@* $1$         { #1# *@
-@* $1$             <MudText>No File</MudText> #1# *@
-@* $1$         } #1# *@
-@* $1$     </SelectedTemplate> #1# *@
-@* $1$ </MudFileUpload> #1# *@
-@* $1$ #1# *@
-@* $1$             <MudButton Variant="Variant.Filled" Color="Color.Primary" #1# *@
-@* $1$                        Class="my-3 mx-auto" #1# *@
-@* $1$                        ButtonType="ButtonType.Submit"> #1# *@
-@* $1$                 Add #1# *@
-@* $1$             </MudButton> #1# *@
-@* $1$             <MudText Color="@Color.Error" Class="mb-3"> @error </MudText> #1# *@
-@* $1$         </div> #1# *@
-@* $1$     </EditForm> #1# *@
-
 
 @code {
 
@@ -185,8 +126,10 @@
                 Id = Id,
                 Name = animal.Name,
                 Description = animal.Description,
-                Main_Image_Url = animal.Main_Image_Url,
+                Type = animal.Type,
                 Age = animal.Age,
+                Price = animal.Price,
+                Main_Image_Url = animal.Main_Image_Url,
                 Images = animal.Images
             };
 
