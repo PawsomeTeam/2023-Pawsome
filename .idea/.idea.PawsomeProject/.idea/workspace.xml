@@ -6,11 +6,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Client/wwwroot/js/paypal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/Pages/ShoppingCartDelete.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/AnimalManagement/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/AnimalManagement/Index.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/wwwroot/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Client/wwwroot/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/CheckoutBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/CheckoutBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Shared/CartMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Shared/CartMenu.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/wwwroot/js/paypal.js" beforeDir="false" afterPath="$PROJECT_DIR$/Client/wwwroot/js/paypal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Controllers/ShoppingCartController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/ShoppingCartController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

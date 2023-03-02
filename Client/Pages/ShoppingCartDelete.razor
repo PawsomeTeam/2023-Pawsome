@@ -1,0 +1,12 @@
+@page "/Checkout/delete"
+@inject NavigationManager navigationManager
+
+<h3>ShoppingCartDelete</h3>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO : Delete all cart items
+        navigationManager.NavigateTo("/");
+    }
+}
