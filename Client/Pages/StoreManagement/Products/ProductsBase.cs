@@ -20,10 +20,13 @@ public class ProductsBase : ComponentBase
     {
         Products = await ProductService.GetItems();
         CurrentUser = await authService.CurrentUserInfo();
-        var shoppingCartItems = await ShoppingCartService.GetItems(CurrentUser.Email);
-        IsLoading = false;
-        var totalQty = shoppingCartItems.Sum(i => i.Qty);
-        ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
+        if (CurrentUser.IsAuthenticated)
+        {
+            var shoppingCartItems = await ShoppingCartService.GetItems(CurrentUser.Email);
+            IsLoading = false;
+            var totalQty = shoppingCartItems.Sum(i => i.Qty);
+            ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
+        }
     }
 
     public string? ErrorMessage { get; set; } = null;
