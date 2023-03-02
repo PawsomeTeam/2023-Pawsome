@@ -41,6 +41,13 @@ public class ShoppingCartBase : ComponentBase
         RemoveCartItem(id);
         CartChange();
     }
+    
+    protected async Task DeleteAllCart()
+    {
+        var cartItemDto = await ShoppingCartService.DeleteAllItems(CurrentUser.Email);
+        ShoppingCartItems.Remove(cartItemDto);
+        CartChange();
+    }
 
     private CartItemDto GetCartItem(int id)
     {
