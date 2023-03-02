@@ -2,6 +2,8 @@
 using System.Net.Http.Json;
 using System.Net;
 using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace PawsomeProject.Client.Services
 {
@@ -60,6 +62,33 @@ namespace PawsomeProject.Client.Services
             }
         }
 
-       
+        public async Task<AnimalDto> GetAnimalById(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/Animal/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return default(AnimalDto);
+                    }
+
+                    return await response.Content.ReadFromJsonAsync<AnimalDto>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+
     }
 }
