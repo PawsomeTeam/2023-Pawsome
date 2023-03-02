@@ -7,12 +7,20 @@ namespace PawsomeProject.Server.Models
     {
         public int Id { get; set; }
 
-        [Required, Display(Name = "Adoptee")]
-        public Animal? Adoptee { get; set; }
+        //relationships
+        [Display(Name = "Adoptee")]// make required later
+        public Animal Adoptee { get; set; } = default!;
+
+        [Display(Name = "Adoptee ID")]// make required later
+        public int AdopteeId { get; set; } = default!;
 
         [Display(Name = "Adopter")]
-        public User? Adopter { get; set; }
+        public User Adopter { get; set; } = default!;
 
+        [Display(Name = "Adopter ID")]
+        public string AdopterId { get; set; } = default!;
+
+        //dates data
         [Required, Display(Name = "Date Submitted")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
@@ -28,10 +36,12 @@ namespace PawsomeProject.Server.Models
         [Display(Name = "Date Cancelled Adoption")]
         public DateTime? CanceledAt { get; set; } = null;
 
-        [Display(Name = "Notes For Adopter")]
-        List<string>? NotesForAdopter { get; set; } = new List<string>();
 
-        [Display(Name = "Notes For Administration")]
-        List<string>? NotesForAdministration { get; set; } = new List<string>();
+        //notes
+        [Display(Name = "Note For Adopter")]
+        public string? NoteForAdopter { get; set; } = null;
+
+        [Display(Name = "Note For Administration")]
+        public string? NoteForAdministration { get; set; } = null;
     }
 }
