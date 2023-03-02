@@ -16,6 +16,11 @@ builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredServic
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAnimalService, HttpBasedAnimalService> ();
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
