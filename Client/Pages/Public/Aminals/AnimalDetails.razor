@@ -17,7 +17,7 @@
             <MudItem xs="12" md="6" lg="8">
                 <MudText Typo="Typo.h4">@Animal.Name</MudText>
                 <MudText Typo="Typo.body1" Class="mb-4">
-                <i>@temp_type</i>
+                <i>@Animal.Type</i>
                 </MudText>
                 <MudText Typo="Typo.body1" Class="mb-4">@Animal.Description</MudText>
             <MudText Typo="Typo.h6" Class="mb-4">
@@ -46,22 +46,22 @@
     public string? error = null;
 
     @* temp variables *@
-    public double temp_price = 400.00;
-    public string temp_type = "dog";
+    // public double temp_price = 400.00;
+    // public string temp_type = "dog";
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            @* Animal = await _animalService.Get(Id); *@
+            Animal = await _animalService.GetAnimalById(Id);
             @* temporary animal for testing *@
-            Animal.Name = "Temp name";
-            Animal.Description = "Temp animal description";
-            Animal.Main_Image_Url = "https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg";
-            Animal.Age = 10;
+            // Animal.Name = "Temp name";
+            // Animal.Description = "Temp animal description";
+            // Animal.Main_Image_Url = "https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg";
+            // Animal.Age = 10;
             loading = false;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {   
             error = ex.Message;
         }

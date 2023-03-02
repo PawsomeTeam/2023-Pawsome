@@ -11,10 +11,15 @@
       <change beforePath="$PROJECT_DIR$/Client/Pages/ShoppingCart.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/ShoppingCart.razor" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Client/Pages/AnimalManagement/AddNew.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/AnimalManagement/AddNew.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/Controllers/AnimalController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/AnimalController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/Repositories/AnimalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Repositories/AnimalRepository.cs" afterDir="false" />
 >>>>>>> e23e2b78e5b1e73dbc434d643eea2405bb0f5615
+=======
+      <change beforePath="$PROJECT_DIR$/Client/Pages/Public/Aminals/Amimals.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Public/Aminals/Amimals.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/Public/Aminals/AnimalDetails.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Public/Aminals/AnimalDetails.razor" afterDir="false" />
+>>>>>>> 3c0a5ad2d61371223483300595f8e35d644e48f6
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
