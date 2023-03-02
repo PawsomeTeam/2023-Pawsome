@@ -1,96 +1,140 @@
 @page "/manage/animals/new"
 @inject NavigationManager navigationManager
 @using System.Net.Http.Headers
+@inject IProductService ProductService
+@inject IAnimalService AnimalService
+@inject NavigationManager NavigationManager
 @* @inject IAnimalService HttpBasedAnimalService *@
 
 @using System.ComponentModel.DataAnnotations
 <MudText Align="Align.Center" Typo="Typo.h3">Register</MudText>
 <MudPaper Class="pa-8 ma-8">
-
-<EditForm Model="NewAnimal" OnValidSubmit="OnSubmit">
-
-    <DataAnnotationsValidator /> 
-    <div class="d-flex flex-column align-stretch gap-3">
-        <MudTextField T="string" Label="Name" 
-                      @bind-Value="NewAnimal.Name"
-                      For="@(() => NewAnimal.Name)" />
-
-     <MudTextField T="string" Label="Description" Lines="5"
-                      @bind-Value="NewAnimal.Description"
-                      For="@(() => NewAnimal.Description)" />
-
-    <MudNumericField T="int" Label="Age" 
-                      @bind-Value="NewAnimal.Age"
-                      For="@(() => NewAnimal.Age)" />
-<div class="d-flex">
-
-    <InputFile  T="IBrowserFile" FilesChanged="UploadFiles" hidden id="test" Accept=".jpg, .jpeg, .png"/>
+    <MudItem xs="12" md="6" lg="4">
+        @foreach (var image in NewAnimal.Images)
+        {
+            <MudImage Fluid="true" Src="@image.URL" Alt="@NewAnimal.Name" Class="rounded-xs"/>
+            <MudIconButton OnClick="() => HandleDeleteImage(image.URL)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
+        }
+    </MudItem>
+    <MudItem xs="12" md="6" lg="8">
+        <MudTextField @bind-Value="@NewAnimal.Name" Label="Name" Variant="Variant.Outlined"/>
+        <MudTextField @bind-Value="@NewAnimal.Description" Label="Description" Variant="Variant.Outlined"/>
+        <MudTextField @bind-Value="@NewAnimal.Type" Label="Type" Variant="Variant.Outlined"/>
+        <MudNumericField @bind-Value="@NewAnimal.Age" Label="Age" Variant="Variant.Outlined"/>
+        <MudNumericField @bind-Value="@NewAnimal.Price" Label="Price" Variant="Variant.Outlined"/>
+        <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
         <MudButton HtmlTag="label"
                    Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.CloudUpload"
-                   for="test">
+                   for="imageInput">
             Upload Image
         </MudButton>
-</div>
-
-
-@* 
-<MudFileUpload T="IBrowserFile">
-    <ButtonTemplate>
-        <MudButton HtmlTag="label"
-                   Variant="Variant.Filled"
-                   Color="Color.Primary"
-                   for="@context">
-            Single File
+        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                   @onclick="() => (Create_Animal(NewAnimal))">
+            Add Pet
         </MudButton>
-    </ButtonTemplate>
-    <SelectedTemplate>
-        @if (context != null)
-        {
-            <MudText>@context.Name</MudText>
-        }
-        else
-        {
-            <MudText>No File</MudText>
-        }
-    </SelectedTemplate>
-</MudFileUpload> *@
-
-        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+        <MudButton Variant="Variant.Filled" Color="Color.Error"
                    Class="my-3 mx-auto"
-                   ButtonType="ButtonType.Submit">
-            Add
+                   OnClick="HandleDeleteAllImages">
+            Cancel
         </MudButton>
-         <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
-    </div>
-</EditForm>
+    </MudItem>
 </MudPaper>
 
-
-
 @code {
-    
-    @* temporary class
-    public class FileModel
-    {
-        public string Name { get; set; }
-        public IBrowserFile? File ;
-    }
-    public FileModel ImgFile { get; set; } = new FileModel(); *@
-    public IBrowserFile? File ;
 
-    public AnimalDto NewAnimal { get; set; } = new AnimalDto();
+    [Parameter]
+    public int Id { get; set; }
+
+    private AnimalDto NewAnimal { get; set; } = new AnimalDto();
+
     string? error { get; set; } = null;
 
+    [Inject]
+    public HttpClient HttpClient { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        NewAnimal.Images = new List<ImageDto>();
+    }
+
+    private async Task HandleSelectedImage(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            var resizedFile = await file.RequestImageFileAsync("image/png", 300, 500);
+
+            using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+            {
+                var content = new MultipartFormDataContent();
+                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", file.Name);
+                var response = await HttpClient.PostAsync("api/Animal/UploadImage", content);
+
+                var url = await response.Content.ReadAsStringAsync();
+                var imageDto = new ImageDto
+                {
+                    URL = url,
+                    Type = "type"
+                };
+
+                NewAnimal.Images.Add(imageDto);
+            }
+        }
+        NewAnimal.Main_Image_Url = NewAnimal.Images.ElementAt(0).URL;
+    }
+
+    private async Task HandleDeleteImage(string url)
+    {
+        var imageURL = url;
+        var filename = ProductService.fileName(imageURL);
+        var response = await HttpClient.DeleteAsync($"api/Animal/DeleteImage/{filename}");
+        if (response.IsSuccessStatusCode)
+        {
+            var imageDto = NewAnimal.Images.Find(i => i.URL == url);
+            NewAnimal.Images.Remove(imageDto);
+            Console.WriteLine("Image File is deleted");
+        }
+    }
+
+    private async Task HandleDeleteAllImages()
+    {
+        foreach (var image in NewAnimal.Images.ToList())
+        {
+            var imageURL = image.URL;
+            var filename = ProductService.fileName(imageURL);
+            var response = await HttpClient.DeleteAsync($"api/Animal/DeleteImage/{filename}");
+            if (response.IsSuccessStatusCode)
+            {
+                var imageDto = NewAnimal.Images.Find(i => i.URL == imageURL);
+                NewAnimal.Images.Remove(imageDto);
+                Console.WriteLine("Image File is deleted with Cancel");
+            }
+        }
+        NavigationManager.NavigateTo("manage/animals");
+    }
 
 
-
-    async Task OnSubmit()
+    protected async Task Create_Animal(AnimalDto animal)
     {
         error = null;
         try
         {
+            var animalDto = new AnimalDto()
+            {
+                Id = Id,
+                Name = animal.Name,
+                Description = animal.Description,
+                Type = animal.Type,
+                Age = animal.Age,
+                Price = animal.Price,
+                Main_Image_Url = animal.Main_Image_Url,
+                Images = animal.Images
+            };
+
+            await AnimalService.AddAnimal(animalDto);
+            NavigationManager.NavigateTo("manage/animals");
             @* await HttpBasedAnimalService.Create(NewAnimal); *@
             @* navigationManager.NavigateTo("/manage/animals"); *@
         }
@@ -100,13 +144,4 @@
         }
     }
 
-    async Task UploadFile(IBrowserFile  file)
-    {
-        //await add file to blob
-
-        //add url to animal
-        NewAnimal.Main_Image_Url = file.Name;
-    }
-
- 
 }

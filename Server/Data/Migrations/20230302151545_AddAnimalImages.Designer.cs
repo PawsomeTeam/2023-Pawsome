@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawsomeProject.Server.Data;
 
@@ -11,9 +12,11 @@ using PawsomeProject.Server.Data;
 namespace PawsomeProject.Server.Data.Migrations
 {
     [DbContext(typeof(PawsomeDBContext))]
-    partial class PawsomeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230302151545_AddAnimalImages")]
+    partial class AddAnimalImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,7 +213,7 @@ namespace PawsomeProject.Server.Data.Migrations
                     b.Property<int?>("AnimalId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
@@ -309,15 +312,8 @@ namespace PawsomeProject.Server.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("Reservation_Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("date_adopted")
                         .HasColumnType("datetime2");
@@ -479,15 +475,15 @@ namespace PawsomeProject.Server.Data.Migrations
 
             modelBuilder.Entity("PawsomeProject.Server.Models.Image", b =>
                 {
-                    b.HasOne("PawsomeProject.Shared.Models.Animal", "Animal")
+                    b.HasOne("PawsomeProject.Shared.Models.Animal", null)
                         .WithMany("Images")
                         .HasForeignKey("AnimalId");
 
                     b.HasOne("PawsomeProject.Server.Models.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Animal");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });

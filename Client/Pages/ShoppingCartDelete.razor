@@ -1,12 +1,13 @@
 @page "/Checkout/delete"
 @inject NavigationManager navigationManager
+@inherits ShoppingCartBase
+
 
 <h3>ShoppingCartDelete</h3>
 
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        //TODO : Delete all cart items
-        navigationManager.NavigateTo("/");
-    }
-}
+@* @code { *@
+@*     protected override async Task OnInitializedAsync() *@
+@*     { *@
+@*        navigationManager.NavigateTo("/manage/orders"); *@
+@*     } *@
+@* } *@
