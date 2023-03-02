@@ -99,8 +99,6 @@ public class ProductController : ControllerBase
     {
         try
         {
-            await productRepository.DeleteItem(id);
-
             var images = await productRepository.GetImages(id);
             string filename = "";
 
@@ -111,6 +109,8 @@ public class ProductController : ControllerBase
                 await DeleteImage(filename);
                 await productRepository.DeleteImage(image.Id);
             }
+
+            await productRepository.DeleteItem(id);
 
             return Ok();
         }

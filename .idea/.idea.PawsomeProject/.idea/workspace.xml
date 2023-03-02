@@ -6,8 +6,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Client/Pages/Checkout.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Checkout.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/Pages/ShoppingCart.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/ShoppingCart.razor" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/AnimalManagement/AddNew.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/AnimalManagement/AddNew.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Controllers/AnimalController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Controllers/AnimalController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Repositories/AnimalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Repositories/AnimalRepository.cs" afterDir="false" />
+>>>>>>> e23e2b78e5b1e73dbc434d643eea2405bb0f5615
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +30,16 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4ea681aa1df24442c1a5e1e18582b1a2d29ac5bfd41390c94a5d2cc958b5ff/UserManager.cs" root0="SKIP_HIGHLIGHTING" />
+<<<<<<< HEAD
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5a5ae644fdbadec9bdc495c592ec7c1ba2fa382751f78a221412bfe43af5ce0/HttpResponseMessage.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7733bdb26b2be012c4266979a95d3728e74790201f91a02df4529ee6c2f37/ControllerBase.cs" root0="SKIP_HIGHLIGHTING" />
+=======
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5059b2f129d6cb3b8a9dfc18a6ea43b382c63680777ca591f1e2f97e7a5/ClaimsPrincipal.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/518d75d322d1224c8bf8185e7d4d5c9fa8981624b0ce9713cc569914eba68/BlockBlobClient.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6014824068c41c6469abcd7f3cd8b5cf882bdaa583e43a177b3bced6d823287/HttpContent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6083bc26d94ccf44fe82d69edbd61b8d822a2f6f2fe1132aea688e707270bf/AuthenticationState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/608710c970c749fbf3b2770da238f7a1a2e9b7a2cf9d69ab012b02caefef833/LayoutComponentBase.cs" root0="SKIP_HIGHLIGHTING" />
+>>>>>>> e23e2b78e5b1e73dbc434d643eea2405bb0f5615
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/81118a823fc3237c4619faed35d869bfa9664a394499d9f72547c9acef1b/BrowserFileExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cd53b0a5d28282dc6b2933fea0a276b64a841e9974cb65a21c2bf4f8bf19d4/HttpClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d4f98ebdd878db4fbd98872756eb7be6ad9e468fe5cd6b16385d8c4993109a/List.cs" root0="SKIP_HIGHLIGHTING" />
@@ -87,6 +102,8 @@
       <workItem from="1677543734329" duration="20641000" />
       <workItem from="1677592797167" duration="9398000" />
       <workItem from="1677722689996" duration="1408000" />
+      <workItem from="1677767043052" duration="61000" />
+      <workItem from="1677767108170" duration="6846000" />
     </task>
     <servers />
   </component>

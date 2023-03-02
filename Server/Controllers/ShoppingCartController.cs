@@ -130,6 +130,33 @@ public class ShoppingCartController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
+    
+    [HttpDelete("{userEmail}")]
+    public async Task<ActionResult<CartItemDto>> DeleteAllItem(string userEmail)
+    {
+        try
+        {
+            var cartItem = await this.shoppingCartRepository.DeleteAllItems(userEmail);
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+    
+            // var product = await this.productRepository.GetItem(cartItem.Product.Id);
+            // if (product == null)
+            // {
+            //     return NotFound();
+            // }
+    
+            // var cartItemDto = cartItem.ConvertToDto(product);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+        }
+    }
 
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
@@ -153,16 +180,16 @@ public class ShoppingCartController : ControllerBase
         }
     }
 
-    [Route("[action]")]
-    public IActionResult GoToHome()
-    {
-        Console.WriteLine("test!!!!!!!!!!!!!!");
-        Console.WriteLine("test!!!!!!!!!!!!!!");
-        Console.WriteLine("test!!!!!!!!!!!!!!");
-        Console.WriteLine("test!!!!!!!!!!!!!!");
-        Console.WriteLine("test!!!!!!!!!!!!!!");
-        Console.WriteLine("test!!!!!!!!!!!!!!");
-        Console.WriteLine("test!!!!!!!!!!!!!!");
-        return LocalRedirect("https://localhost:5001/");
-    }
+    // [Route("[action]")]
+    // public IActionResult GoToHome()
+    // {
+    //     Console.WriteLine("test!!!!!!!!!!!!!!");
+    //     Console.WriteLine("test!!!!!!!!!!!!!!");
+    //     Console.WriteLine("test!!!!!!!!!!!!!!");
+    //     Console.WriteLine("test!!!!!!!!!!!!!!");
+    //     Console.WriteLine("test!!!!!!!!!!!!!!");
+    //     Console.WriteLine("test!!!!!!!!!!!!!!");
+    //     Console.WriteLine("test!!!!!!!!!!!!!!");
+    //     return LocalRedirect("https://localhost:5001/");
+    // }
 }

@@ -82,6 +82,20 @@ public class ShoppingCartRepository : IShoppingCartRepository
 
         return item;
     }
+    
+    public async Task<CartItem> DeleteAllItems(string userEmail)
+    {
+        var cartItems = await pawsomeDbContext.CartItems.Where(c => c.Cart.User.Email == userEmail).ToListAsync();
+
+        foreach (var deleteCart in cartItems)
+        {
+            this.pawsomeDbContext.CartItems.Remove(deleteCart);
+        }
+
+        await this.pawsomeDbContext.SaveChangesAsync();
+
+        return null;
+    }
 
     public async Task<CartItem> GetItem(int id)
     {
@@ -91,7 +105,6 @@ public class ShoppingCartRepository : IShoppingCartRepository
 
     public async Task<IEnumerable<CartItem>> GetItems(string userEmail)
     {
-        // var cart = await pawsomeDbContext.Carts.Include("UserId").Where(c => c.UserId.Id == userId).SingleOrDefaultAsync();
         var cartItems = await pawsomeDbContext.CartItems.Where(c => c.Cart.User.Email == userEmail).ToListAsync();
         return cartItems;
     }

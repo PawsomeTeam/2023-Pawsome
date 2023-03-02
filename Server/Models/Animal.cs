@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using PawsomeProject.Server.Models;
 
 namespace PawsomeProject.Shared.Models
 {
@@ -11,7 +12,9 @@ namespace PawsomeProject.Shared.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
-
+        
+        public List<Image> Images { get; set; }
+        
         public int Age { get; set; }
         public int Price { get; set; }
         public string Type { get; set; }

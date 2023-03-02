@@ -16685,7 +16685,7 @@
     </schema>
     <schema id="5543" parent="5511" name="dbo">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-03-01.21:25:46.350</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-03-02.10:16:28.810</IntrospectionTimestamp>
       <ObjectId>1</ObjectId>
     </schema>
     <schema id="5544" parent="5511" name="guest">
@@ -16696,7 +16696,7 @@
     </schema>
     <table id="5546" parent="5543" name="Animals">
       <CreatedTimestamp>2023-02-17.17:48:16.483</CreatedTimestamp>
-      <ModifiedTimestamp>2023-02-28.22:45:27.937</ModifiedTimestamp>
+      <ModifiedTimestamp>2023-03-02.10:16:19.890</ModifiedTimestamp>
       <ObjectId>18099105</ObjectId>
     </table>
     <table id="5547" parent="5543" name="AspNetRoleClaims">
@@ -16746,7 +16746,7 @@
     </table>
     <table id="5556" parent="5543" name="Images">
       <CreatedTimestamp>2023-02-22.14:50:25.827</CreatedTimestamp>
-      <ModifiedTimestamp>2023-02-28.01:46:40.780</ModifiedTimestamp>
+      <ModifiedTimestamp>2023-03-02.10:16:19.890</ModifiedTimestamp>
       <ObjectId>194099732</ObjectId>
     </table>
     <table id="5557" parent="5543" name="ProductCategories">
@@ -17334,21 +17334,25 @@ Name</ColNames>
       <DefaultConstraintId>226099846</DefaultConstraintId>
       <DefaultConstraintName>DF__Images__Type__0D7A0286</DefaultConstraintName>
     </column>
-    <default id="5655" parent="5556" name="DF__Images__ProductI__0F624AF8">
+    <column id="5655" parent="5556" name="AnimalId">
+      <DasType>int|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <default id="5656" parent="5556" name="DF__Images__ProductI__0F624AF8">
       <ColNames>ProductId</ColNames>
       <DefaultExpression>0</DefaultExpression>
       <ModifiedTimestamp>2023-02-28.01:46:40.733</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>258099960</ObjectId>
     </default>
-    <default id="5656" parent="5556" name="DF__Images__Type__0D7A0286">
+    <default id="5657" parent="5556" name="DF__Images__Type__0D7A0286">
       <ColNames>Type</ColNames>
       <DefaultExpression>N&apos;&apos;</DefaultExpression>
       <ModifiedTimestamp>2023-02-22.15:03:14.603</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>226099846</ObjectId>
     </default>
-    <foreign-key id="5657" parent="5556" name="FK_Images_Products_ProductId">
+    <foreign-key id="5658" parent="5556" name="FK_Images_Products_ProductId">
       <ColNames>ProductId</ColNames>
       <CreatedTimestamp>2023-02-28.01:46:40.780</CreatedTimestamp>
       <ModifiedTimestamp>2023-02-28.01:46:40.780</ModifiedTimestamp>
@@ -17358,94 +17362,107 @@ Name</ColNames>
       <RefTableId>146099561</RefTableId>
       <RefTableName>Products</RefTableName>
     </foreign-key>
-    <index id="5658" parent="5556" name="PK_Images">
+    <foreign-key id="5659" parent="5556" name="FK_Images_Animals_AnimalId">
+      <ColNames>AnimalId</ColNames>
+      <CreatedTimestamp>2023-03-02.10:16:19.890</CreatedTimestamp>
+      <ModifiedTimestamp>2023-03-02.10:16:19.890</ModifiedTimestamp>
+      <ObjectId>418100530</ObjectId>
+      <RefColNames>Id</RefColNames>
+      <RefTableId>18099105</RefTableId>
+      <RefTableName>Animals</RefTableName>
+    </foreign-key>
+    <index id="5660" parent="5556" name="PK_Images">
       <Clustering>1</Clustering>
       <ColNames>Id</ColNames>
       <Position>1</Position>
       <Unique>1</Unique>
     </index>
-    <index id="5659" parent="5556" name="IX_Images_ProductId">
+    <index id="5661" parent="5556" name="IX_Images_ProductId">
       <ColNames>ProductId</ColNames>
       <Position>2</Position>
     </index>
-    <key id="5660" parent="5556" name="PK_Images">
+    <index id="5662" parent="5556" name="IX_Images_AnimalId">
+      <ColNames>AnimalId</ColNames>
+      <Position>3</Position>
+    </index>
+    <key id="5663" parent="5556" name="PK_Images">
       <CreatedTimestamp>2023-02-22.14:50:26.050</CreatedTimestamp>
       <ModifiedTimestamp>2023-02-22.14:50:26.050</ModifiedTimestamp>
       <ObjectId>210099789</ObjectId>
       <Primary>1</Primary>
       <UnderlyingIndexName>PK_Images</UnderlyingIndexName>
     </key>
-    <column id="5661" parent="5557" name="Id">
+    <column id="5664" parent="5557" name="Id">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <SequenceIdentity>1(5)</SequenceIdentity>
     </column>
-    <column id="5662" parent="5557" name="Name">
+    <column id="5665" parent="5557" name="Name">
       <DasType>nvarchar(max)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </column>
-    <column id="5663" parent="5557" name="IconCSS">
+    <column id="5666" parent="5557" name="IconCSS">
       <DasType>nvarchar(max)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </column>
-    <index id="5664" parent="5557" name="PK_ProductCategories">
+    <index id="5667" parent="5557" name="PK_ProductCategories">
       <Clustering>1</Clustering>
       <ColNames>Id</ColNames>
       <Position>1</Position>
       <Unique>1</Unique>
     </index>
-    <key id="5665" parent="5557" name="PK_ProductCategories">
+    <key id="5668" parent="5557" name="PK_ProductCategories">
       <CreatedTimestamp>2023-02-17.23:04:46.710</CreatedTimestamp>
       <ModifiedTimestamp>2023-02-17.23:04:46.710</ModifiedTimestamp>
       <ObjectId>130099504</ObjectId>
       <Primary>1</Primary>
       <UnderlyingIndexName>PK_ProductCategories</UnderlyingIndexName>
     </key>
-    <column id="5666" parent="5558" name="Id">
+    <column id="5669" parent="5558" name="Id">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <SequenceIdentity>1(59)</SequenceIdentity>
     </column>
-    <column id="5667" parent="5558" name="Name">
+    <column id="5670" parent="5558" name="Name">
       <DasType>nvarchar(max)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </column>
-    <column id="5668" parent="5558" name="Description">
+    <column id="5671" parent="5558" name="Description">
       <DasType>nvarchar(max)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </column>
-    <column id="5669" parent="5558" name="ImageURL">
+    <column id="5672" parent="5558" name="ImageURL">
       <DasType>nvarchar(max)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </column>
-    <column id="5670" parent="5558" name="Price">
+    <column id="5673" parent="5558" name="Price">
       <DasType>decimal(18,2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="5671" parent="5558" name="Qty">
+    <column id="5674" parent="5558" name="Qty">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="5672" parent="5558" name="CategoryId">
+    <column id="5675" parent="5558" name="CategoryId">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <foreign-key id="5673" parent="5558" name="FK_Products_ProductCategories_CategoryId">
+    <foreign-key id="5676" parent="5558" name="FK_Products_ProductCategories_CategoryId">
       <ColNames>CategoryId</ColNames>
       <CreatedTimestamp>2023-02-17.23:04:46.760</CreatedTimestamp>
       <ModifiedTimestamp>2023-02-17.23:04:46.760</ModifiedTimestamp>
@@ -17455,42 +17472,42 @@ Name</ColNames>
       <RefTableId>114099447</RefTableId>
       <RefTableName>ProductCategories</RefTableName>
     </foreign-key>
-    <index id="5674" parent="5558" name="PK_Products">
+    <index id="5677" parent="5558" name="PK_Products">
       <Clustering>1</Clustering>
       <ColNames>Id</ColNames>
       <Position>1</Position>
       <Unique>1</Unique>
     </index>
-    <index id="5675" parent="5558" name="IX_Products_CategoryId">
+    <index id="5678" parent="5558" name="IX_Products_CategoryId">
       <ColNames>CategoryId</ColNames>
       <Position>2</Position>
     </index>
-    <key id="5676" parent="5558" name="PK_Products">
+    <key id="5679" parent="5558" name="PK_Products">
       <CreatedTimestamp>2023-02-17.23:04:46.757</CreatedTimestamp>
       <ModifiedTimestamp>2023-02-17.23:04:46.757</ModifiedTimestamp>
       <ObjectId>162099618</ObjectId>
       <Primary>1</Primary>
       <UnderlyingIndexName>PK_Products</UnderlyingIndexName>
     </key>
-    <column id="5677" parent="5559" name="MigrationId">
+    <column id="5680" parent="5559" name="MigrationId">
       <DasType>nvarchar(150 char)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </column>
-    <column id="5678" parent="5559" name="ProductVersion">
+    <column id="5681" parent="5559" name="ProductVersion">
       <DasType>nvarchar(32 char)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </column>
-    <index id="5679" parent="5559" name="PK___EFMigrationsHistory">
+    <index id="5682" parent="5559" name="PK___EFMigrationsHistory">
       <Clustering>1</Clustering>
       <ColNames>MigrationId</ColNames>
       <Position>1</Position>
       <Unique>1</Unique>
     </index>
-    <key id="5680" parent="5559" name="PK___EFMigrationsHistory">
+    <key id="5683" parent="5559" name="PK___EFMigrationsHistory">
       <CreatedTimestamp>2023-02-16.09:58:09.337</CreatedTimestamp>
       <ModifiedTimestamp>2023-02-16.09:58:09.337</ModifiedTimestamp>
       <ObjectId>1541580530</ObjectId>
