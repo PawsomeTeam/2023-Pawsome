@@ -6,20 +6,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b1b25c-27be-4e02-936a-5d567b02e1c3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Client/wwwroot/js/paypal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/dataSources/e51f1bfe-36a1-45a6-b554-26b52030d287.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PawsomeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/EditProduct.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/EditProduct.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/EditProductBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/StoreManagement/Products/EditProductBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/AnimalManagement/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/AnimalManagement/Index.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/wwwroot/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Client/wwwroot/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/134a6267445f46b7a8730761c018e904811000/a8/dbcbefe1/MudFileUploader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/239d5395bba836e0f78d6c0a977814a9975d461ca2b06b8df1a9a2f0d5d49/MultipartFormDataContent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2852aaeea7cbb1bc2837fafbb34228c2ca751653b44d343d29b62035582f/WebAssemblyHostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2f3e6bfc214439fa30f166129cdd87564821bb95bd98bf795db8c3e13848093/WebApplication.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/37a954845b52703c5cce1aacf8fa1292378878e82bf68c4c4b5effc447316e9/IdentityUser.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3d1513538fba54e0f812177bd89294125a7d32dfe5ab96d08b32c3151e8c/DeveloperExceptionPageExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/46ccc69269c2c5ea1ee5a471e87d31f57b2bed35eadf737ebfbca6a37e16f/HttpContentJsonExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4ea681aa1df24442c1a5e1e18582b1a2d29ac5bfd41390c94a5d2cc958b5ff/UserManager.cs" root0="SKIP_HIGHLIGHTING" />
@@ -92,6 +102,7 @@
       <workItem from="1677527336158" duration="5069000" />
       <workItem from="1677543734329" duration="20641000" />
       <workItem from="1677592797167" duration="9398000" />
+      <workItem from="1677722689996" duration="1408000" />
     </task>
     <servers />
   </component>
