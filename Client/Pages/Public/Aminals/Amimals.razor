@@ -34,7 +34,7 @@
                 <MudCardHeader>
                 <CardHeaderContent>
                         <MudText Typo="Typo.h6">@item.Name</MudText>
-                        <MudText Typo="Typo.body2">@temp_type</MudText>
+                        <MudText Typo="Typo.body2">@item.Type</MudText>
                 </CardHeaderContent>
                 
                     <CardHeaderActions>
@@ -48,14 +48,14 @@
                         {
                             <MudCardMedia Image="https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg" Height="200" />
                         } else {
-                            <MudCardMedia Image="https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg" Height="200" />
+                            <MudCardMedia Image="@item.Main_Image_Url" Height="200" />
                         }
                     </div>
                 
                 </a>
                 <MudCardContent Class="d-flex justify-space-between align-center">
                     @* <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText> *@
-                    <MudText Typo="Typo.body1">@temp_price.ToString("C")</MudText>
+                    <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText>
                     @* <MudButton Link="animals/" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
                         Adopt
                     </MudButton> *@
