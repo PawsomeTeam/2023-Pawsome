@@ -25,7 +25,7 @@ public partial class ChatbotBase : ComponentBase
     [Inject] IJSRuntime _jsRuntime { get; set; }
 
     public string message { get; set; }
-    public string generatedText { get; set; } = "This is Pawesome Assistant. I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions and make you happy.😊";
+    public string generatedText { get; set; } = "This is Pawesome Assistant. I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions.😊";
     private readonly HttpClient _httpClient = new HttpClient();
 
 
@@ -43,7 +43,7 @@ public partial class ChatbotBase : ComponentBase
             var openai = new OpenAIAPI(apiKey);
             CompletionRequest completion = new CompletionRequest();
             completion.Prompt = prompt;
-            completion.Model = OpenAI_API.Models.Model.DavinciText; //OpenAI_API.Model.DavinciText;
+            completion.Model = OpenAI_API.Models.Model.DavinciText;
             completion.MaxTokens = 4000;
             completion.BestOf = 1;
             var result = await openai.Completions.CreateCompletionAsync(completion);
