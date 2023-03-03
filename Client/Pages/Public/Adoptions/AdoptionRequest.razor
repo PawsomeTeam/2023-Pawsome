@@ -106,7 +106,7 @@ else
                 <MudText Typo="Typo.body2">
                     @CreatedAdoptionSubmission.Id<br> 
                     @CreatedAdoptionSubmission.AdopteeId<br> 
-                    @CreatedAdoptionSubmission.AdopterId<br> 
+                    @CreatedAdoptionSubmission.AdopterEmail<br> 
 
                 </MudText>
                 <MudText Typo="Typo.h5" Align="Align.Center"  Class="my-6">What's next?</MudText>
@@ -198,7 +198,7 @@ else
             AdoptionSubmissionDto AdoptionSubmission = new AdoptionSubmissionDto
                 {
                     AdopteeId = Animal.Id,
-                    AdopterId = CurrentUser.Id
+                    AdopterEmail = CurrentUser.Email
                 };
             //create and implement service
             CreatedAdoptionSubmission = await _adoptionService.SubmitAdoptionRequest(AdoptionSubmission);

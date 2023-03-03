@@ -11,6 +11,6 @@ namespace PawsomeProject.Shared.Models
         public int AdopteeId { get; set; } = default!;
 
         [Display(Name = "Adopter")]
-        public string AdopterId { get; set; } = default!;
+        public string AdopterEmail { get; set; } = default!;
     }
 }
