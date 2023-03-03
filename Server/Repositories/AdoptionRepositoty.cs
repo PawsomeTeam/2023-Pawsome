@@ -17,9 +17,15 @@ namespace PawsomeProject.Server.Repositories
             _userManager = userManager;
         }
 
+
         public async Task<IEnumerable<Adoption>> GetAll()
         {
-            return await _dbContext.Adoptions.ToListAsync();
+            return await _dbContext.Adoptions.Include(a => a.Adopter).Include(a => a.Adoptee).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Adoption>> GetAllByUser(User user)
+        {
+            return await _dbContext.Adoptions.Where(a => a.Adopter == user).Include(a => a.Adopter).Include(a => a.Adoptee).ToListAsync();
         }
 
         public async Task<Adoption?> Get(int id)
@@ -72,5 +78,7 @@ namespace PawsomeProject.Server.Repositories
             await _dbContext.SaveChangesAsync();
             return adoption;
         }
+
+
     }
 }

@@ -24,4 +24,12 @@ public class AdoptionService : IAdoptionService
         if (submission == null) throw new Exception("Failed to retreaave adoption submission");
         return submission;
     }
+
+
+    public async Task<List<AdoptionDetailsForAdminDto>> GetAllAdoptions()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<AdoptionDetailsForAdminDto>>("api/Adoption/GetAll");
+        if (result == null) throw new Exception("no adoptions found");
+        return result;
+    }
 }

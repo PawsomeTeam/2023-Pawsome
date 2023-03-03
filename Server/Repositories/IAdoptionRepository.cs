@@ -10,5 +10,6 @@ namespace PawsomeProject.Server.Repositories
         Task<Adoption?> Create(AdoptionSubmissionDto AdoptionSubmissionDto);
         // Task<Adoption?> Update(AdoptionAdminUpdateDto AdoptionAdminUpdateDto);
         Task<Adoption?> Delete(int id);
+        Task<IEnumerable<Adoption>> GetAllByUser(User user);
     }
 }
