@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PawsomeProject.Server.Data;
 using PawsomeProject.Server.Models;
@@ -8,10 +9,12 @@ namespace PawsomeProject.Server.Repositories
     public class AdoptionRepository : IAdoptionRepository
     {
         private readonly PawsomeDBContext _dbContext;
+        private readonly UserManager<User> _userManager;
 
-        public AdoptionRepository(PawsomeDBContext dbContext)
+        public AdoptionRepository(PawsomeDBContext dbContext, UserManager<User> userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<Adoption>> GetAll()
@@ -29,11 +32,14 @@ namespace PawsomeProject.Server.Repositories
 
         public async Task<Adoption?> Create(AdoptionSubmissionDto AdoptionSubmissionDto)
         {
+            var animal = await _dbContext.Animals.FindAsync(AdoptionSubmissionDto.AdopteeId);
+            var user = await _userManager.FindByEmailAsync(AdoptionSubmissionDto.AdopterEmail);
             Adoption adoption = new Adoption
             {
-                AdopteeId = AdoptionSubmissionDto.AdopteeId,
-                AdopterId = AdoptionSubmissionDto.AdopterId,
+                Adoptee = animal,
+                Adopter = user
             };
+
             _dbContext.Adoptions.Add(adoption);
             await _dbContext.SaveChangesAsync();
             return adoption;

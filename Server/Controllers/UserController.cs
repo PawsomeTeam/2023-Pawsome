@@ -94,7 +94,6 @@ public class UserController : ControllerBase
         return new CurrentUser
         {
             IsAuthenticated = User.Identity.IsAuthenticated,
-            Id = user.Id,
             UserName = userName,
             FullName = user.FirstName + " " + user.LastName,
             Email = user.Email,

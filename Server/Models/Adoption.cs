@@ -11,14 +11,7 @@ namespace PawsomeProject.Server.Models
         [Display(Name = "Adoptee")]// make required later
         public Animal Adoptee { get; set; } = default!;
 
-        [Display(Name = "Adoptee ID")]// make required later
-        public int AdopteeId { get; set; } = default!;
-
-        [Display(Name = "Adopter")]
         public User Adopter { get; set; } = default!;
-
-        [Display(Name = "Adopter ID")]
-        public string AdopterId { get; set; } = default!;
 
         //dates data
         [Required, Display(Name = "Date Submitted")]

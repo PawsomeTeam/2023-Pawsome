@@ -36,8 +36,8 @@ public class AdoptionController : ControllerBase
         AdoptionSubmissionDto newSubmission = new()
         {
             Id = newAdoption.Id,
-            AdopteeId = newAdoption.AdopteeId,
-            AdopterId = newAdoption.AdopterId,
+            AdopteeId = newAdoption.Adoptee.Id,
+            AdopterEmail = newAdoption.Adopter.Email,
         };
         return newSubmission;
     }
