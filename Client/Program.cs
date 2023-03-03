@@ -24,6 +24,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IAdoptionService, AdoptionService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddMudServices();
 
