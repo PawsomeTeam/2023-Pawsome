@@ -54,6 +54,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+builder.Services.AddScoped<IAdoptionRepository, AdoptionRepository>();
 
 builder.Services.AddSwaggerGen();
 

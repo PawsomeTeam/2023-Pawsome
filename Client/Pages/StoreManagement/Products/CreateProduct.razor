@@ -5,12 +5,15 @@
 <MudText Align="Align.Center" Typo="Typo.h3">Create Product</MudText>
 
 
-<MudGrid Class="mb-16">
+<MudPaper Class="pa-8 ma-8">
     <MudItem xs="12" md="6" lg="4">
-        @foreach (var image in Product.Images)
+        @if (Product.Images != null)
         {
-            <MudImage Fluid="true" Src="@image.URL" Alt="@Product.Name" Class="rounded-xs"/>
-            <MudIconButton OnClick="() => HandleDeleteImage(image.URL)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
+            @foreach (var image in Product.Images)
+            {
+                <MudImage Fluid="true" Src="@image.URL" Alt="@Product.Name" Class="rounded-xs"/>
+                <MudIconButton OnClick="() => HandleDeleteImage(image.URL)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
+            }
         }
     </MudItem>
     <MudItem xs="12" md="6" lg="8">
@@ -43,7 +46,7 @@
             Cancel
         </MudButton>
     </MudItem>
-</MudGrid>
+</MudPaper>
 
 @code
 {

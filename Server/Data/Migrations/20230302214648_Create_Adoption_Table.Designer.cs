@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawsomeProject.Server.Data;
 
@@ -11,9 +12,11 @@ using PawsomeProject.Server.Data;
 namespace PawsomeProject.Server.Data.Migrations
 {
     [DbContext(typeof(PawsomeDBContext))]
-    partial class PawsomeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230302214648_Create_Adoption_Table")]
+    partial class Create_Adoption_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +170,7 @@ namespace PawsomeProject.Server.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AdopterId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("CanceledAt")
@@ -503,7 +507,9 @@ namespace PawsomeProject.Server.Data.Migrations
 
                     b.HasOne("PawsomeProject.Shared.Models.User", "Adopter")
                         .WithMany()
-                        .HasForeignKey("AdopterId");
+                        .HasForeignKey("AdopterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Adoptee");
 
