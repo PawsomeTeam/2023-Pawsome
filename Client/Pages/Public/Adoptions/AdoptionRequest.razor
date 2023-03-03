@@ -102,13 +102,11 @@ else
 
             @* //////Confirmation////// *@
             <MudTabPanel Text="Completed" Disabled="@(steps.ActivePanelIndex < 2)"  Icon="@Icons.Material.Filled.Check">
-                <MudText Typo="Typo.h5" Align="Align.Center"  Class="my-6">Your Submissin was completed Successfully</MudText>
-                <MudText Typo="Typo.body2">
-                    @CreatedAdoptionSubmission.Id<br> 
-                    @CreatedAdoptionSubmission.AdopteeId<br> 
-                    @CreatedAdoptionSubmission.AdopterEmail<br> 
-
-                </MudText>
+                @if(CreatedAdoptionSubmission == null && CreatedAdoptionSubmission.AdopteeId != Animal.Id){
+                    <MudAlert Severity="Severity.Error" Class="mb-16">Something went wrong, please try again or contact us if the error persists</MudAlert>
+                } else {
+                   <MudAlert Severity="Severity.Success" Class="mb-16">Your Adoption request for <b>@Animal.Name</b> was submitted successfully</MudAlert>
+            
                 <MudText Typo="Typo.h5" Align="Align.Center"  Class="my-6">What's next?</MudText>
                 <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mx-auto">
                     <MudTimeline TimelinePosition="TimelinePosition.Start">
@@ -134,7 +132,7 @@ else
                     <div Class="d-flex justify-center flex-grow-1 gap-3">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" Link="shop">Shop for @Animal.Name</MudButton>
                     </div>
-
+            }
             </MudTabPanel>
         </MudTabs>
             </MudContainer>
