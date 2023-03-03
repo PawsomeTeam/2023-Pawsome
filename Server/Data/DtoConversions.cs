@@ -88,4 +88,22 @@ public static class DtoConversions
             TotalPrice = product.Price * cartItem.Qty
         };
     }
+    
+    public static OrderItemDto ConvertToDto(this OrderItem orderItem,
+        Product product)
+    {
+        Console.WriteLine("Convert To Dto");
+        return new OrderItemDto
+        {
+           Id = orderItem.OrderItemId,
+           ProductId = product.Id,
+           ProductName = product.Name,
+           ProductImageURL = product.ImageURL,
+           Price = product.Price,
+           Qty = product.Qty,
+           purchasedDate = DateTime.Now
+        };
+    }
+
+    
 }

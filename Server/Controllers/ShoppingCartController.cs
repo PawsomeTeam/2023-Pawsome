@@ -141,14 +141,7 @@ public class ShoppingCartController : ControllerBase
             {
                 return NotFound();
             }
-    
-            // var product = await this.productRepository.GetItem(cartItem.Product.Id);
-            // if (product == null)
-            // {
-            //     return NotFound();
-            // }
-    
-            // var cartItemDto = cartItem.ConvertToDto(product);
+
             return Ok();
         }
         catch (Exception e)
@@ -180,16 +173,4 @@ public class ShoppingCartController : ControllerBase
         }
     }
 
-    // [Route("[action]")]
-    // public IActionResult GoToHome()
-    // {
-    //     Console.WriteLine("test!!!!!!!!!!!!!!");
-    //     Console.WriteLine("test!!!!!!!!!!!!!!");
-    //     Console.WriteLine("test!!!!!!!!!!!!!!");
-    //     Console.WriteLine("test!!!!!!!!!!!!!!");
-    //     Console.WriteLine("test!!!!!!!!!!!!!!");
-    //     Console.WriteLine("test!!!!!!!!!!!!!!");
-    //     Console.WriteLine("test!!!!!!!!!!!!!!");
-    //     return LocalRedirect("https://localhost:5001/");
-    // }
 }
