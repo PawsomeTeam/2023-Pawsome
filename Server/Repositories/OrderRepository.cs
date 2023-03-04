@@ -85,10 +85,14 @@ public class OrderRepository : IOrderRepository
         return null;
     }
 
-    public async Task<Order> GetItem(int id)
+    public async Task<Order> GetItem(string email)
     {
-        var order = await pawsomeDbContext.Orders.FindAsync(id);
-        Console.WriteLine("Repository  Id "  + id + " order : " + order.Id);
+        var orders = await pawsomeDbContext.Orders.Include("OrderItems").Include("User")
+            .Where(o => o.User.Email == email).ToListAsync();
+        var order = orders.ElementAt(orders.Count - 1);
+        order.OrderItems =
+            await pawsomeDbContext.OrderItems.Include("Product").Where(o => o.Order.Id == order.Id).ToListAsync();
+        Console.WriteLine("Repository  Id "  + email + " order : " + order.Id);
         return order;
         
     }

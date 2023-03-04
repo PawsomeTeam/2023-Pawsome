@@ -89,11 +89,10 @@ public static class DtoConversions
             TotalPrice = product.Price * cartItem.Qty
         };
     }
-    
+
     public static OrderDto ConvertToDto(this Order order)
     {
-        
-        List<OrderItemDto> orderItems = new List<OrderItemDto>(); 
+        List<OrderItemDto> orderItems = new List<OrderItemDto>();
         foreach (var items in order.OrderItems)
         {
             Product product = new Product();
@@ -108,14 +107,13 @@ public static class DtoConversions
             };
             orderItems.Add(orderItemDto);
         }
-        
+
         return new OrderDto
         {
-           UserEmail = order.User.Email,
-           OrderItems = orderItems,
-           purchasedDate = DateTime.Now
+            Id = order.Id,
+            UserEmail = order.User.Email,
+            OrderItems = orderItems,
+            purchasedDate = DateTime.Now
         };
     }
-
-    
 }

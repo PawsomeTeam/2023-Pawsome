@@ -13,11 +13,11 @@ public class OrderService : IOrderService
         this.httpClient = httpClient;
     }
 
-    public async Task<OrderDto> GetItem(int id)
+    public async Task<OrderDto> GetItem(string email)
     {
         try
         {
-            var response = await httpClient.GetAsync($"api/Order/{id}");
+            var response = await httpClient.GetAsync($"api/Order/{email}");
             if (response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)

@@ -98,6 +98,7 @@ public class CheckoutBase : ComponentBase
             };
             
             var addOrder = await this.OrderService.AddItem(OrderDto);
+            OrderId = addOrder.Id;
 
         }
         catch (Exception e)

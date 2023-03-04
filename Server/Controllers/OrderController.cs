@@ -27,7 +27,7 @@ public class OrderController : ControllerBase
         try
         {
             var newOrderItem = await this.orderRepository.AddItem(orderDto);
-            Console.WriteLine("New Order Item. " + newOrderItem);
+            Console.WriteLine("New Order Item. " + newOrderItem.Id);
             if (newOrderItem == null)
             {
                 return NoContent();
@@ -43,19 +43,21 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<OrderDto>> GetItem(int id)
+    [HttpGet("{email}")]
+    public async Task<ActionResult<OrderDto>> GetItem(string email)
     {
         try
         {
-            Console.WriteLine("Controller Id "  + id);
-            var order = await this.orderRepository.GetItem(id);
+            Console.WriteLine("Controller Id "  + email);
+            var order = await this.orderRepository.GetItem(email);
             if (order == null)
             {
                 return NoContent(); // 204
             }
 
+            Console.WriteLine("Oder Id:" + order.Id);
             var orderItemDto = order.ConvertToDto();
+            Console.WriteLine("OderDto Id:" + orderItemDto.Id);
             return Ok(orderItemDto);
         }
         catch (Exception e)
