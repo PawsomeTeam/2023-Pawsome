@@ -18,13 +18,13 @@ public class OrderController : ControllerBase
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<OrderDto>> PostItem([FromBody] OrderDto orderDto)
     {
         Console.WriteLine("Post Item.");
-        
-         try
+
+        try
         {
             var newOrderItem = await this.orderRepository.AddItem(orderDto);
             Console.WriteLine("New Order Item. " + newOrderItem);
@@ -32,13 +32,6 @@ public class OrderController : ControllerBase
             {
                 return NoContent();
             }
-
-           
-            // if (products == null)
-            // {
-            //     throw new Exception(
-            //         $"Something went wrong when attempting to retrieve product (productID : {orderDto.ProductId}");
-            // }
 
             var newOrderItemDto = newOrderItem.ConvertToDto();
             return CreatedAtAction(nameof(GetItem), new { id = newOrderItem.Id }, newOrderItem);
@@ -49,30 +42,19 @@ public class OrderController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
-    
+
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<OrderItemDto>> GetItem(int id)
+    public async Task<ActionResult<OrderDto>> GetItem(int id)
     {
         try
         {
+            Console.WriteLine("Controller Id "  + id);
             var order = await this.orderRepository.GetItem(id);
             if (order == null)
             {
                 return NoContent(); // 204
             }
 
-            List<Product> products = new List<Product>();
-            foreach (var item in order.OrderItems)
-            {
-                var product = await productRepository.GetItem(item.Product.Id);
-                products.Add(product);
-            }
-            // if (products == null)
-            // {
-            //     throw new Exception(
-            //         $"Something went wrong when attempting to retrieve product (productID : {orderItemAddToDto.ProductId}");
-            // }
-            
             var orderItemDto = order.ConvertToDto();
             return Ok(orderItemDto);
         }
@@ -82,5 +64,4 @@ public class OrderController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
     }
-    
 }

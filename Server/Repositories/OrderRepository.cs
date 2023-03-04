@@ -87,7 +87,9 @@ public class OrderRepository : IOrderRepository
 
     public async Task<Order> GetItem(int id)
     {
-        var orders = await pawsomeDbContext.Orders.Where(o => o.Id == id).SingleOrDefaultAsync();
-        return orders;
+        var order = await pawsomeDbContext.Orders.FindAsync(id);
+        Console.WriteLine("Repository  Id "  + id + " order : " + order.Id);
+        return order;
+        
     }
 }

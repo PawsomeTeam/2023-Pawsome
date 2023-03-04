@@ -92,7 +92,7 @@ public static class DtoConversions
     
     public static OrderDto ConvertToDto(this Order order)
     {
-        Console.WriteLine("Convert To Dto");
+        
         List<OrderItemDto> orderItems = new List<OrderItemDto>(); 
         foreach (var items in order.OrderItems)
         {

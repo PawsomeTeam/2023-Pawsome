@@ -97,7 +97,7 @@ public class CheckoutBase : ComponentBase
                 purchasedDate = DateTime.Now
             };
             
-            await this.OrderService.AddItem(OrderDto);
+            var addOrder = await this.OrderService.AddItem(OrderDto);
 
         }
         catch (Exception e)
