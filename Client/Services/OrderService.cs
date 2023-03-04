@@ -13,25 +13,25 @@ public class OrderService : IOrderService
         this.httpClient = httpClient;
     }
 
-    public Task<OrderItemDto> GetItem(int id)
+    public Task<OrderDto> GetItem(int id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<OrderItemDto> AddItem(OrderItemAddToDto orderItemAddToDto)
+    public async Task<OrderDto> AddItem(OrderDto orderDto)
     {
         try
         {
-            var response = await httpClient.PostAsJsonAsync<OrderItemAddToDto>("api/Order", orderItemAddToDto);
+            var response = await httpClient.PostAsJsonAsync<OrderDto>("api/Order", orderDto);
             
             if (response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return default(OrderItemDto);
+                    return default(OrderDto);
                 }
 
-                return await response.Content.ReadFromJsonAsync<OrderItemDto>();
+                return await response.Content.ReadFromJsonAsync<OrderDto>();
             }
             else
             {
