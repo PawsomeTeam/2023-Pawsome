@@ -1,6 +1,6 @@
 ﻿@page "/manage/animals/update/{Id:int}"
 @using System.Net.Http.Headers;
-                
+
 
 
 <MudText Align="Align.Center" Typo="Typo.h3">Edit Animal</MudText>
@@ -17,11 +17,13 @@ else
 {
     <MudGrid Class="mb-16">
         <MudItem xs="12" md="6" lg="4">
-            @* <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs"/> *@
-            @foreach (var image in Animal.Images)
+            @if (Animal != null)
             {
-                <MudImage Fluid="true" Src="@image.URL" Alt="@Animal?.Name" Class="rounded-xs" />
-                <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
+                @foreach (var image in Animal.Images)
+                {
+                    <MudImage Fluid="true" Src="@image.URL" Alt="@Animal?.Name" Class="rounded-xs" />
+                    <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
+                }
             }
         </MudItem>
         <MudItem xs="12" md="6" lg="8">
@@ -67,7 +69,7 @@ else
     {
         try
         {
-            Animal  = await AnimalService.GetAnimalById(Id);
+            Animal = await AnimalService.GetAnimalById(Id);
         }
         catch (Exception e)
         {
