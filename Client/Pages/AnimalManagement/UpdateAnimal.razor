@@ -3,7 +3,7 @@
                 
 
 
-<MudText Align="Align.Center" Typo="Typo.h3">Edit Product</MudText>
+<MudText Align="Align.Center" Typo="Typo.h3">Edit Animal</MudText>
 
 @if (Animal == null && ErrorMessage == null)
 {
@@ -62,6 +62,20 @@ else
     public AnimalDto? Animal { get; set; }
 
     public string? ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Animal  = await AnimalService.GetAnimalById(Id);
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
+    }
+
+
     protected async Task Update_Animal_Click(AnimalDto animal)
     {
         try
@@ -97,7 +111,7 @@ else
                 var content = new MultipartFormDataContent();
                 content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
                 content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", file.Name);
-                var response = await HttpClient.PostAsync("api/Product/UploadImage", content);
+                var response = await HttpClient.PostAsync("api/Animal/UploadImage", content);
 
                 var url = await response.Content.ReadAsStringAsync();
                 var imageDto = new ImageDto
