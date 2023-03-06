@@ -68,9 +68,10 @@ public class AdoptionController : ControllerBase
                 Id = a.Id,
                 AdopteeId = a.Adoptee.Id,
                 AdopteeName = a.Adoptee.Name,
+                AdopteeType = a.Adoptee.Type,
+                AdoppteeMainImageURL = a.Adoptee.Main_Image_Url,
                 AdopterEmail = a.Adopter.Email,
-                AdopterFisrtName = a.Adopter.FirstName,
-                AdopterLastName = a.Adopter.LastName,
+                AdopterFullName = a.Adopter.FirstName + " " + a.Adopter.LastName,
                 CreatedAt = a.CreatedAt,
                 UpdatedAt = a.UpdatedAt,
                 StartProcessingAt = a.StartProcessingAt,
@@ -78,6 +79,8 @@ public class AdoptionController : ControllerBase
                 CanceledAt = a.CanceledAt,
                 NoteForAdministration = a.NoteForAdministration,
                 NoteForAdopter = a.NoteForAdopter,
+                State = a.CanceledAt != null ? "Canceled" : a.CompletedAt != null ? "Completed" : a.StartProcessingAt != null ? "Processing" : null,
+                StateDate = a.CanceledAt != null ? a.CanceledAt : a.CompletedAt != null ? a.CompletedAt : a.StartProcessingAt != null ? a.StartProcessingAt : null
             }).ToList();
 
             return adminAdoptionsList;
@@ -87,5 +90,50 @@ public class AdoptionController : ControllerBase
             return BadRequest(e.Message);
         }
 
+    }
+
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<ActionResult<AdoptionDetailsForAdminDto>> Get(int id)
+    {
+        try
+        {
+            Adoption? adoption = await _adoptionRepo.Get(id);
+
+            if (adoption == null)
+                throw new Exception("No adoption found");
+            if (!User.IsInRole("Admin"))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (adoption.Adopter.Id != user.Id)
+                    throw new Exception("You are not authorized to view this adoption");
+            }
+
+            AdoptionDetailsForAdminDto adoptionDetails = new()
+            {
+                Id = adoption.Id,
+                AdopteeId = adoption.Adoptee.Id,
+                AdopteeName = adoption.Adoptee.Name,
+                AdopteeType = adoption.Adoptee.Type,
+                AdoppteeMainImageURL = adoption.Adoptee.Main_Image_Url,
+                AdopterEmail = adoption.Adopter.Email,
+                AdopterFullName = adoption.Adopter.FirstName + " " + adoption.Adopter.LastName,
+                CreatedAt = adoption.CreatedAt,
+                UpdatedAt = adoption.UpdatedAt,
+                StartProcessingAt = adoption.StartProcessingAt,
+                CompletedAt = adoption.CompletedAt,
+                CanceledAt = adoption.CanceledAt,
+                NoteForAdministration = adoption.NoteForAdministration,
+                NoteForAdopter = adoption.NoteForAdopter,
+                State = adoption.CanceledAt != null ? "Canceled" : adoption.CompletedAt != null ? "Completed" : adoption.StartProcessingAt != null ? "Processing" : null,
+                StateDate = adoption.CanceledAt != null ? adoption.CanceledAt : adoption.CompletedAt != null ? adoption.CompletedAt : adoption.StartProcessingAt != null ? adoption.StartProcessingAt : null
+            };
+
+            return adoptionDetails;
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 }
