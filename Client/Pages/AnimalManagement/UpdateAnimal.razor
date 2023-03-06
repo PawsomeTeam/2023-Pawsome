@@ -1,13 +1,12 @@
 ﻿@page "/manage/animals/update/{Id:int}"
 @using System.Net.Http.Headers;
-                
 
 
 <MudText Align="Align.Center" Typo="Typo.h3">Edit Animal</MudText>
 
 @if (Animal == null && ErrorMessage == null)
 {
-    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
 }
 else if (ErrorMessage != null)
 {
@@ -20,44 +19,50 @@ else
             @* <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs"/> *@
             @foreach (var image in Animal.Images)
             {
-                <MudImage Fluid="true" Src="@image.URL" Alt="@Animal?.Name" Class="rounded-xs" />
-                <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
+                <MudImage Fluid="true" Src="@image.URL" Alt="@Animal?.Name" Class="rounded-xs"/>
+                <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
             }
         </MudItem>
         <MudItem xs="12" md="6" lg="8">
-            <MudTextField @bind-Value="@Animal.Name" Label="Name" Variant="Variant.Outlined" />
-            <MudTextField @bind-Value="@Animal.Description" Label="Description" Variant="Variant.Outlined" />
-            <MudTextField @bind-Value="@Animal.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
-            <MudTextField @bind-Value="@Animal.Age" Label="Age" Variant="Variant.Outlined" />
-            <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png" />
+            <MudTextField @bind-Value="@Animal.Name" Label="Name" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Animal.Description" Label="Description" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Animal.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
+            <MudTextField @bind-Value="@Animal.Age" Label="Age" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Animal.Type" Label="Type" Variant="Variant.Outlined"/>
+            <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
             <MudButton HtmlTag="label"
-                   Variant="Variant.Filled"
-                   Color="Color.Success"
-                   StartIcon="@Icons.Filled.Image"
-                   EndIcon="@Icons.Material.Filled.Add"
-                   Label="Load picture"
-                   for="imageInput">
+                       Variant="Variant.Filled"
+                       Color="Color.Success"
+                       StartIcon="@Icons.Filled.Image"
+                       EndIcon="@Icons.Material.Filled.Add"
+                       Label="Load picture"
+                       for="imageInput">
                 Upload Files
             </MudButton>
 
             <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
-                   @onclick="() => (Update_Animal_Click(Animal))">
+                       @onclick="() => (Update_Animal_Click(Animal))">
                 Update Animal
             </MudButton>
-
 
 
         </MudItem>
     </MudGrid>
 }
+
 @code {
-    [Parameter] public int Id { get; set; }
 
-    [Inject] public HttpClient HttpClient { get; set; }
+    [Parameter]
+    public int Id { get; set; }
 
-    [Inject] public IAnimalService AnimalService { get; set; } = default!;
+    [Inject]
+    public HttpClient HttpClient { get; set; }
 
-    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+    [Inject]
+    public IAnimalService AnimalService { get; set; } = default!;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = default!;
 
     public AnimalDto? Animal { get; set; }
 
@@ -67,7 +72,7 @@ else
     {
         try
         {
-            Animal  = await AnimalService.GetAnimalById(Id);
+            Animal = await AnimalService.GetAnimalById(Id);
         }
         catch (Exception e)
         {
@@ -81,20 +86,23 @@ else
         try
         {
             var animalDto = new AnimalDto
-                {
-                    Id = animal.Id,
-                    Name = animal.Name,
-                    Description = animal.Description,
-                    Main_Image_Url = animal.Images.ElementAt(0).URL,
-                    Images = animal.Images,
-                    Price = animal.Price,
-                };
+            {
+                Id = animal.Id,
+                Name = animal.Name,
+                Description = animal.Description,
+                Type = animal.Type,
+                Age = animal.Age,
+                Main_Image_Url = animal.Images.ElementAt(0).URL,
+                Images = animal.Images,
+                Price = animal.Price,
+            };
 
             var returnedUpdateItemDto = await AnimalService.UpdateAnimal(animalDto);
-            NavigationManager.NavigateTo("");
+            NavigationManager.NavigateTo("manage/animals");
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Console.WriteLine(e);
             throw;
         }
     }
@@ -115,10 +123,10 @@ else
 
                 var url = await response.Content.ReadAsStringAsync();
                 var imageDto = new ImageDto
-                    {
-                        URL = url,
-                        Type = "type"
-                    };
+                {
+                    URL = url,
+                    Type = "type"
+                };
 
                 Animal.Images.Add(imageDto);
             }
@@ -143,4 +151,5 @@ else
             }
         }
     }
+
 }

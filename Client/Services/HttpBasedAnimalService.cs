@@ -106,9 +106,9 @@ namespace PawsomeProject.Client.Services
 
                 return null;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //Log exception
+                Console.WriteLine(e);
                 throw;
             }
         }
