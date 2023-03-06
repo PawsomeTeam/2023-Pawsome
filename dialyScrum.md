@@ -131,6 +131,73 @@ NOTE: CI for JIRA, Github and Azure for entire project
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+## Sunday - 2023-03-05
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+NOTE: CI for JIRA, Github and Azure for entire project
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+	- Completed Animals display
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Finalize Animal section (update method)
+	- Any additional features for Animal
+
+3. Where do I need assistance? What do I need to figure out?
+	- 
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+	- Test product section
+	- Assist in Animal section
+	- Animal image (BLOB)
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Test application
+	
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+	- Redirect pages
+	- finish payment
+	- delete cart
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Order history model
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+	- Adoption Service implementation
+	- Adoption back-end, front-end
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- UI and work on the back-end for adoption
+	
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+	- ChatGPT
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	 
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ## Friday - 2023-03-03
 
 1. What I have done / not done since last Scrum?
