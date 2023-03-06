@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PawsomeProject.Client.Services
 {
@@ -112,6 +113,10 @@ namespace PawsomeProject.Client.Services
             }
         }
 
-
+        public string fileName(string url)
+        {
+            Match match = Regex.Match(url, @"([^/]+\.[^/]+)$");
+            return match.Groups[1].Value;
+        }
     }
 }

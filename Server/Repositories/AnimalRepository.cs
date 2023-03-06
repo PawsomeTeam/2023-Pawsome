@@ -85,11 +85,11 @@ namespace PawsomeProject.Server.Repositories
                 updateAnimal.Name = animal.Name;
                 updateAnimal.Description = animal.Description;
                 updateAnimal.Price = animal.Price;
-                updateAnimal.ImageURL = animal.ImageURL;
-                updateAnimal.Qty = animal.Qty;
+                updateAnimal.Main_Image_Url = animal.Main_Image_Url;
+                updateAnimal.Age = animal.Age;
                 updateAnimal.Images = images;
 
-                await this.pawsomeDbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
                 return updateAnimal;
             }
 
