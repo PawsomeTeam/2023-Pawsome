@@ -4,6 +4,6 @@ namespace PawsomeProject.Client.Services;
 
 public interface IOrderService
 {
-    Task<OrderItemDto> GetItem(int id);
-    Task<OrderItemDto> AddItem(OrderItemAddToDto orderItemAddToDto);
+    Task<OrderDto> GetItem(string email);
+    Task<OrderDto> AddItem(OrderDto orderDto);
 }

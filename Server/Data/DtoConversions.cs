@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.SignalR.Protocol;
 using PawsomeProject.Server.Models;
 using PawsomeProject.Shared.Models;
 
@@ -88,22 +89,31 @@ public static class DtoConversions
             TotalPrice = product.Price * cartItem.Qty
         };
     }
-    
-    public static OrderItemDto ConvertToDto(this OrderItem orderItem,
-        Product product)
+
+    public static OrderDto ConvertToDto(this Order order)
     {
-        Console.WriteLine("Convert To Dto");
-        return new OrderItemDto
+        List<OrderItemDto> orderItems = new List<OrderItemDto>();
+        foreach (var items in order.OrderItems)
         {
-           Id = orderItem.OrderItemId,
-           ProductId = product.Id,
-           ProductName = product.Name,
-           ProductImageURL = product.ImageURL,
-           Price = product.Price,
-           Qty = product.Qty,
-           purchasedDate = DateTime.Now
+            Product product = new Product();
+            product = items.Product;
+            OrderItemDto orderItemDto = new OrderItemDto
+            {
+                ProductId = product.Id,
+                ProductName = product.Name,
+                ProductImageURL = product.ImageURL,
+                Price = product.Price,
+                Qty = product.Qty
+            };
+            orderItems.Add(orderItemDto);
+        }
+
+        return new OrderDto
+        {
+            Id = order.Id,
+            UserEmail = order.User.Email,
+            OrderItems = orderItems,
+            purchasedDate = DateTime.Now
         };
     }
-
-    
 }

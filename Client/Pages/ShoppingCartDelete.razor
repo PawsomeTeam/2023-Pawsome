@@ -1,87 +1,53 @@
 @page "/Checkout/delete"
 @inject NavigationManager navigationManager
 @inject IShoppingCartService ShoppingCartService
+@inject IOrderService OrderService
 @inject IAuthService authService
-@inherits CheckoutBase     
-
-
-
-<h3>Thank you for purchasing</h3>
-<MudItem xs="12" lg="6">
-    <MudSimpleTable Hover="true" Dense="true">
-        <thead>
-        <tr>
-            <th colspan="2">
-                <MudText Typo="Typo.h5" Class="my-3" Align="Align.Center">Order Summery</MudText>
-            </th>
-
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in ShoppingCartItems)
-        {
-            <tr>
-                <td>@item.Qty x @item.ProductName</td>
-                <td>@item.TotalPrice.ToString("C")</td>
-            </tr>
-        }
-        </tbody>
-        <tfoot>
-        <tr>
-            <td>
-                <MudText Typo="Typo.h5" Class="mt-3" Align="Align.End">Total</MudText>
-            </td>
-            <td>
-                <MudText Typo="Typo.h5" Class="mt-3">
-                    <b>@PaymentAmount.ToString("C")</b>
-                </MudText>
-            </td>
-        </tr>
-        </tfoot>
-
-    </MudSimpleTable>
-</MudItem>
+@inherits CheckoutBase
 
 <MudContainer>
-<MudText Typo="Typo.h4" Class="mud-my-4">Orders Comming soon..</MudText>
-
-    <h3>Thank you for purchasing.</h3>
-    @* <MudTable Data="@Orders" Class="mud-table-responsive">
+    <MudTable Items="@orderDto.OrderItems" Hover="true">
         <HeaderContent>
-            <MudTh>Order Id</MudTh>
-            <MudTh>Customer</MudTh>
-            <MudTh>Order Date</MudTh>
-            <MudTh>Ship Date</MudTh>
-            <MudTh>Ship To</MudTh>
-            <MudTh>Order Total</MudTh>
-            <MudTh>Actions</MudTh>
+
+            <MudTh>Thumbnail</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Price</MudTh>
+            <MudTh>Qty</MudTh>
+            <MudTh>Total</MudTh>
+            <MudTh></MudTh>
         </HeaderContent>
-        <RowTemplate Context="order">
-            <MudTd DataLabel="Order Id">@order.OrderId</MudTd>
-            <MudTd DataLabel="Customer">@order.CustomerName</MudTd>
-            <MudTd DataLabel="Order Date">@order.OrderDate</MudTd>
-            <MudTd DataLabel="Ship Date">@order.ShipDate</MudTd>
-            <MudTd DataLabel="Ship To">@order.ShipTo</MudTd>
-            <MudTd DataLabel="Order Total">@order.OrderTotal</MudTd>
-            <MudTd DataLabel="Actions">
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@(() => ShowOrderDetails(order))">
-                    <MudIcon Icon="Edit" />
-                </MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@(() => DeleteOrder(order))">
-                    <MudIcon Icon="Delete" />
-                </MudButton>
+
+        <RowTemplate>
+            @{ string DisplayUrl = $"/shop/products/{context.ProductId}"; }
+            <MudTd DataLabel="Image">
+                <MudLink Href="@DisplayUrl">
+                    <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80"
+                              Src="@context.ProductImageURL" Alt="@context.ProductName" Elevation="25" Class="rounded-lg"/>
+                </MudLink>
             </MudTd>
+            <MudTd DataLabel="Name">
+                <MudLink Href="@DisplayUrl">
+                    <MudText Typo="Typo.subtitle1">@context.ProductName</MudText>
+                </MudLink>
+            </MudTd>
+            <MudTd DataLabel="Quantity">@context.Qty</MudTd>
+            <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
         </RowTemplate>
-    </MudTable> *@
+    </MudTable>
 </MudContainer>
 
 @code
 {
     private CurrentUser CurrentUser { get; set; } = new CurrentUser();
+    private OrderDto orderDto { get; set; } = new OrderDto();
+
     protected override async Task OnInitializedAsync()
     {
         CurrentUser = await authService.CurrentUserInfo();
         var cartItemDto = await ShoppingCartService.DeleteAllItems(CurrentUser.Email);
         ShoppingCartService.RaiseEventOnShoppingCartChanged(0);
+        orderDto = await OrderService.GetItem(CurrentUser.Email);
+        Console.WriteLine(OrderId);
+        Console.WriteLine("ID : " + orderDto.Id);
     }
 }

@@ -15,48 +15,85 @@ public class OrderRepository : IOrderRepository
         this.pawsomeDbContext = pawsomeDbContext;
     }
 
-    public async Task<OrderItem> AddItem(OrderItemAddToDto orderItemAddToDto)
+    public async Task<Order> AddItem(OrderDto orderDto)
     {
-        
-        var user = await this.pawsomeDbContext.Users.Where(u => u.Email == orderItemAddToDto.UserEmail)
+
+        Console.WriteLine("Repository AddItem.");
+        List<OrderItem> OrderItems = new List<OrderItem>();
+        var user = await this.pawsomeDbContext.Users.Where(u => u.Email == orderDto.UserEmail)
             .SingleOrDefaultAsync();
-        Console.WriteLine("Order Item ID ? " + orderItemAddToDto.OrderId);
-        var order = await this.pawsomeDbContext.Orders.Where(o =>o.Id == orderItemAddToDto.OrderId).SingleOrDefaultAsync();
-         if (order == null)
+        Console.WriteLine("user ." + user.Email);
+        // var order = await this.pawsomeDbContext.Orders.Where(o =>o.Id == orderDto.Id).SingleOrDefaultAsync();
+        // if (order == null)
+        // {
+        //     Console.WriteLine("Order new? ");
+        //     order = new Order
+        //     {
+        //         User = user,
+        //         orderDate = DateTime.Now
+        //     };
+        //
+        // }
+        //  var item = await (from product in this.pawsomeDbContext.Products
+        //     where product.Id == orderItemAddToDto.ProductId
+        //     select new OrderItem
+        //     {
+        //         Order = order,
+        //         OrderItemUser = user,
+        //         OrderQuantity = orderItemAddToDto.Qty,
+        //         Product = product,
+        //         Price = product.Price
+        //     }).SingleOrDefaultAsync();
+        //
+        // if (item != null)
+        // {
+        //     var result = await this.pawsomeDbContext.OrderItems.AddAsync(item);
+        //     await this.pawsomeDbContext.SaveChangesAsync();
+        //     return result.Entity;
+        // }
+
+        var item = new Order
         {
-            Console.WriteLine("Order new? ");
-            order = new Order
+            User = user,
+            orderDate = DateTime.Now,
+            OrderItems = OrderItems
+        };
+        
+        Console.WriteLine("Item , " + item.Id);
+        foreach (var orderItem in orderDto.OrderItems)
+        {
+            var product = await this.pawsomeDbContext.Products.Where(p =>p.Id == orderItem.ProductId).SingleOrDefaultAsync();
+            OrderItem newOrderItem = new OrderItem
             {
-                Id = orderItemAddToDto.OrderId,
-                User = user,
-                orderDate = DateTime.Now
+                OrderQuantity = orderItem.Qty,
+                Product = product,
+                Price = orderItem.Price
             };
+            item.OrderItems.Add(newOrderItem);
 
         }
-         var item = await (from product in this.pawsomeDbContext.Products
-            where product.Id == orderItemAddToDto.ProductId
-            select new OrderItem
-            {
-                Order = order,
-                OrderItemUser = user,
-                OrderQuantity = orderItemAddToDto.Qty,
-                Product = product,
-                Price = product.Price
-            }).SingleOrDefaultAsync();
-       
+        Console.WriteLine("Item orders , " + item.OrderItems.Count);
+        
         if (item != null)
         {
-            var result = await this.pawsomeDbContext.OrderItems.AddAsync(item);
-            await this.pawsomeDbContext.SaveChangesAsync();
+            await pawsomeDbContext.OrderItems.AddRangeAsync(item.OrderItems);
+            var result = await pawsomeDbContext.Orders.AddAsync(item);
+            await pawsomeDbContext.SaveChangesAsync();
             return result.Entity;
         }
-
+        
         return null;
     }
 
-    public async Task<OrderItem> GetItem(int id)
+    public async Task<Order> GetItem(string email)
     {
-        var orderItem = await pawsomeDbContext.OrderItems.Where(o => o.OrderItemId == id).SingleOrDefaultAsync();
-        return orderItem;
+        var orders = await pawsomeDbContext.Orders.Include("OrderItems").Include("User")
+            .Where(o => o.User.Email == email).ToListAsync();
+        var order = orders.ElementAt(orders.Count - 1);
+        order.OrderItems =
+            await pawsomeDbContext.OrderItems.Include("Product").Where(o => o.Order.Id == order.Id).ToListAsync();
+        Console.WriteLine("Repository  Id "  + email + " order : " + order.Id);
+        return order;
+        
     }
 }

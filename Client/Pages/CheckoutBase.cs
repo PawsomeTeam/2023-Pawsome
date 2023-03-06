@@ -44,7 +44,7 @@ public class CheckoutBase : ComponentBase
                 TotalQty = ShoppingCartItems.Sum(p => p.Qty);
                 PaymentDescription = $"O_{1}_{orderGuid}";
                 OrderId = ++OrderId;
-                AddToOrder(ShoppingCartItems,OrderId);
+                AddToOrder(ShoppingCartItems);
             }
         }
         catch (Exception e)
@@ -70,22 +70,37 @@ public class CheckoutBase : ComponentBase
             throw;
         }
     }
-    protected async Task AddToOrder(IEnumerable<CartItemDto> ShoppingCartItems, int orderId)
+    protected async Task AddToOrder(IEnumerable<CartItemDto> ShoppingCartItems)
     {
         try
         {
+            List<OrderItemDto> orderItemDtos = new List<OrderItemDto>();
             foreach (var cart in ShoppingCartItems)
             {
-                var orderItemDto = new OrderItemAddToDto()
+                var orderItemDto = new OrderItemDto()
                 {
-                    UserEmail = CurrentUser.Email,
+                   
                     ProductId = cart.ProductId,
+                    ProductName = cart.ProductName,
+                    ProductImageURL = cart.ProductImageURL,
+                    Price = cart.Price,
                     Qty = cart.Qty
 
                 };
-                await OrderService.AddItem(orderItemDto);
+                orderItemDtos.Add(orderItemDto);
             }
-         }
+
+            var OrderDto = new OrderDto
+            {
+                UserEmail = CurrentUser.Email,
+                OrderItems = orderItemDtos,
+                purchasedDate = DateTime.Now
+            };
+            
+            var addOrder = await this.OrderService.AddItem(OrderDto);
+            OrderId = addOrder.Id;
+
+        }
         catch (Exception e)
         {
             Console.WriteLine(e);

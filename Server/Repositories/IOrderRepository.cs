@@ -5,6 +5,6 @@ namespace PawsomeProject.Server.Repositories;
 
 public interface IOrderRepository
 {
-    Task<OrderItem> AddItem(OrderItemAddToDto orderItemAddToDto);
-    Task<OrderItem> GetItem(int id);
+    Task<Order> AddItem(OrderDto orderDto);
+    Task<Order> GetItem(string email);
 }
