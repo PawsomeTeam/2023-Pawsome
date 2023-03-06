@@ -1,5 +1,4 @@
 @page "/manage/adoptions"
-@inject IAuthService authService
 @inject IAdoptionService _adoptionService
 
 @if(Adoptions == null && error == null)
@@ -37,30 +36,54 @@ else
 <MudTable Items="@Adoptions" Hover="true" SortLabel="Sort By" Filter="new Func<AdoptionDetailsForAdminDto,bool>(FilterFunc1)" Loading="@loading" LoadingProgressColor="Color.Primary">
     <HeaderContent>
         <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.AdopteeName)">AdopteeName</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.AdopterFisrtName)">AdopterFisrtName</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.CreatedAt)">Submission Date</MudTableSortLabel></MudTh>
-        <MudTh></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.AdopteeName)">Adoptee</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.AdopterFullName!)">Adopter</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.CreatedAt)">Submission</MudTableSortLabel></MudTh>
+        <MudTh>Notes</MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.State)">Handle</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Id">@context.Id</MudTd>
-        <MudTd DataLabel="AdopteeName">@context.AdopteeName</MudTd>
-        <MudTd DataLabel="AdopterFisrtName">
-            <MudText Typo="Typo.subtitle2">@context.AdopterFisrtName @context.AdopterLastName</MudText>
+        <MudTd DataLabel="Adoptee">
+           
+            <MudImage ObjectFit="ObjectFit.Cover" Height="50" Width="50" Src="@context.AdoppteeMainImageURL" Alt="@context.AdopteeName" Elevation="25" Class="rounded-lg" />
+            <MudText Typo="Typo.subtitle2">@context.AdopteeName</MudText>
+        </MudTd>
+        <MudTd DataLabel="Adopter">
+            <MudText Typo="Typo.subtitle2">@context.AdopterFullName</MudText>
             <MudText Typo="Typo.subtitle2">@context.AdopterEmail</MudText>
         </MudTd>
-        <MudTd DataLabel="Submission Date">@context.CreatedAt</MudTd>
-        <MudTd DataLabel="Price">
-            @{
-                    //TODO: make these into a Dialog instad of URLs
-                var editUrl = $"/manage/adoptions/update/{context.Id}";
-                var deleteUrl = $"manage/adoptions/delete/{context.Id}";
+        <MudTd DataLabel="Submission">
+            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.CalendarMonth"/>@context.CreatedAt.ToString("yyyy-MM-dd")</MudText>
+            <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.AccessTime"/>@context.CreatedAt.ToString("hh:mm:ss")</MudText>
+        </MudTd>
+        <MudTd DataLabel="Notes">
+            @if(context.NoteForAdministration != null){
+            	<MudTooltip Text="@context.NoteForAdministration">
+                       <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>Internal Note</MudText>
+                </MudTooltip>
             }
-            <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
-                <MudIconButton Disabled="true" Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
-                <MudIconButton Disabled="true" Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  />
-            </MudTooltip>
-            
+            @if(context.NoteForAdopter != null){
+            	<MudTooltip Text="@context.NoteForAdopter">
+                    <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>Note for Aadopter</MudText> 
+                </MudTooltip>
+            }
+        </MudTd>
+        <MudTd DataLabel="Handle">
+            @if(context.State != null){
+            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center">@context.State</MudText>
+            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.CalendarMonth"/>@context.StateDate?.ToString("yyyy-MM-dd")</MudText>
+                @if(context.State == "Cancelled" || context.State == "Completed"){
+                     var deleteUrl = $"/manage/adoptions/delete/{context.Id}";
+                    <MudButton Variant="Variant.Filled" Color="Color.Warning" Link="@deleteUrl">Delete</MudButton>
+                } else {
+                    var editUrl = $"/manage/adoptions/update/{context.Id}";
+                    <MudButton Variant="Variant.Filled" Link="@editUrl" Color="Color.Primary">Uptade</MudButton>           
+                }
+            } else {
+                 var detailsUrl = $"/manage/adoptions/{context.Id}";
+                <MudButton Variant="Variant.Filled" Link="@detailsUrl" Color="Color.Primary">Start Processing</MudButton>              
+            }
         </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -97,7 +120,7 @@ else
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if ($"{element.AdopteeName}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if ($"{element.AdopteeName} {element.AdopterFullName}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }

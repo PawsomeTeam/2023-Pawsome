@@ -6,4 +6,5 @@ public interface IAdoptionService
 {
     Task<AdoptionSubmissionDto> SubmitAdoptionRequest(AdoptionSubmissionDto AdoptionSubmissionDto);
     Task<List<AdoptionDetailsForAdminDto>> GetAllAdoptions();
+    Task<AdoptionDetailsForAdminDto> GetAdoption(int id);
 }

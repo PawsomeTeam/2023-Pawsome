@@ -1,0 +1,46 @@
+@page "/manage/adoptions/{id:int}"
+@inject IAdoptionService _adoptionService
+
+@if(Adoption == null && error == null)
+{
+       <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+             Loading ...
+        </MudText>
+}
+else if(error != null)
+{
+    <MudAlert Severity="Severity.Error" Class="mb-8" Align="Align.Center">
+        <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+            @error
+        </MudText>
+    </MudAlert>
+}
+else
+{
+
+<p>Adoption details and actions here</p>
+}
+
+
+@code {
+ [Parameter]
+    public int Id { get; set; }
+
+    private AdoptionDetailsForAdminDto Adoption { get; set; }
+    private string? error { get; set; } = null;
+    bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Adoption = await _adoptionService.GetAdoption(Id);
+            loading = false;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}

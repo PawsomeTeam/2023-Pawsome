@@ -7,20 +7,31 @@ namespace PawsomeProject.Shared.Models
     {
         public int Id { get; set; }
 
+        //Adoptee
         [Required, Display(Name = "AdopteeId")]
         public int AdopteeId { get; set; } = default!;
 
         [Required, Display(Name = "Adoptee Name")]
         public string AdopteeName { get; set; } = default!;
 
+        [Required, Display(Name = "Adoptee Name")]
+        public string AdopteeType { get; set; } = default!;
+
+        [Required, Display(Name = "Adoptee Image")]
+        public string? AdoppteeMainImageURL { get; set; } = default!;//TODO: set a default image
+
+        //Adopter
         [Display(Name = "Adopter email")]
         public string AdopterEmail { get; set; } = default!;
 
-        [Display(Name = "Adopter First Name")]
-        public string? AdopterFisrtName { get; set; } = default!;
+        // [Display(Name = "Adopter First Name")]
+        // public string? AdopterFisrtName { get; set; } = default!;
 
-        [Display(Name = "Adopter Last Name")]
-        public string? AdopterLastName { get; set; } = default!;
+        // [Display(Name = "Adopter Last Name")]
+        // public string? AdopterLastName { get; set; } = default!;
+
+        [Display(Name = "Adopter Full Name")]
+        public string? AdopterFullName { get; set; } = default!;
 
         //dates data
         [Required, Display(Name = "Date Submitted")]
@@ -38,6 +49,12 @@ namespace PawsomeProject.Shared.Models
         [Display(Name = "Date Cancelled Adoption")]
         public DateTime? CanceledAt { get; set; } = null;
 
+        //state
+        [Display(Name = "Adoption State")]
+        public string? State { get; set; } = default!;
+
+        [Display(Name = "Adoption State")]
+        public DateTime? StateDate { get; set; } = default!;
 
         //notes
         [Display(Name = "Note For Adopter")]

@@ -32,4 +32,10 @@ public class AdoptionService : IAdoptionService
         if (result == null) throw new Exception("no adoptions found");
         return result;
     }
+    public async Task<AdoptionDetailsForAdminDto> GetAdoption(int id)
+    {
+        var result = await httpClient.GetFromJsonAsync<AdoptionDetailsForAdminDto>($"api/Adoption/Get/{id}");
+        if (result == null) throw new Exception("no adoptions found");
+        return result;
+    }
 }
