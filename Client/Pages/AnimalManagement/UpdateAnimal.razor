@@ -1,0 +1,93 @@
+﻿@page "/manage/animals/update/{Id:int}"
+
+
+<MudText Align="Align.Center" Typo="Typo.h3">Edit Product</MudText>
+
+@if (Animal == null && ErrorMessage == null)
+{
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+}
+else if (ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+    <MudGrid Class="mb-16">
+        <MudItem xs="12" md="6" lg="4">
+            @* <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs"/> *@
+            @foreach (var image in Product.Images)
+            {
+                <MudImage Fluid="true" Src="@image.URL" Alt="@Product?.Name" Class="rounded-xs" />
+                <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
+            }
+        </MudItem>
+        <MudItem xs="12" md="6" lg="8">
+            <MudTextField @bind-Value="@Product.Name" Label="Name" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
+            <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined" />
+            <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png" />
+            <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Success"
+                   StartIcon="@Icons.Filled.Image"
+                   EndIcon="@Icons.Material.Filled.Add"
+                   Label="Load picture"
+                   for="imageInput">
+                Upload Files
+            </MudButton>
+
+            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                   @onclick="() => (Update_Product_Click(Product))">
+                Update Product
+            </MudButton>
+
+
+            <MudButton Variant="Variant.Filled" Color="Color.Error"
+                   @onclick="() => (Delete_Product_Click(Product.Images, Product.Id))">
+                Delete Product
+            </MudButton>
+
+
+        </MudItem>
+    </MudGrid>
+}
+@code {
+    [Parameter] public int Id { get; set; }
+
+    [Inject] public HttpClient HttpClient { get; set; }
+
+    [Inject] public IProductService ProductService { get; set; } = default!;
+
+    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+
+    public ProductDto? Product { get; set; }
+
+    public string? ErrorMessage { get; set; }
+    protected async Task Update_Product_Click(ProductDto product)
+    {
+        try
+        {
+            var productDto = new ProductDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    ImageURL = product.Images.ElementAt(0).URL,
+                    Images = product.Images,
+                    Price = product.Price,
+                    Qty = product.Qty,
+                    CategoryId = product.CategoryId,
+                    CategoryName = "Beauty"
+                };
+
+            var returnedUpdateItemDto = await ProductService.UpdateItem(productDto);
+            NavigationManager.NavigateTo("");
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+}

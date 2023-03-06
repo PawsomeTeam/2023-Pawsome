@@ -104,7 +104,7 @@ public class AnimalController : ControllerBase
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAnimal(int id, AnimalDto animal)
+    public async Task<ActionResult<AnimalDto>> UpdateAnimal(int id, AnimalDto animal)
     {
         if (id != animal.Id)
         {

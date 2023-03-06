@@ -96,7 +96,7 @@ namespace PawsomeProject.Client.Services
                 var jsonRequest = JsonConvert.SerializeObject(animalDto);
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json-patch+json");
 
-                var response = await _httpClient.PatchAsync($"api/Product/{animalDto.Id}", content);
+                var response = await _httpClient.PatchAsync($"api/Animal/{animalDto.Id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {

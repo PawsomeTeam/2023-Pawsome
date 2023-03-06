@@ -62,10 +62,38 @@ namespace PawsomeProject.Server.Repositories
             return null;
         }
 
-        public async Task UpdateAnimal(AnimalDto animal)
+        public async Task<Animal> UpdateAnimal(int id, AnimalDto animal)
         {
-            _dbContext.Entry(animal).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            var updateAnimal = await _dbContext.Animals.FindAsync(id);
+            // var images = new List<Image>();
+            var images = await  _dbContext.Images.Where(o => o.Animal.Id == id).ToListAsync();
+
+            foreach (var image in animal.Images)
+            {
+                if (!images.Exists(o => o.Id == image.Id))
+                {
+                    images.Add(new Image
+                    {
+                        URL = image.URL,
+                        Type = image.Type
+                    });
+                }
+            }
+
+            if (updateAnimal != null)
+            {
+                updateAnimal.Name = animal.Name;
+                updateAnimal.Description = animal.Description;
+                updateAnimal.Price = animal.Price;
+                updateAnimal.ImageURL = animal.ImageURL;
+                updateAnimal.Qty = animal.Qty;
+                updateAnimal.Images = images;
+
+                await this.pawsomeDbContext.SaveChangesAsync();
+                return updateAnimal;
+            }
+
+            return null;
         }
 
         public async Task DeleteAnimal(int id)
