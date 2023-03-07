@@ -63,10 +63,12 @@
         <MudTd DataLabel="Age">@context.Age</MudTd>
         <MudTd DataLabel="Price">@context.Price</MudTd>
         <MudTd DataLabel="Type">@context.Type</MudTd>
-        <MudTd DataLabel="Reserved">@context.Reservation_Date</MudTd>
-        <MudTd DataLabel="Date Adopted">@context.Date_adopted</MudTd>
-        <MudTd DataLabel="Actions">
-            @{
+        <MudTd DataLabel="Reserved">@((context.Reservation_Date != null) ? context.Reservation_Date.Value.ToString("dd/MM/yyyy") : "-")</MudTd>
+            <MudTd DataLabel="Date Adopted">@((context.Date_adopted != null) ? context.Date_adopted.Value.ToString("dd/MM/yyyy") : "-")</MudTd>
+
+
+            <MudTd DataLabel="Actions">
+                @{
 
                 var editUrl = $"manage/animals/update/{context.Id}";
                 var deleteUrl = $"manage/animals/delete/{context.Id}";
