@@ -1,5 +1,6 @@
 @page "/manage/adoptions"
 @inject IAdoptionService _adoptionService
+@inject IAnimalService _animalService
 
 @if(Adoptions == null && error == null)
 {
@@ -36,7 +37,7 @@ else
         <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.AdopteeName)">Adoptee</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.AdopterFullName!)">Adopter</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.CreatedAt)">Submission</MudTableSortLabel></MudTh>
-        <MudTh>Notes</MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=> (x.NoteForAdministration !=null ? x.NoteForAdministration : x.NoteForAdopter))">Notes</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.State)">State</MudTableSortLabel></MudTh>
         <MudTh>Handle</MudTh>
     </HeaderContent>
@@ -58,14 +59,29 @@ else
         </MudTd>
         <MudTd DataLabel="Notes">
             @if(context.NoteForAdministration != null){
-            	<MudTooltip Text="@context.NoteForAdministration">
-                       <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>Internal Note</MudText>
+                
+            	<MudTooltip>
+                    <ChildContent>
+                       <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>For Administration</MudText>
+                    </ChildContent>
+                     <TooltipContent>
+                        <MudContainer MaxWidth="MaxWidth.ExtraSmall">
+                            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center">@context.NoteForAdministration</MudText>
+                        </MudContainer>
+                     </TooltipContent>
                 </MudTooltip><br>
             }
 
             @if(context.NoteForAdopter != null){
-            	<MudTooltip Text="@context.NoteForAdopter">
-                    <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>Note for Aadopter</MudText> 
+            	<MudTooltip>
+                    <ChildContent>
+                       <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>For Adopter</MudText>
+                    </ChildContent>
+                     <TooltipContent>
+                        <MudContainer MaxWidth="MaxWidth.ExtraSmall">
+                            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center">@context.NoteForAdopter</MudText>
+                        </MudContainer>
+                     </TooltipContent>
                 </MudTooltip>
             }
         </MudTd>
@@ -141,7 +157,7 @@ else
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if ($"{element.AdopteeName} {element.AdopteeType} {element.AdopterFullName} {element.AdopterEmail} {element.State} ".Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if ($"{element.AdopteeName} {element.AdopteeType} {element.AdopterFullName} {element.AdopterEmail} {element.State} {element.NoteForAdministration} {element.NoteForAdopter}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
@@ -158,6 +174,10 @@ else
     private async Task ConnfirmDelete(AdoptionDetailsForAdminDto? a)
     {
         try{
+            AnimalDto updateAnimal = await _animalService.GetAnimalById(a.AdopteeId);
+            updateAnimal.Date_adopted = null;
+            updateAnimal.Reservation_Date = null;
+            await _animalService.UpdateAnimal(updateAnimal);
             await _adoptionService.DeleteAdoption(a.Id);
               Adoptions.Remove(a);
          _confirmDeleteDialogVisible = false;
