@@ -230,9 +230,13 @@ else
         Adoption!.CompletedAt = DateTime.Now;
         try
         {
-            AnimalDto adoptee = await _animalService.GetAnimalById(Adoption!.AdopteeId);
-            @* adoptee.AdoptedAt = DateTime.Now; *@
+   
             Adoption = await _adoptionService.UpdateAdoption(Adoption);
+            
+            //handle Animal
+            AnimalDto adoptee = await _animalService.GetAnimalById(Adoption!.AdopteeId);
+            adoptee.Date_adopted = DateTime.Now;
+            await _animalService.UpdateAnimal(adoptee);
         }
         catch (Exception ex)
         {
@@ -245,7 +249,13 @@ else
         Adoption!.CanceledAt = DateTime.Now;
         try
         {
-             Adoption = await _adoptionService.UpdateAdoption(Adoption);
+            Adoption = await _adoptionService.UpdateAdoption(Adoption);
+
+            //handle Animal
+            AnimalDto adoptee = await _animalService.GetAnimalById(Adoption!.AdopteeId);
+            adoptee.Date_adopted = null;
+            adoptee.Reservation_Date = null;
+            await _animalService.UpdateAnimal(adoptee);
         }
         catch (Exception ex)
         {
