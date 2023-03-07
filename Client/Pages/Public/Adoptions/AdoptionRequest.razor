@@ -29,10 +29,16 @@ else
                 <Authorized>
                         @if (activeAdoptionForThis > 0)
                         {
-                                <MudAlert Severity="Severity.Warning" Class="mb-16">You already have @activeAdoptionForThis adoption request for @Animal.Name</MudAlert>
+                                <MudAlert Severity="Severity.Warning" Class="mb-16">You already have @activeAdoptionForThis adoption request for @Animal.Name. Go to your account for more details. </MudAlert>
+                                <MudText Align="Align.Center">
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Link="account">My Account</MudButton>
+                                </MudText>
                         } else if (allActiveAdoptions > 2)
                         {
-                                <MudAlert Severity="Severity.Warning" Class="mb-16">You already have @allActiveAdoptions adoption requests for different pets.</MudAlert> 
+                                <MudAlert Severity="Severity.Warning" Class="mb-16">You already have @allActiveAdoptions adoption requests for different pets. Go to your account for more details.</MudAlert> 
+                                 <MudText Align="Align.Center">
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Link="account">My Account</MudButton>
+                                </MudText>
                         }
                         else
                         {
