@@ -27,9 +27,12 @@ else
                <AuthorizeView>
                     @* //////Logedin////// *@
                 <Authorized>
-                        @if (pendingAdoption())
+                        @if (activeAdoptionForThis > 0)
                         {
-                                <MudAlert Severity="Severity.Warning" Class="mb-16">You cannot submit an adoption request while you have a pending one</MudAlert>
+                                <MudAlert Severity="Severity.Warning" Class="mb-16">You already have @activeAdoptionForThis adoption request for @Animal.Name</MudAlert>
+                        } else if (allActiveAdoptions > 2)
+                        {
+                                <MudAlert Severity="Severity.Warning" Class="mb-16">You already have @allActiveAdoptions adoption requests for different pets.</MudAlert> 
                         }
                         else
                         {
@@ -147,6 +150,8 @@ else
     MudTabs? steps;
     Rule[]? RulesList;
     public AdoptionSubmissionDto CreatedAdoptionSubmission;
+    int? activeAdoptionForThis;
+    int? allActiveAdoptions;
 
     //user variables
     private CurrentUser? CurrentUser { get; set; } = new CurrentUser();
@@ -155,8 +160,6 @@ else
     //animal variables
     public AnimalDto Animal = new AnimalDto();
     public bool loading = true;
-    @* temp variables *@
-    public double temp_price = 400.00;
 
     protected override async Task OnInitializedAsync()
     {
@@ -168,6 +171,9 @@ else
             CurrentUser = await authService.CurrentUserInfo();
             if (CurrentUser.IsAuthenticated)
                 CurrentUserInfo = await authService.GetUserByEmail(CurrentUser.Email);
+
+            await PendingAdoptionForAdopteeCheck();
+            await ThreePendingAdoptionsCheck();
 
             //make rules
             RulesList = new Rule[] {
@@ -234,17 +240,23 @@ else
         return false;
     }
 
-    bool pendingAdoption()
+    private async Task PendingAdoptionForAdopteeCheck()
     {
         //implement logic after creating service
-        @* Adoption pendingAdoption = await _adoptionService.GetPendingAdoption(CurrentUser.Email);
+        List<AdoptionDetailsForAdopterDto> adoptionsList = await _adoptionService.GetAllAdoptionsForCurrentUser();
+        var pendingAdoption = adoptionsList.Where(a => a.AdopteeId == Animal.Id && a.State != "Completed" && a.State != "Canceled").FirstOrDefault();
         if(pendingAdoption != null)
-            return true *@
-        return false;
+            activeAdoptionForThis = 1;
     }
 
-
-
+    private async Task ThreePendingAdoptionsCheck()
+    {
+        //implement logic after creating service
+        List<AdoptionDetailsForAdopterDto> adoptionsList = await _adoptionService.GetAllAdoptionsForCurrentUser();
+        List<AdoptionDetailsForAdopterDto> pendingAdoptions = adoptionsList.Where(a => a.State != "Completed" && a.State != "Canceled").ToList();
+        if(pendingAdoptions != null)
+            allActiveAdoptions =  pendingAdoptions.Count;
+    }
 
 
     public class Rule

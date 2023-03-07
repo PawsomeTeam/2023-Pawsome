@@ -2,6 +2,7 @@
 @inject NavigationManager navigationManager
 @inject IAuthService authService
 @inject IOrderService orderService
+@inject IAdoptionService _adoptionService
 
 
 <AuthorizeView>
@@ -33,7 +34,64 @@
 
                 </MudTabPanel>
                 <MudTabPanel Text="Adoption" Icon="@Icons.Material.Filled.Favorite">
-                    <MudText Typo="Typo.body1" Class="mb-4">Comming soon...</MudText>
+                    @if(adoptionsList != null && adoptionsList.Count > 0){
+
+                    <MudText Typo="Typo.body1" Class="mb-4">You have Adoptions</MudText>
+
+<MudTable Items="@adoptionsList" Hover="true">
+    <HeaderContent>
+        <MudTh>Adoptee</MudTh>
+        <MudTh>Request date</MudTh>
+        <MudTh>Note</MudTh>
+        <MudTh>State</MudTh>
+    </HeaderContent>
+    <RowTemplate Context="adoption">
+        <MudTd DataLabel="Adoptee">
+        @{var animalUrl = $"animals/{adoption.AdopteeId}";}
+           <MudLink Href="@animalUrl">
+                <MudImage ObjectFit="ObjectFit.Cover" Height="100" Width="100" Src="@adoption.AdoppteeMainImageURL" Alt="@adoption.AdopteeName" Elevation="25" Class="rounded-lg" />
+           </MudLink>
+            <MudText Typo="Typo.subtitle2">@adoption.AdopteeName</MudText>
+            <MudText Typo="Typo.body1"><i>@adoption.AdopteeType</i></MudText>
+        </MudTd>
+        <MudTd DataLabel="Submission">
+            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.CalendarMonth"/>@adoption.CreatedAt.ToString("yyyy-MM-dd")</MudText>
+            <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.AccessTime"/>@adoption.CreatedAt.ToString("hh:mm:ss")</MudText>
+        </MudTd>
+        <MudTd DataLabel="Notes">
+            @if(adoption.NoteForAdopter != null){
+            	<MudTooltip Text="@adoption.NoteForAdopter">
+                    <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>Note for you</MudText> 
+                </MudTooltip>
+            }
+        </MudTd>
+        <MudTd DataLabel="State">
+            @if(adoption.State != null){
+                if(adoption.State == "Completed"){
+                 <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center" Color="Color.Success"><MudIcon Icon="@Icons.Material.Filled.Check"/>@adoption.State</MudText>
+                } else if(adoption.State == "Canceled"){
+                 <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center" Color="Color.Error"><MudIcon Icon="@Icons.Material.Filled.Cancel"/>@adoption.State</MudText>
+                } else {
+                 <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center" Color="Color.Warning"><MudIcon Icon="@Icons.Material.Filled.Pending"/>@adoption.State</MudText>
+                }
+                <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center mb-2"><MudIcon Icon="@Icons.Material.Filled.CalendarMonth"/>@adoption.StateDate?.ToString("yyyy-MM-dd")</MudText>      
+            } else {
+                <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.HourglassEmpty"/>Requested</MudText>             
+                <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"><small>Contacting you shortly</small></MudText>             
+            }             
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{10, 50, 100}" />
+    </PagerContent>
+</MudTable>
+
+
+
+                    }else{
+                    <MudText Typo="Typo.body1" Class="mb-4">No Adoptions yet</MudText>
+
+                    }
                 </MudTabPanel>
                 <MudTabPanel Text="Orders" Icon="@Icons.Material.Filled.ShoppingCart">
                     <MudTable Items="@Orders" Context="orders" Hover="true" LoadingProgressColor="Color.Primary">
@@ -96,6 +154,7 @@
 {
     private CurrentUser CurrentUser { get; set; } = new CurrentUser();
     private List<OrderDto> Orders { get; set; } = new List<OrderDto>();
+    private List<AdoptionDetailsForAdopterDto>? adoptionsList;
 
     string? error { get; set; }
 
@@ -106,12 +165,11 @@
         {
             CurrentUser = await authService.CurrentUserInfo();
             Orders = await orderService.GetItems(CurrentUser.Email);
-            if (CurrentUser == null)
-            {
+            if(!CurrentUser.IsAuthenticated){
                 navigationManager.NavigateTo("/login");
                 return;
             }
-            navigationManager.NavigateTo("/account");
+            adoptionsList = await _adoptionService.GetAllAdoptionsForCurrentUser();
         }
         catch (Exception ex)
         {
