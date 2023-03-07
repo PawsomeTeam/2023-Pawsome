@@ -43,25 +43,47 @@ public class AdoptionController : ControllerBase
     }
 
     [Authorize]
+    [HttpPost]
+    public async Task<ActionResult<AdoptionDetailsForAdminDto>> Update(AdoptionDetailsForAdminDto newUpdate)
+    {
+        Adoption? a = await _adoptionRepo.Update(newUpdate);
+        if (a == null)
+            throw new Exception("Failed to update adoption");
+
+        AdoptionDetailsForAdminDto updatedAdoption = new()
+        {
+            Id = a.Id,
+            AdopteeId = a.Adoptee.Id,
+            AdopteeName = a.Adoptee.Name,
+            AdopteeType = a.Adoptee.Type,
+            AdoppteeMainImageURL = a.Adoptee.Main_Image_Url,
+            AdopterEmail = a.Adopter.Email,
+            AdopterFullName = a.Adopter.FirstName + " " + a.Adopter.LastName,
+            CreatedAt = a.CreatedAt,
+            UpdatedAt = a.UpdatedAt,
+            StartProcessingAt = a.StartProcessingAt,
+            CompletedAt = a.CompletedAt,
+            CanceledAt = a.CanceledAt,
+            NoteForAdministration = a.NoteForAdministration,
+            NoteForAdopter = a.NoteForAdopter,
+            State = a.CanceledAt != null ? "Canceled" : a.CompletedAt != null ? "Completed" : a.StartProcessingAt != null ? "Processing" : null,
+            StateDate = a.CanceledAt != null ? a.CanceledAt : a.CompletedAt != null ? a.CompletedAt : a.StartProcessingAt != null ? a.StartProcessingAt : null
+        };
+        return updatedAdoption;
+    }
+
+    [Authorize(Roles = "Admin")]
     [HttpGet]
-    public async Task<ActionResult<List<AdoptionDetailsForAdminDto>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
         try
         {
             IEnumerable<Adoption>? fullAdoptionsList;
             List<AdoptionDetailsForAdminDto> adminAdoptionsList;
-            if (User.IsInRole("Admin"))
-            {
-                fullAdoptionsList = await _adoptionRepo.GetAll();
-            }
-            else
-            {
-                var user = await _userManager.GetUserAsync(User);
-                fullAdoptionsList = await _adoptionRepo.GetAllByUser(user);
-            }
+            fullAdoptionsList = await _adoptionRepo.GetAll();
 
             if (fullAdoptionsList == null || fullAdoptionsList.Count() < 1)
-                return adminAdoptionsList = new List<AdoptionDetailsForAdminDto>();
+                return Ok(adminAdoptionsList = new List<AdoptionDetailsForAdminDto>());
 
             adminAdoptionsList = fullAdoptionsList.Select(a => new AdoptionDetailsForAdminDto
             {
@@ -83,7 +105,50 @@ public class AdoptionController : ControllerBase
                 StateDate = a.CanceledAt != null ? a.CanceledAt : a.CompletedAt != null ? a.CompletedAt : a.StartProcessingAt != null ? a.StartProcessingAt : null
             }).ToList();
 
-            return adminAdoptionsList;
+            return Ok(adminAdoptionsList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
+    }
+
+
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetAllForCurrentUser()
+    {
+        try
+        {
+            IEnumerable<Adoption>? currentUserAdoptionsList;
+            var user = await _userManager.GetUserAsync(User);
+            currentUserAdoptionsList = await _adoptionRepo.GetAllByUser(user);
+            List<AdoptionDetailsForAdopterDto> adopterAdoptionsList;
+
+            if (currentUserAdoptionsList == null || currentUserAdoptionsList.Count() < 1)
+                return Ok(adopterAdoptionsList = new List<AdoptionDetailsForAdopterDto>());
+
+            adopterAdoptionsList = currentUserAdoptionsList.Select(a => new AdoptionDetailsForAdopterDto
+            {
+                Id = a.Id,
+                AdopteeId = a.Adoptee.Id,
+                AdopteeName = a.Adoptee.Name,
+                AdopteeType = a.Adoptee.Type,
+                AdoppteeMainImageURL = a.Adoptee.Main_Image_Url,
+                AdopterEmail = a.Adopter.Email,
+                AdopterFullName = a.Adopter.FirstName + " " + a.Adopter.LastName,
+                CreatedAt = a.CreatedAt,
+                UpdatedAt = a.UpdatedAt,
+                StartProcessingAt = a.StartProcessingAt,
+                CompletedAt = a.CompletedAt,
+                CanceledAt = a.CanceledAt,
+                NoteForAdopter = a.NoteForAdopter,
+                State = a.CanceledAt != null ? "Canceled" : a.CompletedAt != null ? "Completed" : a.StartProcessingAt != null ? "Processing" : null,
+                StateDate = a.CanceledAt != null ? a.CanceledAt : a.CompletedAt != null ? a.CompletedAt : a.StartProcessingAt != null ? a.StartProcessingAt : null
+            }).ToList();
+
+            return Ok(adopterAdoptionsList);
         }
         catch (Exception e)
         {
@@ -130,6 +195,47 @@ public class AdoptionController : ControllerBase
             };
 
             return adoptionDetails;
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<AdoptionDetailsForAdminDto>> Delete(int id)
+    {
+        try
+        {
+            Adoption? adoption = await _adoptionRepo.Get(id);
+
+
+            if (adoption == null)
+                throw new Exception("No adoption found");
+
+            adoption = await _adoptionRepo.Delete(id);
+
+            AdoptionDetailsForAdminDto deletedAdoptionDetails = new()
+            {
+                Id = adoption.Id,
+                AdopteeId = adoption.Adoptee.Id,
+                AdopteeName = adoption.Adoptee.Name,
+                AdopteeType = adoption.Adoptee.Type,
+                AdoppteeMainImageURL = adoption.Adoptee.Main_Image_Url,
+                AdopterEmail = adoption.Adopter.Email,
+                AdopterFullName = adoption.Adopter.FirstName + " " + adoption.Adopter.LastName,
+                CreatedAt = adoption.CreatedAt,
+                UpdatedAt = adoption.UpdatedAt,
+                StartProcessingAt = adoption.StartProcessingAt,
+                CompletedAt = adoption.CompletedAt,
+                CanceledAt = adoption.CanceledAt,
+                NoteForAdministration = adoption.NoteForAdministration,
+                NoteForAdopter = adoption.NoteForAdopter,
+                State = adoption.CanceledAt != null ? "Canceled" : adoption.CompletedAt != null ? "Completed" : adoption.StartProcessingAt != null ? "Processing" : null,
+                StateDate = adoption.CanceledAt != null ? adoption.CanceledAt : adoption.CompletedAt != null ? adoption.CompletedAt : adoption.StartProcessingAt != null ? adoption.StartProcessingAt : null
+            };
+            return deletedAdoptionDetails;
         }
         catch (Exception e)
         {

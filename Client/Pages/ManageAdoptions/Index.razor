@@ -23,14 +23,11 @@ else
         <MudText Typo="Typo.h6">All Adoptions</MudText>
         <MudSpacer />
         <div class="mx-5">
-            @* <MudTextField @bind-Value="searchInput" Placeholder="Search"  Class="mt-0" 
+            <MudTextField @bind-Value="searchInput" Placeholder="Search"  Class="mt-0" 
         Adornment="Adornment.Start" AdornmentColor="Color.Primary"
         AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"
-        Variant="Variant.Outlined" Width="100px" Margin="Margin.Dense" ></MudTextField> *@
-            @* <MudButton Color="Color.Primary" Variant="Variant.Outlined" Class="mr-2" OnClick="@(() => NavigationManager.NavigateTo("/manage/products/create"))">Create</MudButton> *@
+        Variant="Variant.Outlined" Width="100px" Margin="Margin.Dense" ></MudTextField>
         </div>
-        
-        @* <MudButton Link="/register" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Person">Register New</MudButton> *@
     </MudToolBar>
 
 <MudTable Items="@Adoptions" Hover="true" SortLabel="Sort By" Filter="new Func<AdoptionDetailsForAdminDto,bool>(FilterFunc1)" Loading="@loading" LoadingProgressColor="Color.Primary">
@@ -40,7 +37,8 @@ else
         <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.AdopterFullName!)">Adopter</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.CreatedAt)">Submission</MudTableSortLabel></MudTh>
         <MudTh>Notes</MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.State)">Handle</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdoptionDetailsForAdminDto, object>(x=>x.State)">State</MudTableSortLabel></MudTh>
+        <MudTh>Handle</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Id">@context.Id</MudTd>
@@ -48,6 +46,7 @@ else
            
             <MudImage ObjectFit="ObjectFit.Cover" Height="50" Width="50" Src="@context.AdoppteeMainImageURL" Alt="@context.AdopteeName" Elevation="25" Class="rounded-lg" />
             <MudText Typo="Typo.subtitle2">@context.AdopteeName</MudText>
+            <MudText Typo="Typo.body1"><i>@context.AdopteeType</i></MudText>
         </MudTd>
         <MudTd DataLabel="Adopter">
             <MudText Typo="Typo.subtitle2">@context.AdopterFullName</MudText>
@@ -61,27 +60,39 @@ else
             @if(context.NoteForAdministration != null){
             	<MudTooltip Text="@context.NoteForAdministration">
                        <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>Internal Note</MudText>
-                </MudTooltip>
+                </MudTooltip><br>
             }
+
             @if(context.NoteForAdopter != null){
             	<MudTooltip Text="@context.NoteForAdopter">
                     <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"> <MudIcon Icon="@Icons.Material.Filled.StickyNote2"/>Note for Aadopter</MudText> 
                 </MudTooltip>
             }
         </MudTd>
-        <MudTd DataLabel="Handle">
+        <MudTd DataLabel="State">
             @if(context.State != null){
-            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center">@context.State</MudText>
-            <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.CalendarMonth"/>@context.StateDate?.ToString("yyyy-MM-dd")</MudText>
-                @if(context.State == "Cancelled" || context.State == "Completed"){
-                     var deleteUrl = $"/manage/adoptions/delete/{context.Id}";
-                    <MudButton Variant="Variant.Filled" Color="Color.Warning" Link="@deleteUrl">Delete</MudButton>
+                if(context.State == "Completed"){
+                 <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center" Color="Color.Success"><MudIcon Icon="@Icons.Material.Filled.Check"/>@context.State</MudText>
+                } else if(context.State == "Canceled"){
+                 <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center" Color="Color.Error"><MudIcon Icon="@Icons.Material.Filled.Cancel"/>@context.State</MudText>
                 } else {
-                    var editUrl = $"/manage/adoptions/update/{context.Id}";
-                    <MudButton Variant="Variant.Filled" Link="@editUrl" Color="Color.Primary">Uptade</MudButton>           
+                 <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center" Color="Color.Warning"><MudIcon Icon="@Icons.Material.Filled.Pending"/>@context.State</MudText>
                 }
+                <MudText Typo="Typo.body1" Class="d-flex gap-2 align-center mb-2"><MudIcon Icon="@Icons.Material.Filled.CalendarMonth"/>@context.StateDate?.ToString("yyyy-MM-dd")</MudText>      
             } else {
-                 var detailsUrl = $"/manage/adoptions/{context.Id}";
+                <MudText Typo="Typo.body1"  Class="d-flex gap-2 align-center"><MudIcon Icon="@Icons.Material.Filled.HourglassEmpty"/>Unhandled</MudText>             
+            }
+             
+        </MudTd>
+         <MudTd DataLabel="Handle">
+             @{var detailsUrl = $"/manage/adoptions/{context.Id}";}
+            @if(context.State != null){
+                @if(context.State == "Canceled" || context.State == "Completed"){
+                     var deleteUrl = $"/manage/adoptions/delete/{context.Id}";
+                    <MudButton OnClick="@(() => ShowConfirmDeleteDialog(context))" Variant="Variant.Filled" Color="Color.Error" Class="me-2">Delete</MudButton>
+                }
+                    <MudButton Variant="Variant.Filled" Link="@detailsUrl" Color="Color.Primary">Uptade</MudButton>           
+            } else {
                 <MudButton Variant="Variant.Filled" Link="@detailsUrl" Color="Color.Primary">Start Processing</MudButton>              
             }
         </MudTd>
@@ -90,11 +101,21 @@ else
         <MudTablePager PageSizeOptions="new int[]{10, 50, 100}" />
     </PagerContent>
 </MudTable>
+
+        <MudDialog @bind-IsVisible="_confirmDeleteDialogVisible">
+                    <DialogContent>
+                        Are you sure you want to delete this Adoption?
+                    </DialogContent>
+                    <DialogActions>
+                        <MudButton Color="Color.Primary" Variant="Variant.Outlined" OnClick="@(() => _confirmDeleteDialogVisible = false)">Cancel</MudButton>
+                        <MudButton Color="Color.Error" Variant="Variant.Outlined" OnClick="@(() => ConnfirmDelete(_adoptionToDelete))">Delete</MudButton>
+                    </DialogActions>
+                </MudDialog>
 }
 
 
 @code {
-    private IEnumerable<AdoptionDetailsForAdminDto> Adoptions { get; set; } = new List<AdoptionDetailsForAdminDto>();
+    private List<AdoptionDetailsForAdminDto> Adoptions { get; set; } = new List<AdoptionDetailsForAdminDto>();
     private string? error { get; set; } = null;
     bool loading = true;
 
@@ -120,8 +141,28 @@ else
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if ($"{element.AdopteeName} {element.AdopterFullName}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if ($"{element.AdopteeName} {element.AdopteeType} {element.AdopterFullName} {element.AdopterEmail} {element.State} ".Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+    }
+
+    //deleting    
+    private bool _confirmDeleteDialogVisible = false;
+    private AdoptionDetailsForAdminDto? _adoptionToDelete;
+    private void ShowConfirmDeleteDialog(AdoptionDetailsForAdminDto? a)
+    {
+        _adoptionToDelete = a;
+        _confirmDeleteDialogVisible = true;
+    }
+
+    private async Task ConnfirmDelete(AdoptionDetailsForAdminDto? a)
+    {
+        try{
+            await _adoptionService.DeleteAdoption(a.Id);
+              Adoptions.Remove(a);
+         _confirmDeleteDialogVisible = false;
+        } catch (Exception ex){
+            error = ex.Message;
+        }
     }
 }

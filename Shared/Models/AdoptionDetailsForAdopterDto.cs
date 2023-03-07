@@ -3,7 +3,7 @@ using PawsomeProject.Shared.Models;
 
 namespace PawsomeProject.Shared.Models
 {
-    public class AdoptionDetailsForAdminDto
+    public class AdoptionDetailsForAdopterDto
     {
         public int Id { get; set; }
 
@@ -18,7 +18,7 @@ namespace PawsomeProject.Shared.Models
         public string AdopteeType { get; set; } = default!;
 
         [Required, Display(Name = "Adoptee Image")]
-        public string? AdoppteeMainImageURL { get; set; } = default!;//TODO: set a default image
+        public string? AdoppteeMainImageURL { get; set; } = default!;
 
         //Adopter
         [Display(Name = "Adopter email")]
@@ -53,8 +53,5 @@ namespace PawsomeProject.Shared.Models
         //notes
         [Display(Name = "Note For Adopter")]
         public string? NoteForAdopter { get; set; } = null;
-
-        [Display(Name = "Note For Administration")]
-        public string? NoteForAdministration { get; set; } = null;
     }
 }

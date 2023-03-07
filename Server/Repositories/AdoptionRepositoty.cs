@@ -30,7 +30,7 @@ namespace PawsomeProject.Server.Repositories
 
         public async Task<Adoption?> Get(int id)
         {
-            Adoption? adoption = await _dbContext.Adoptions.FindAsync(id);
+            Adoption? adoption = await _dbContext.Adoptions.Include(a => a.Adopter).Include(a => a.Adoptee).FirstOrDefaultAsync(a => a.Id == id);
             if (adoption == null || adoption.Id != id)
                 throw new Exception("Adoption not found");
             return adoption;
@@ -51,28 +51,28 @@ namespace PawsomeProject.Server.Repositories
             return adoption;
         }
 
-        // public async Task<Adoption?> Update(AdoptionAdminUpdateDto AdoptionAdminUpdateDto)
-        // {
-        //     Adoption? adoption = await _dbContext.Adoptions.FindAsync(AdoptionAdminUpdateDto.Id);
-        //     if (adoption == null || adoption.Id != AdoptionAdminUpdateDto.Id)
-        //         throw new Exception("Adoption not found");
+        public async Task<Adoption?> Update(AdoptionDetailsForAdminDto AdoptionAdminUpdateDto)
+        {
+            Adoption? adoption = await _dbContext.Adoptions.Include(a => a.Adopter).Include(a => a.Adoptee).FirstOrDefaultAsync(a => a.Id == AdoptionAdminUpdateDto.Id);
+            if (adoption == null || adoption.Id != AdoptionAdminUpdateDto.Id)
+                throw new Exception("Adoption not found");
 
-        //     adoption.UpdatedAt = DateTime.Now;
-        //     adoption.CanceledAt = AdoptionAdminUpdateDto.CanceledAt;
-        //     adoption.CompletedAt = AdoptionAdminUpdateDto.CompletedAt;
-        //     adoption.NoteForAdopter = AdoptionAdminUpdateDto.NoteForAdopter;
-        //     adoption.NoteForAdministration = AdoptionAdminUpdateDto.NoteForAdministration;
-        //     adoption.StartProcessingAt = AdoptionAdminUpdateDto.StartProcessingAt;
+            adoption.UpdatedAt = DateTime.Now;
+            adoption.CanceledAt = AdoptionAdminUpdateDto.CanceledAt;
+            adoption.CompletedAt = AdoptionAdminUpdateDto.CompletedAt;
+            adoption.NoteForAdopter = AdoptionAdminUpdateDto.NoteForAdopter;
+            adoption.NoteForAdministration = AdoptionAdminUpdateDto.NoteForAdministration;
+            adoption.StartProcessingAt = AdoptionAdminUpdateDto.StartProcessingAt;
 
-        //     _dbContext.Adoptions.Update(adoption);
-        //     await _dbContext.SaveChangesAsync();
-        //     return adoption;
-        // }
+            _dbContext.Adoptions.Update(adoption);
+            await _dbContext.SaveChangesAsync();
+            return adoption;
+        }
 
         public async Task<Adoption?> Delete(int id)
         {
-            Adoption? adoption = await _dbContext.Adoptions.FindAsync(id);
-            if (adoption == null || adoption.Id != id)
+            Adoption? adoption = await _dbContext.Adoptions.Include(a => a.Adopter).Include(a => a.Adoptee).FirstOrDefaultAsync(a => a.Id == id);
+            if (adoption == null)
                 throw new Exception("Adoption not found");
             _dbContext.Adoptions.Remove(adoption);
             await _dbContext.SaveChangesAsync();
