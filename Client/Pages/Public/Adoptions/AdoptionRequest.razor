@@ -212,6 +212,9 @@ else
                 };
             //create and implement service
             CreatedAdoptionSubmission = await _adoptionService.SubmitAdoptionRequest(AdoptionSubmission);
+            AnimalDto updateAnimal = await _animalService.GetAnimalById(Animal.Id);
+            updateAnimal.Reservation_Date = DateTime.Now;
+            await _animalService.UpdateAnimal(updateAnimal);
             NextStep(panel);
         }
         catch (System.Exception ex)
