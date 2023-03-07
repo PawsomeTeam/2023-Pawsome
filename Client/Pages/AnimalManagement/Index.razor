@@ -73,7 +73,7 @@
                 var deleteUrl = $"manage/animals/delete/{context.Id}";
             }
             <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
-                <MudIconButton Disabled="true" Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Size="Size.Small" />
+                <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Size="Size.Small" />
                 <MudIconButton OnClick="@(() => ShowConfirmDeleteDialog(context))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
 
                 <MudDialog @bind-IsVisible="_confirmDeleteDialogVisible">

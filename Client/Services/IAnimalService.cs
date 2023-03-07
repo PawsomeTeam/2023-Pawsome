@@ -8,5 +8,7 @@ public interface IAnimalService
     Task<AnimalDto> AddAnimal(AnimalDto animal);
     Task DeleteAnimal(int id);
     Task<AnimalDto> GetAnimalById(int id);
+    Task<AnimalDto> UpdateAnimal(AnimalDto animalDto);
+    string fileName(string url);
 
 }

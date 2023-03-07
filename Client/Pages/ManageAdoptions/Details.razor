@@ -1,0 +1,284 @@
+@page "/manage/adoptions/{id:int}"
+@inject IAdoptionService _adoptionService
+@inject IAnimalService _animalService
+@inject NavigationManager _navigationManager
+
+@if (Adoption == null && error == null)
+{
+           <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+                <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+                 Loading ...
+            </MudText>
+}
+else if (error != null)
+{
+        <MudAlert Severity="Severity.Error" Class="mb-8" Align="Align.Center">
+            <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+            @error
+            </MudText>
+        </MudAlert>
+}
+else
+{
+
+    <MudText Typo="Typo.h2" Class="mb-8" Align="Align.Center">
+        Adoption #@Adoption!.Id
+    </MudText>
+    @if(Adoption!.CreatedAt <= DateTime.Now.AddHours(-48) && Adoption.StartProcessingAt == null){
+        <MudAlert Severity="Severity.Warning" Class="mb-8" Align="Align.Center">
+            <MudText Typo="Typo.body1" Class="mb-8" Align="Align.Center">
+                This adoption request was made <b>over 48 hours ago </b> and has not been processed yet. 
+                If you are unable to schedule a meeting with the Adopter <b>consider cancellling the request</b>.
+            </MudText>
+        </MudAlert>
+    }
+
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+            <MudCard Class="my-3">
+                <MudCardHeader>   
+                    <CardHeaderAvatar>
+                        <MudAvatar Size="Size.Large" Image="@Adoption!.AdoppteeMainImageURL" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">@Adoption!.AdopteeName</MudText>
+                            <MudText Typo="Typo.body2">@Adoption!.AdopteeType</MudText>     
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudTooltip Text="Adoptee Details">
+                            @{
+                                var animalDetaulsUrl = $"animals/{Adoption.AdopteeId}";
+                            }
+                            <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" Link="@animalDetaulsUrl" Target="_Blank" Color="Color.Primary" aria-label="details"/>
+                        </MudTooltip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+                    <MudCard Class="my-3">
+                <MudCardHeader>
+                     <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Primary" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Person" />
+                        </MudAvatar>
+                    </CardHeaderAvatar>  
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">@Adoption!.AdopterFullName</MudText>
+                            <MudText Typo="Typo.body2">@Adoption!.AdopterEmail</MudText>     
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudTooltip Text="Adoptee Details">
+                            @{
+                                var animalDetaulsUrl = $"users/{Adoption.AdopterEmail}";
+                            }
+                            <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" Link="@animalDetaulsUrl" Target="_Blank" Color="Color.Primary" aria-label="details"/>
+                        </MudTooltip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudPaper Class="pa-4">
+                <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">
+                    Details
+                </MudText>
+                <MudText Typo="Typo.body1" Class="mb-8">
+                    <b>State: </b>@(Adoption!.State != null ? Adoption.State : "Awaiting Prosessing")<br>
+                    <b>Requested on: </b>@Adoption.CreatedAt<br>
+                    <b>Started processing on: </b>@(Adoption.StartProcessingAt != null ? Adoption.StartProcessingAt : "N/A")<br>
+                    <b>Last updated on: </b>@(Adoption.UpdatedAt != null ? Adoption.UpdatedAt : "N/A")<br>
+                    <b>Completed on: </b>@(Adoption.CompletedAt != null ? Adoption.CompletedAt : "N/A")<br>
+                    <b>Canceled on: </b>@(Adoption.CanceledAt != null ? Adoption.CanceledAt : "N/A")<br>
+                    <b>Canceled on: </b>@(Adoption.CanceledAt != null ? Adoption.CanceledAt : "N/A")<br>
+                </MudText>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6">
+            <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6" Class="mb-8" Align="Align.Center">Next Step</MudText>
+                <MudText Align="Align.Center">
+                    @if (Adoption!.StartProcessingAt == null)
+                    {
+                        <MudText Typo="Typo.body1" Class="mb-8">Contact Adopter and schedule a meeting.</MudText>
+                        <MudButton Color="Color.Error" Variant="Variant.Filled" Class="ml-4" OnClick="CancelAdoption">
+                            Cancel Request
+                        </MudButton>
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-4" OnClick="MarkAsProssessing">
+                            Meeting Scheduled
+                        </MudButton>
+                    } else {
+                        if(Adoption!.CompletedAt == null && Adoption!.CanceledAt == null){
+
+                        <MudText Typo="Typo.body1" Class="mb-8">If all is in order and the Animal is Adopted you can Complete teh Adoption.</MudText>
+                        <MudButton Color="Color.Error" Variant="Variant.Filled" Class="ml-4" OnClick="CancelAdoption">
+                            Cancel Adoption
+                        </MudButton>
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-4" OnClick="MarkComplete">
+                            Mark as Completed
+                        </MudButton>
+                        } else {
+                            <MudText Typo="Typo.body1" Class="mb-8">This Adoption has been @Adoption!.State on @Adoption!.StateDate </MudText>
+                        }
+                    }
+                </MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6" Align="Align.Center">Note for Administration
+                <MudTooltip Text="Note only for internal purpouses">
+                    <MudIconButton Icon="@Icons.Material.Filled.Info" />
+                </MudTooltip>
+            </MudText>
+                <MudText Align="Align.Center">
+                     @{var displayAdministrationEditNote = editingAdministrationNote ? "d-block" : "d-none";}
+                    <MudContainer  Class="@displayAdministrationEditNote">
+                        <MudTextField T="string" Label="Note for Administration" Variant="Variant.Outlined" @bind-Value="@Adoption!.NoteForAdministration" Lines="7" />
+                            <MudButton Color="Color.Error" Variant="Variant.Filled" Class="ml-4" OnClick="CancelNote">
+                                Cancel
+                            </MudButton>
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-4" OnClick="UpdateNote">
+                                Update
+                            </MudButton>
+                    </MudContainer>
+
+                     @{var displayAdministrationNote = !editingAdministrationNote ? "d-block" : "d-none";}
+                    <MudContainer  Class="@displayAdministrationNote">
+                        <MudText Typo="Typo.body1" Class="mb-8">@(Adoption.NoteForAdministration != null ? Adoption.NoteForAdministration : "no note yet")</MudText>
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-4" OnClick="() => {editingAdministrationNote = true;}">
+                           Edit Note
+                        </MudButton>
+                    </MudContainer>
+                </MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6" Align="Align.Center">Note for Adopter
+                <MudTooltip Text="This Note will be diplayed for the Adopter">
+                    <MudIconButton Icon="@Icons.Material.Filled.Info" />
+                </MudTooltip>
+            </MudText>
+                <MudText Align="Align.Center">
+                    @{var displayAdopterEditNote = editingAdopterNote ? "d-block" : "d-none";}
+                    <MudContainer  Class="@displayAdopterEditNote">
+                        <MudTextField T="string" Label="Note for Adopter" Variant="Variant.Outlined" @bind-Value="@Adoption!.NoteForAdopter" Lines="7" />
+                            <MudButton Color="Color.Error" Variant="Variant.Filled" Class="ml-4" OnClick="CancelNote">
+                                Cancel
+                            </MudButton>
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-4" OnClick="UpdateNote">
+                                Update
+                            </MudButton>
+                    </MudContainer>
+
+                     @{var displayAdopterNote = !editingAdopterNote ? "d-block" : "d-none";}
+                    <MudContainer  Class="@displayAdopterNote">
+                        <MudText Typo="Typo.body1" Class="mb-8">@(Adoption.NoteForAdopter != null ? Adoption.NoteForAdopter : "no note yet")</MudText>
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-4" OnClick="() => {editingAdopterNote = true;}">
+                           Edit Note
+                        </MudButton>
+                    </MudContainer>
+                </MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+}
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AdoptionDetailsForAdminDto? Adoption { get; set; }
+    private string? error { get; set; } = null;
+    bool loading = true;
+
+    bool editingAdopterNote = false;
+    bool editingAdministrationNote = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Adoption = await _adoptionService.GetAdoption(Id);
+            loading = false;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task MarkAsProssessing()
+    {
+        Adoption!.StartProcessingAt = DateTime.Now;
+        try
+        {
+            Adoption = await _adoptionService.UpdateAdoption(Adoption);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+     private async Task MarkComplete()
+    {
+        Adoption!.CompletedAt = DateTime.Now;
+        try
+        {
+            AnimalDto adoptee = await _animalService.GetAnimalById(Adoption!.AdopteeId);
+            @* adoptee.AdoptedAt = DateTime.Now; *@
+            Adoption = await _adoptionService.UpdateAdoption(Adoption);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task CancelAdoption()
+    {
+        Adoption!.CanceledAt = DateTime.Now;
+        try
+        {
+             Adoption = await _adoptionService.UpdateAdoption(Adoption);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task UpdateNote()
+    {
+        try
+        {
+            Adoption = await _adoptionService.UpdateAdoption(Adoption);
+            editingAdopterNote = false;
+            editingAdministrationNote = false;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task CancelNote()
+    {
+        try
+        {
+           Adoption = await _adoptionService.GetAdoption(Id);
+            editingAdopterNote = false;
+            editingAdministrationNote = false;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+}

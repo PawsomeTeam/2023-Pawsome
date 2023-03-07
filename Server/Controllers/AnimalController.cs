@@ -31,7 +31,7 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Animal>> GetAnimalById(int id)
+    public async Task<ActionResult<AnimalDto>> GetAnimalById(int id)
     {
         var animal = await _animalRepository.GetAnimalById(id);
         if (animal == null)
@@ -39,7 +39,31 @@ public class AnimalController : ControllerBase
             return NotFound();
         }
 
-        return animal;
+        var images = await _animalRepository.GetImages(id);
+        var animalDto = new AnimalDto
+        {
+            Id = animal.Id,
+            Name = animal.Name,
+            Age = animal.Age,
+            Price = animal.Price,
+            Type = animal.Type,
+            Description = animal.Description,
+            Main_Image_Url = animal.Main_Image_Url,
+            Images = new List<ImageDto>(),
+        };
+
+        foreach (var image in animal.Images)
+        {
+            var newImage = new ImageDto
+            {
+                Id = image.Id,
+                URL = image.URL,
+                Type = image.Type
+            };
+            animalDto.Images.Add(newImage);
+        }
+
+        return Ok(animalDto);
     }
 
     [HttpPost]
@@ -103,16 +127,47 @@ public class AnimalController : ControllerBase
     //    }
 
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAnimal(int id, AnimalDto animal)
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult<AnimalDto>> UpdateAnimal(int id, AnimalDto animalDto)
     {
-        if (id != animal.Id)
+        try
         {
-            return BadRequest();
-        }
+            var animalItem = await _animalRepository.UpdateAnimal(id, animalDto);
+            if (animalItem == null)
+            {
+                return NotFound();
+            }
+            
+            var newAnimalDto = new AnimalDto
+            {
+                Id = animalItem.Id,
+                Name = animalItem.Name,
+                Description = animalItem.Description,
+                Type = animalItem.Type,
+                Age = animalItem.Age,
+                Price = animalItem.Price,
+                Main_Image_Url = animalItem.Main_Image_Url,
+                Images = new List<ImageDto>()
+            };
 
-        await _animalRepository.UpdateAnimal(animal);
-        return NoContent();
+            foreach (var image in animalItem.Images)
+            {
+                var newImageDto = new ImageDto
+                {
+                    Id = image.Id,
+                    URL = image.URL,
+                    Type = image.Type
+                };
+                newAnimalDto.Images.Add(newImageDto);
+            }
+
+            return Ok(newAnimalDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     [HttpDelete("{id}")]

@@ -1,38 +1,76 @@
 @page "/manage/orders"
+@inject IOrderService orderService
 
+<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Manage Orders</MudText>
 
-<MudContainer>
-
-
-
-<MudText Typo="Typo.h4" Class="mud-my-4">Orders Comming soon..</MudText>
-
-    <h3>Thank you for purchasing.</h3>
-    @* <MudTable Data="@Orders" Class="mud-table-responsive">
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <MudTable Items="@Orders" Context="orders" Hover="true" LoadingProgressColor="Color.Primary">
         <HeaderContent>
             <MudTh>Order Id</MudTh>
-            <MudTh>Customer</MudTh>
-            <MudTh>Order Date</MudTh>
-            <MudTh>Ship Date</MudTh>
-            <MudTh>Ship To</MudTh>
-            <MudTh>Order Total</MudTh>
-            <MudTh>Actions</MudTh>
+            <MudTh>User Email</MudTh>
+            <MudTh>Products</MudTh>
+            <MudTh>Price</MudTh>
+            <MudTh>QTY</MudTh>
+            <MudTh>Total</MudTh>
         </HeaderContent>
-        <RowTemplate Context="order">
-            <MudTd DataLabel="Order Id">@order.OrderId</MudTd>
-            <MudTd DataLabel="Customer">@order.CustomerName</MudTd>
-            <MudTd DataLabel="Order Date">@order.OrderDate</MudTd>
-            <MudTd DataLabel="Ship Date">@order.ShipDate</MudTd>
-            <MudTd DataLabel="Ship To">@order.ShipTo</MudTd>
-            <MudTd DataLabel="Order Total">@order.OrderTotal</MudTd>
-            <MudTd DataLabel="Actions">
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@(() => ShowOrderDetails(order))">
-                    <MudIcon Icon="Edit" />
-                </MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@(() => DeleteOrder(order))">
-                    <MudIcon Icon="Delete" />
-                </MudButton>
+        <RowTemplate>
+            <MudTd DataLabel="Order Id">@orders.Id</MudTd>
+            <MudTd DataLabel="Username">@orders.UserEmail</MudTd>
+            <MudTd DataLabel="Order Items">
+                @foreach (var item in orders.OrderItems)
+                {
+                    string DisplayUrl = $"/shop/products/{item.ProductId}";
+                    <MudLink Href="@DisplayUrl">
+                        <MudText Typo="Typo.subtitle2">@item.ProductName</MudText>
+                    </MudLink>
+                }
+            </MudTd>
+            <MudTd DataLabel="Items Price">
+                @foreach (var item in orders.OrderItems)
+                {
+                    <MudText Typo="Typo.subtitle2">@item.Price</MudText>
+                }
+            </MudTd>
+            <MudTd DataLabel="Items Qty">
+                @foreach (var item in orders.OrderItems)
+                {
+                    <MudText Typo="Typo.subtitle2">@item.Qty</MudText>
+                }
+            </MudTd>
+            <MudTd DataLabel="Order Total">
+                @{
+                    Decimal total = 0;
+                    foreach (var item in orders.OrderItems)
+                    {
+                        total += item.Price * item.Qty;
+                    }
+                    <MudText Typo="Typo.subtitle2">@total.ToString("C")</MudText>
+                }
             </MudTd>
         </RowTemplate>
-    </MudTable> *@
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 10, 50, 100 }"/>
+        </PagerContent>
+    </MudTable>
 </MudContainer>
+
+
+@code
+{
+    private List<OrderDto> Orders { get; set; } = new List<OrderDto>();
+
+    string? error { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        error = null;
+        try
+        {
+            Orders = await orderService.AllItems();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}
