@@ -37,7 +37,7 @@ public partial class ChatbotBase : ComponentBase
         var prompt = $"{persona}: {introMessage}\nYou: {message}\n{persona}: ";
         generatedText = "Give me a sec, Im thinking 😁";
         try
-        { 
+        {
             string apiKey = "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";
             string answer = string.Empty;
             var openai = new OpenAIAPI(apiKey);
@@ -47,7 +47,7 @@ public partial class ChatbotBase : ComponentBase
             completion.MaxTokens = 4000;
             completion.BestOf = 1;
             var result = await openai.Completions.CreateCompletionAsync(completion);
-           
+
             Console.WriteLine(result);
             if (result != null)
             {
