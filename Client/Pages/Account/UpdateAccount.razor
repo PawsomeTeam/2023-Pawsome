@@ -77,8 +77,8 @@
         error = null;
         try
         {
-            await authStateProvider.Update(FindUser.Email, updateRequest); //FIXME: IAuthStateProvider.Update takes a user ID, not an email, but the 2 available User models do not have the ID field 
-            navigationManager.NavigateTo("");
+            await authStateProvider.Update(FindUser.Email, updateRequest);
+            navigationManager.NavigateTo("account");
         }
         catch (Exception ex)
         {
