@@ -84,6 +84,8 @@
     {
         try{
             _animals = await Service.GetAll();
+            _animals = _animals.Where(a => a.Reservation_Date == null && a.Date_adopted == null).ToList();
+
             loading = false;
         } catch (Exception ex)
         {
