@@ -84,8 +84,8 @@
     {
         try{
             _animals = await Service.GetAll();
+            // To filter the animals that are not reserved or adopted
             _animals = _animals.Where(a => a.Reservation_Date == null && a.Date_adopted == null).ToList();
-
             loading = false;
         } catch (Exception ex)
         {
