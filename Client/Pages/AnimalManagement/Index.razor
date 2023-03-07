@@ -44,31 +44,22 @@
         }
         <MudTd DataLabel="Id">@context.Id</MudTd>
         <MudTd DataLabel="Image">
-            @* @if (String.IsNullOrEmpty(context.Main_Image_Url) == false)
-            {
-            <MudLink Href="@DisplayUrl">
-            <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg"/>
-            </MudLink>
-            } *@
+
 
             <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg" />
 
         </MudTd>
         <MudTd DataLabel="Name">
-            @* <MudLink Href="@DisplayUrl">
+
             <MudText Typo="Typo.subtitle1">@context.Name</MudText>
-            </MudLink> *@
-            <MudText Typo="Typo.subtitle1">@context.Name</MudText>
-           @* <MudText Typo="Typo.subtitle1">@context.Type</MudText>
-            <MudText Typo="Typo.caption"> @(context.Description?.Length > maxLen ? context.Description.Substring(0, maxLen) : context.Description)</MudText>
-            *@
+
             </MudTd>
             <MudTd DataLabel="Age">@context.Age</MudTd>
             <MudTd DataLabel="Price">@context.Price</MudTd>
         <MudTd DataLabel="Type">@context.Type</MudTd>
             <MudTd DataLabel="Actions">
                 @{
-                //TODO: make these into a Dialog instad of URLs
+                
                 var editUrl = $"manage/animals/update/{context.Id}";
                 var deleteUrl = $"manage/animals/delete/{context.Id}";
             }
@@ -98,11 +89,7 @@
     private bool _loading = true;
     private List<AnimalDto> _animals = new();
 
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    _animals = await Service.GetAll();
-    //    _loading = false;
-    //}
+ 
 
     //description length
     private int maxLen = 30;
