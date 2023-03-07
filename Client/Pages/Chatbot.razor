@@ -12,22 +12,6 @@
 <MudGrid>
 
     <MudItem>
-        <MudPaper Class="pa-16 ma-2" Style="border-radius: 20px;" Elevation="3">
-
-            <div style="line-height:40px;" class="h4 mb-4 text-center">
-                [ai avatar picure]
-            </div>
-
-            <div class="form-group text-center">
-                <input class="form-control my-4 text-center py-2 m-auto" style="width: 600px;
-                height: 60px;
-                padding-left: 15px;
-                border-radius: 20px;
-                margin-bottom: 20px;
-                background: rgba(255,255,255,.2);" type="text" @bind="@message" placeholder="Type your message here" />
-                
-            </div>
-
 
             <div class="d-flex justify-content-center text-center">
 
@@ -35,21 +19,52 @@
                     padding: 30px;
                     border-radius: 20px;
                     margin-bottom: 20px;
-                    background: rgba(255,255,255,.2);" class="mt-2container border border-1 rounded-2 p-3 text-center">
+                     background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 100%);" class="mt-2container border border-1 rounded-2 p-3 text-center">
                     @generatedText
                 </div>
+                
+                </div>
+
+    </MudItem>
+
+    <MudItem>
+        <img src="~/Images/ChatBot/CatHero.png" style="float:right; padding: 100px;" />
+
+    </MudItem>
+
+</MudGrid>
+
+<MudGrid>
+    <MudItem>
 
 
-                <div style="display: flex; flex-direction: column;">
-                    
+<div class="form-group text-center">
+    <input class="form-control my-4 text-center py-2 m-auto" style="width: 600px;
+                            height: 60px;
+                            padding-left: 15px;
+                            border-radius: 20px;
+                            margin-bottom: 20px;
+                            background: rgba(255,255,255,.2);" type="text" @bind="@message" placeholder="Type your message here" />
+</div>
 
-                    <button class="btn btn-success mb-4 px-2" style="
+    </MudItem>
+
+</MudGrid>
+
+<MudGrid>
+    <MudItem>
+
+        <div class="flex-column">
+
+
+            <button class="btn btn-success mb-4 px-2" style="
                         padding-top: 8px;
                         font-size: 13px;
                         text-transform: uppercase;
                         text-align: center;
                         color: white;
-                        width: 200px;
+                        width: 110px;
                         height: 35px;
 	                    border: none;
 	                    border-radius: 20px;
@@ -57,15 +72,14 @@
                         left: 0px;
                         top: 0px;
                         margin-top: -8px;" onclick="@GetResponseFromGPT3">
-                        Ask Me
-                    </button>
+                Ask Me
+            </button>
 
-                </div>  
-                
-                </div>
+        </div>
 
-        </MudPaper>
+
     </MudItem>
+
 </MudGrid>
 
 
