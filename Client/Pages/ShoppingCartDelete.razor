@@ -5,6 +5,7 @@
 @inject IAuthService authService
 @inherits CheckoutBase
 
+<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Order Summary</MudText>
 <MudContainer>
     <MudTable Items="@orderDto.OrderItems" Hover="true">
         <HeaderContent>
@@ -42,7 +43,9 @@
             TotalPrice += item.Qty * item.Price;
         }
     }
-    <MudText Align="Align.End" Typo="Typo.h3">Total: @TotalPrice.ToString("C")</MudText>
+    <MudCard Class="my-3">
+        <MudText Align="Align.End" Typo="Typo.h5">Total: @TotalPrice.ToString("C")</MudText>
+    </MudCard>
 </MudContainer>
 
 @code

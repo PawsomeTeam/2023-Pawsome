@@ -70,7 +70,7 @@ else
                     <CardHeaderActions>
                         <MudTooltip Text="Adoptee Details">
                             @{
-                                var animalDetaulsUrl = $"users/{Adoption.AdopterEmail}";
+                                var animalDetaulsUrl = $"manage/users/detail/{Adoption.AdopterEmail}/";
                             }
                             <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" Link="@animalDetaulsUrl" Target="_Blank" Color="Color.Primary" aria-label="details"/>
                         </MudTooltip>

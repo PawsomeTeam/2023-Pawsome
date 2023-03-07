@@ -12,7 +12,11 @@
 {
       <MudGrid Class="mb-16" Model="@Animal">
            <MudItem xs="12" md="6" lg="4">
-                <MudImage Fluid="true" Src="@Animal.Main_Image_Url" Alt="@Animal.Name" Class="rounded-xs" />
+               @* <MudImage Fluid="true" Src="@Animal.Main_Image_Url" Alt="@Animal.Name" Class="rounded-xs" /> *@
+               @foreach (var imgae in Animal.Images)
+               {    
+                   <MudImage Fluid="true" Src="@imgae.URL" Alt="@Animal.Name" Class="rounded-xs" />
+               }
            </MudItem>
             <MudItem xs="12" md="6" lg="8">
                 <MudText Typo="Typo.h4">@Animal.Name</MudText>
