@@ -1,3 +1,67 @@
+## Tuesday - 2023-03-07
+
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+NOTE: CI for JIRA, Github and Azure for entire project
+
+###### PATRICK ###### 
+1. What I have done / not done since last Scrum?
+	- Finalize Animal section (update method)
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Any additional features for Animal
+
+3. Where do I need assistance? What do I need to figure out?
+	- 
+
+###### JINGUYU ###### 
+1. What I have done / not done since last Scrum?
+	- Update/testing
+	- Orders summary
+	- Helped with animal CRUD
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Managers roles, Store manager / Animal manager 
+	
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HYUNJU ###### 
+1. What I have done / not done since last Scrum?
+	- Finalizing display
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Testing and powerpoints
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### JULIETA ###### 
+1. What I have done / not done since last Scrum?
+	- Finalizing adoption display
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Reservation and adoption date animals
+	
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+###### HEINDY ###### 
+
+1. What I have done / not done since last Scrum?
+	- UI fixes
+
+2. What I plan to do from this scrum to next? (next 24 hours)
+	- Finalize UI, attempt tinder feature
+
+3. Where do I need assistance? What do I need to figure out?
+	- not yet
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 ## Monday - 2023-03-06
 
 1. What I have done / not done since last Scrum?

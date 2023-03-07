@@ -29,8 +29,8 @@ else
             <MudTextField @bind-Value="@Animal.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
             <MudTextField @bind-Value="@Animal.Age" Label="Age" Variant="Variant.Outlined"/>
             <MudTextField @bind-Value="@Animal.Type" Label="Type" Variant="Variant.Outlined"/>
-            <MudTextField @bind-Value="@Animal.Reservation_Date" Label="Date Reserved" Variant="Variant.Outlined" />
-            <MudTextField @bind-Value="@Animal.date_adopted" Label="Date Adopted" Variant="Variant.Outlined"/>
+            <MudDatePicker @bind-Value="@Animal.Reservation_Date" Label="Date Reserved" Variant="Variant.Outlined" />
+            <MudDatePicker @bind-Value="@Animal.Date_adopted" Label="Date Adopted" Variant="Variant.Outlined" />
             <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
             <MudButton HtmlTag="label"
                        Variant="Variant.Filled"
@@ -98,7 +98,7 @@ else
                 Images = animal.Images,
                 Price = animal.Price,
                 Reservation_Date = animal.Reservation_Date,
-                date_adopted = animal.date_adopted,
+                Date_adopted = animal.Date_adopted,
             };
 
             var returnedUpdateItemDto = await AnimalService.UpdateAnimal(animalDto);

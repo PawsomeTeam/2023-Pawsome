@@ -13,5 +13,5 @@ public class AnimalDto
     public string Type { get; set; }
     public DateTime? Reservation_Date { get; set; }
 
-    public DateTime? date_adopted { get; set; }
+    public DateTime? Date_adopted { get; set; }
 }
