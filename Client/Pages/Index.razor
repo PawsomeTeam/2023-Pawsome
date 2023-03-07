@@ -19,7 +19,8 @@
       
     </MudItem>
     <MudItem xs="12" sm="6"  Class="pa-4">
-              <MudImage Src="https://cdn.pixabay.com/photo/2019/08/19/07/45/corgi-4415649_1280.jpg" Fluid="true" Alt="Corgy" Elevation="25" Class="rounded-lg ma-4"/>
+            <MudImage Src="~/Images/Index/HeroPic.png" Fluid="true" Alt="Corgy" Elevation="25" Class="rounded-lg ma-4" />
+            @*<MudImage Src="https://cdn.pixabay.com/photo/2019/08/19/07/45/corgi-4415649_1280.jpg" Fluid="true" Alt="Corgy" Elevation="25" Class="rounded-lg ma-4" />*@
     </MudItem>
     <MudItem xs="12" sm="6" >
         <MudPaper Class="pa-8 d-flex flex-column align-center justify-center">
@@ -56,24 +57,32 @@
     </MudItem>
 </MudGrid>
 
-@*Will add content to the home page*@
-<MudGrid>
-
-    <MudItem>
-            <MudText Typo="Typo.h2">About Us</MudText>
-    </MudItem>
-</MudGrid>
-
     <MudGrid>
-        <MudItem>
-            <MudText Typo="Typo.h2">Why should you adopt?</MudText>
+
+        <MudItem xs="12" sm="6" Class="pa-4 d-inline-flex flex-column justify-center">
+            <MudText Class="pa-8" Align="Align.Center" Typo="Typo.h2">Why should you adopt?</MudText>
+            <MudText Typo="Typo.subtitle1">Adopting a pet from a shelter is a heartwarming experience that saves a life and brings joy to your own. It's an opportunity to give an animal in need a second chance at a happy life, and often comes with the added benefits of already being spayed/neutered, vaccinated, and trained. Plus, by adopting, you're supporting the important work of shelters and rescue groups. Choose adoption and give a loving home to a deserving pet today!</MudText>
         </MudItem>
+
+        <MudItem xs="12" sm="6" Class="pa-4">
+            <MudImage Src="~/Images/Index/HeroPic2.png" Fluid="true" Alt="Corgy" Elevation="25" Class="rounded-lg ma-4" />
+        </MudItem>
+
     </MudGrid>
     
     <MudGrid>
-        <MudItem>
-            <MudText Typo="Typo.h2">Happy Owners</MudText>
-        </MudItem>
+
+                <MudItem  Class="pa-16 mt-10 justify-center" >
+            <MudText Class="pa-8" Align="Align.Center" Typo="Typo.h2">About Us</MudText>
+                    <MudText Typo="Typo.subtitle1">Welcome to Pawsome! We're passionate about helping pets find their forever homes. Our team of animal lovers works closely with local shelters and rescue groups to make pet adoption easy and fun. We provide expert advice and guidance to help you find the perfect match for your lifestyle and personality. Thank you for considering adoption, and we hope you find your new best friend on Pawsome!</MudText>
+                </MudItem>           
+
     </MudGrid>
+    
       
 </MudContainer>
+
+
+@code {
+    public int spacing { get; set; } = 2;
+}

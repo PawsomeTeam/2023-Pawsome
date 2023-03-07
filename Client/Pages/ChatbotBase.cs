@@ -38,7 +38,7 @@ public partial class ChatbotBase : ComponentBase
         generatedText = "Fething response...";
         try
         { 
-            string apiKey = "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";
+            string apiKey = "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";
             string answer = string.Empty;
             var openai = new OpenAIAPI(apiKey);
             CompletionRequest completion = new CompletionRequest();
