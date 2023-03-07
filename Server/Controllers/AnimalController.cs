@@ -50,6 +50,8 @@ public class AnimalController : ControllerBase
             Description = animal.Description,
             Main_Image_Url = animal.Main_Image_Url,
             Images = new List<ImageDto>(),
+            Reservation_Date = animal.Reservation_Date,
+            Date_adopted = animal.Date_adopted
         };
 
         foreach (var image in animal.Images)
@@ -86,7 +88,9 @@ public class AnimalController : ControllerBase
                 Age = newAnimal.Age,
                 Price = newAnimal.Price,
                 Main_Image_Url = newAnimal.Main_Image_Url,
-                Images = new List<ImageDto>()
+                Images = new List<ImageDto>(),
+                Reservation_Date = newAnimal.Reservation_Date,
+                Date_adopted = newAnimal.Date_adopted
             };
 
             foreach (var image in newAnimal.Images)
@@ -147,7 +151,9 @@ public class AnimalController : ControllerBase
                 Age = animalItem.Age,
                 Price = animalItem.Price,
                 Main_Image_Url = animalItem.Main_Image_Url,
-                Images = new List<ImageDto>()
+                Images = new List<ImageDto>(),
+                Reservation_Date = animalItem.Reservation_Date,
+                Date_adopted = animalItem.Date_adopted
             };
 
             foreach (var image in animalItem.Images)

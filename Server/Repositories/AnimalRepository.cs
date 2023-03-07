@@ -40,7 +40,9 @@ namespace PawsomeProject.Server.Repositories
                 Age = animalDto.Age,
                 Price = animalDto.Price,
                 Main_Image_Url = animalDto.Main_Image_Url,
-                Images = new List<Image>()
+                Images = new List<Image>(),
+                Reservation_Date = animalDto.Reservation_Date,
+                Date_adopted = animalDto.Date_adopted
             };
             foreach (var image in animalDto.Images)
             {
@@ -88,6 +90,10 @@ namespace PawsomeProject.Server.Repositories
                 updateAnimal.Main_Image_Url = animal.Main_Image_Url;
                 updateAnimal.Age = animal.Age;
                 updateAnimal.Images = images;
+                updateAnimal.Type = animal.Type;
+                updateAnimal.Reservation_Date = animal.Reservation_Date;
+                updateAnimal.Date_adopted = animal.Date_adopted;
+
 
                 await _dbContext.SaveChangesAsync();
                 return updateAnimal;
