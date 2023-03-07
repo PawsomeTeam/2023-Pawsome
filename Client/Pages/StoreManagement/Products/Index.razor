@@ -50,19 +50,14 @@
         <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
         <MudTd DataLabel="Price">@context.CategoryName</MudTd>
         <MudTd DataLabel="Price">@context.Qty</MudTd>
-        <MudTd DataLabel="Price">
-
-        
+        <MudTd DataLabel="Price">        
             @{
                     //TODO: make these into a Dialog instad of URLs
                 var editUrl = $"manage/products/update/{context.Id}";
                 var deleteUrl = $"manage/products/delete/{context.Id}";
             }
-            <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
-                <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  />
-                <MudIconButton Disabled="true" Link="@deleteUrl" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"  Size="Size.Small"  />
-            </MudTooltip>
-            
+          
+                <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined"   Size="Size.Small"  /> 
         </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -85,7 +80,7 @@
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
 
-        if ($"{element.Name} {element.Description} {element.CategoryName}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if ($"{element.Name} {element.Description} {element.CategoryName} {element.Price}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
