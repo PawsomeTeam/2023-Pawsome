@@ -103,7 +103,7 @@ public static class DtoConversions
                 ProductName = product.Name,
                 ProductImageURL = product.ImageURL,
                 Price = product.Price,
-                Qty = product.Qty
+                Qty = items.OrderQuantity
             };
             orderItems.Add(orderItemDto);
         }

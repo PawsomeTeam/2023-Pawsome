@@ -8,15 +8,12 @@
 <MudContainer>
     <MudTable Items="@orderDto.OrderItems" Hover="true">
         <HeaderContent>
-
             <MudTh>Thumbnail</MudTh>
             <MudTh>Name</MudTh>
-            <MudTh>Price</MudTh>
             <MudTh>Qty</MudTh>
+            <MudTh>Price</MudTh>
             <MudTh>Total</MudTh>
-            <MudTh></MudTh>
         </HeaderContent>
-
         <RowTemplate>
             @{ string DisplayUrl = $"/shop/products/{context.ProductId}"; }
             <MudTd DataLabel="Image">
@@ -32,8 +29,20 @@
             </MudTd>
             <MudTd DataLabel="Quantity">@context.Qty</MudTd>
             <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
+            @{
+                var total = context.Qty * context.Price;
+            }
+            <MudTd DataLabel="Price">@total.ToString("C")</MudTd>
         </RowTemplate>
     </MudTable>
+    @{
+        Decimal TotalPrice = 0;
+        foreach (var item in orderDto.OrderItems)
+        {
+            TotalPrice += item.Qty * item.Price;
+        }
+    }
+    <MudText Align="Align.End" Typo="Typo.h3">Total: @TotalPrice.ToString("C")</MudText>
 </MudContainer>
 
 @code

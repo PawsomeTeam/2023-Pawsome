@@ -48,7 +48,7 @@ public class OrderController : ControllerBase
     {
         try
         {
-            Console.WriteLine("Controller Id "  + email);
+            Console.WriteLine("Controller Id " + email);
             var order = await this.orderRepository.GetItem(email);
             if (order == null)
             {
@@ -64,6 +64,62 @@ public class OrderController : ControllerBase
         {
             Console.WriteLine(e);
             return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+        }
+    }
+
+    [HttpGet]
+    [Route("{email}/GetItems")]
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetItems(string email)
+    {
+        try
+        {
+            var orders = await orderRepository.GetItems(email);
+            if (orders == null)
+            {
+                return NoContent();
+            }
+
+            List<OrderDto> orderDtos = new List<OrderDto>();
+
+            foreach (var order in orders)
+            {
+                orderDtos.Add(order.ConvertToDto());
+            }
+
+            return Ok(orderDtos);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    [HttpGet]
+    [Route("AllItems")]
+    public async Task<ActionResult<IEnumerable<OrderDto>>> AllItems()
+    {
+        try
+        {
+            var orders = await orderRepository.AllItems();
+            if (orders == null)
+            {
+                return NoContent();
+            }
+
+            List<OrderDto> orderDtos = new List<OrderDto>();
+
+            foreach (var order in orders)
+            {
+                orderDtos.Add(order.ConvertToDto());
+            }
+
+            return Ok(orderDtos);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 }

@@ -1,34 +1,87 @@
 ﻿@page "/account"
 @inject NavigationManager navigationManager
 @inject IAuthService authService
+@inject IOrderService orderService
 
 
 <AuthorizeView>
     <Authorized>
-
         <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
-                     <MudItem xs="12" Class="pa-4 d-flex flex-column justify-center">
-                    <MudText Align="Align.Center" Typo="Typo.h2">Welcome  @context.User.Identity!.Name !!</MudText>
-                    <MudText Align="Align.Center" Typo="Typo.h6" Class="mt-4">You can find some information related to your acocunt here</MudText>
-                </MudItem>
-            <MudText Color="@Color.Error" Class="mb-3"> @error </MudText> 
-            <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6 white"  Elevation="4" Centered="true">
+            <MudItem xs="12" Class="pa-4 d-flex flex-column justify-center">
+                <MudText Align="Align.Center" Typo="Typo.h2">Welcome @context.User.Identity!.Name !!</MudText>
+                <MudText Align="Align.Center" Typo="Typo.h6" Class="mt-4">You can find some information related to your acocunt here</MudText>
+            </MudItem>
+            <MudText Color="@Color.Error" Class="mb-3"> @error </MudText>
+            <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6 white" Elevation="4" Centered="true">
                 <MudTabPanel Text="Account Settings" Icon="@Icons.Material.Filled.Settings">
-                        <div>
+                    <div>
 
-                        <MudText Typo="Typo.body1" Class="mb-4"> <b>Full Name:</b> @CurrentUser.FullName</MudText>
-                        <MudText Typo="Typo.body1" Class="mb-4"> <b>Email:</b> @CurrentUser.Email</MudText>
-                        <MudText Typo="Typo.body1" Class="mb-4"> <b>Phone:</b> @CurrentUser.PhoneNumber</MudText>
-                        <MudText Typo="Typo.body1" Class="mb-4"> <b>UserName:</b> @CurrentUser.UserName</MudText>              
+                        <MudText Typo="Typo.body1" Class="mb-4">
+                            <b>Full Name:</b> @CurrentUser.FullName
+                        </MudText>
+                        <MudText Typo="Typo.body1" Class="mb-4">
+                            <b>Email:</b> @CurrentUser.Email
+                        </MudText>
+                        <MudText Typo="Typo.body1" Class="mb-4">
+                            <b>Phone:</b> @CurrentUser.PhoneNumber
+                        </MudText>
+                        <MudText Typo="Typo.body1" Class="mb-4">
+                            <b>UserName:</b> @CurrentUser.UserName
+                        </MudText>
                         <MudButton Align="Align.Center" Link="/account/update" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto">Edit</MudButton>
-                        </div>
+                    </div>
 
                 </MudTabPanel>
                 <MudTabPanel Text="Adoption" Icon="@Icons.Material.Filled.Favorite">
                     <MudText Typo="Typo.body1" Class="mb-4">Comming soon...</MudText>
                 </MudTabPanel>
-                 <MudTabPanel Text="Orders" Icon="@Icons.Material.Filled.ShoppingCart">
-                    <MudText Typo="Typo.body1" Class="mb-4">Comming soon...</MudText>
+                <MudTabPanel Text="Orders" Icon="@Icons.Material.Filled.ShoppingCart">
+                    <MudTable Items="@Orders" Context="orders" Hover="true" LoadingProgressColor="Color.Primary">
+                        <HeaderContent>
+                            <MudTh>Order Id</MudTh>
+                            <MudTh>Products</MudTh>
+                            <MudTh>Price</MudTh>
+                            <MudTh>QTY</MudTh>
+                            <MudTh>Total</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Order Id">@orders.Id</MudTd>
+                            <MudTd DataLabel="Order Items">
+                                @foreach (var item in orders.OrderItems)
+                                {
+                                    string DisplayUrl = $"/shop/products/{item.ProductId}";
+                                    <MudLink Href="@DisplayUrl">
+                                        <MudText Typo="Typo.subtitle2">@item.ProductName</MudText>
+                                    </MudLink>
+                                }
+                            </MudTd>
+                            <MudTd DataLabel="Items Price">
+                                @foreach (var item in orders.OrderItems)
+                                {
+                                    <MudText Typo="Typo.subtitle2">@item.Price</MudText>
+                                }
+                            </MudTd>
+                            <MudTd DataLabel="Items Qty">
+                                @foreach (var item in orders.OrderItems)
+                                {
+                                    <MudText Typo="Typo.subtitle2">@item.Qty</MudText>
+                                }
+                            </MudTd>
+                            <MudTd DataLabel="Order Total">
+                                @{
+                                    Decimal total = 0;
+                                    foreach (var item in orders.OrderItems)
+                                    {
+                                        total += item.Price * item.Qty;
+                                    }
+                                    <MudText Typo="Typo.subtitle2">@total.ToString("C")</MudText>
+                                }
+                            </MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[] { 10, 50, 100 }"/>
+                        </PagerContent>
+                    </MudTable>
                 </MudTabPanel>
             </MudTabs>
         </MudContainer>
@@ -39,11 +92,10 @@
 </AuthorizeView>
 
 
-
-
 @code
 {
     private CurrentUser CurrentUser { get; set; } = new CurrentUser();
+    private List<OrderDto> Orders { get; set; } = new List<OrderDto>();
 
     string? error { get; set; }
 
@@ -53,7 +105,9 @@
         try
         {
             CurrentUser = await authService.CurrentUserInfo();
-            if(CurrentUser == null){
+            Orders = await orderService.GetItems(CurrentUser.Email);
+            if (CurrentUser == null)
+            {
                 navigationManager.NavigateTo("/login");
                 return;
             }
