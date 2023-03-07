@@ -36,6 +36,12 @@
         <MudTh>
             <MudTableSortLabel SortBy="new Func<AnimalDto, object>(x => x.Type)">Type</MudTableSortLabel>
         </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortBy="new Func<AnimalDto, object>(x => x.Reservation_Date)">Reserved</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortBy="new Func<AnimalDto, object>(x => x.date_adopted)">Date</MudTableSortLabel>
+        </MudTh>
         <MudTh>Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -53,13 +59,15 @@
 
             <MudText Typo="Typo.subtitle1">@context.Name</MudText>
 
-            </MudTd>
-            <MudTd DataLabel="Age">@context.Age</MudTd>
-            <MudTd DataLabel="Price">@context.Price</MudTd>
+        </MudTd>
+        <MudTd DataLabel="Age">@context.Age</MudTd>
+        <MudTd DataLabel="Price">@context.Price</MudTd>
         <MudTd DataLabel="Type">@context.Type</MudTd>
-            <MudTd DataLabel="Actions">
-                @{
-                
+        <MudTd DataLabel="Reserved">@context.Reservation_Date</MudTd>
+        <MudTd DataLabel="Date">@context.date_adopted</MudTd>
+        <MudTd DataLabel="Actions">
+            @{
+
                 var editUrl = $"manage/animals/update/{context.Id}";
                 var deleteUrl = $"manage/animals/delete/{context.Id}";
             }
@@ -89,7 +97,7 @@
     private bool _loading = true;
     private List<AnimalDto> _animals = new();
 
- 
+
 
     //description length
     private int maxLen = 30;
