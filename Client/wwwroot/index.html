@@ -21,59 +21,53 @@
     <!--    <script src="js/paypal.js"></script>-->
     <script>
         function initPayPalButton() {
-            var description = document.querySelector(
-                "#smart-button-container #description"
-            );
-            var amount = document.querySelector("#smart-button-container #amount");
+            var description = document.querySelector('#smart-button-container #description');
+            var amount = document.querySelector('#smart-button-container #amount');
 
             var purchase_units = [];
             purchase_units[0] = {};
             purchase_units[0].amount = {};
 
-            paypal
-                .Buttons({
-                    style: {
-                        color: "gold",
-                        shape: "rect",
-                        label: "paypal",
-                        layout: "vertical",
-                    },
+            paypal.Buttons({
+                style: {
+                    color: 'gold',
+                    shape: 'rect',
+                    label: 'paypal',
+                    layout: 'vertical',
 
-                    createOrder: function (data, actions) {
-                        purchase_units[0].description = description.value;
-                        purchase_units[0].amount.value = amount.value;
+                },
 
-                        return actions.order.create({
-                            purchase_units: purchase_units,
-                        });
-                    },
+                createOrder: function (data, actions) {
 
-                    onApprove: function (data, actions) {
-                        let link = document.location.href + "/delete";
-                        return actions.redirect(link).then(function (orderData) {
-                            // Full available details
-                            console.log(
-                                "Capture result",
-                                orderData,
-                                JSON.stringify(orderData, null, 2)
-                            );
+                    purchase_units[0].description = description.value;
+                    purchase_units[0].amount.value = amount.value;
 
-                            // Show a success message within this page, e.g.
-                            const element = document.getElementById(
-                                "paypal-button-container"
-                            );
-                            element.innerHTML = "";
-                            element.innerHTML = "<h3>Thank you for your payment!</h3>";
+                    return actions.order.create({
+                        purchase_units: purchase_units,
+                    });
+                },
 
-                            // Or go to another URL:  actions.redirect('thank_you.html');
-                        });
-                    },
+                onApprove: function (data, actions) {
+                    let link = document.location.href+"/delete";
+                    return actions.redirect(link).then(function (orderData) {
+                        // Full available details
+                        var orderId = orderData.purchase_units[0].payments.captures[0].id;
+                        var status = orderData.purchase_units[0].payments.captures[0].status;
+                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                        const element = document.getElementById('paypal-button-container');
+                        element.innerHTML = '';
+                        element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                        const orderElement = document.getElementById('orderElement');
+                        orderElement.innerHTML = '<h5> Your transaion ID is ' + orderId + '</h5>';
+                        const orderStatus = document.getElementById('status');
+                        orderStatus.innerText = 'Order ' + status;
+                    });
+                },
 
-                    onError: function (err) {
-                        console.log(err);
-                    },
-                })
-                .render("#paypal-button-container");
+                onError: function (err) {
+                    console.log(err);
+                }
+            }).render('#paypal-button-container');
         }
     </script>
 

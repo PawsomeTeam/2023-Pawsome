@@ -18,6 +18,8 @@ public class CheckoutBase : ComponentBase
     
     protected static int OrderId { get; set; }
     protected decimal PaymentAmount { get; set; }
+    
+    protected string Status { get; set; }
     [Inject] 
     public IAuthService authService { get; set; } = default!;
     private CurrentUser CurrentUser { get; set; } = new CurrentUser();
@@ -27,8 +29,6 @@ public class CheckoutBase : ComponentBase
     
     [Inject]
     public IShoppingCartService ShoppingCartService { get; set; }
-
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -52,9 +52,7 @@ public class CheckoutBase : ComponentBase
             Console.WriteLine(e);
             throw;
         }
-        
     }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
@@ -68,6 +66,14 @@ public class CheckoutBase : ComponentBase
         {
             Console.WriteLine(e);
             throw;
+        }
+    }
+    protected async Task CheckStatus(string Status)
+    {
+        if (Status!=null)
+        {
+            Console.WriteLine("Completed.");
+            AddToOrder(ShoppingCartItems);
         }
     }
     protected async Task AddToOrder(IEnumerable<CartItemDto> ShoppingCartItems)
