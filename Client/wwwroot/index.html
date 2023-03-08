@@ -7,6 +7,7 @@
     <title>PawsomeProject</title>
     <base href="/" />
     <link rel="stylesheet" type="text/css" href="animation.css" />
+    <link rel="stylesheet" type="text/css" href="background.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
@@ -21,53 +22,64 @@
     <!--    <script src="js/paypal.js"></script>-->
     <script>
         function initPayPalButton() {
-            var description = document.querySelector('#smart-button-container #description');
-            var amount = document.querySelector('#smart-button-container #amount');
+            var description = document.querySelector(
+                "#smart-button-container #description"
+            );
+            var amount = document.querySelector("#smart-button-container #amount");
 
             var purchase_units = [];
             purchase_units[0] = {};
             purchase_units[0].amount = {};
 
-            paypal.Buttons({
-                style: {
-                    color: 'gold',
-                    shape: 'rect',
-                    label: 'paypal',
-                    layout: 'vertical',
+            paypal
+                .Buttons({
+                    style: {
+                        color: "gold",
+                        shape: "rect",
+                        label: "paypal",
+                        layout: "vertical",
+                    },
 
-                },
+                    createOrder: function (data, actions) {
+                        purchase_units[0].description = description.value;
+                        purchase_units[0].amount.value = amount.value;
 
-                createOrder: function (data, actions) {
+                        return actions.order.create({
+                            purchase_units: purchase_units,
+                        });
+                    },
 
-                    purchase_units[0].description = description.value;
-                    purchase_units[0].amount.value = amount.value;
+                    onApprove: function (data, actions) {
+                        let link = document.location.href + "/delete";
+                        return actions.redirect(link).then(function (orderData) {
+                            // Full available details
+                            var orderId =
+                                orderData.purchase_units[0].payments.captures[0].id;
+                            var status =
+                                orderData.purchase_units[0].payments.captures[0].status;
+                            console.log(
+                                "Capture result",
+                                orderData,
+                                JSON.stringify(orderData, null, 2)
+                            );
+                            const element = document.getElementById(
+                                "paypal-button-container"
+                            );
+                            element.innerHTML = "";
+                            element.innerHTML = "<h3>Thank you for your payment!</h3>";
+                            const orderElement = document.getElementById("orderElement");
+                            orderElement.innerHTML =
+                                "<h5> Your transaion ID is " + orderId + "</h5>";
+                            const orderStatus = document.getElementById("status");
+                            orderStatus.innerText = "Order " + status;
+                        });
+                    },
 
-                    return actions.order.create({
-                        purchase_units: purchase_units,
-                    });
-                },
-
-                onApprove: function (data, actions) {
-                    let link = document.location.href+"/delete";
-                    return actions.redirect(link).then(function (orderData) {
-                        // Full available details
-                        var orderId = orderData.purchase_units[0].payments.captures[0].id;
-                        var status = orderData.purchase_units[0].payments.captures[0].status;
-                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                        const element = document.getElementById('paypal-button-container');
-                        element.innerHTML = '';
-                        element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                        const orderElement = document.getElementById('orderElement');
-                        orderElement.innerHTML = '<h5> Your transaion ID is ' + orderId + '</h5>';
-                        const orderStatus = document.getElementById('status');
-                        orderStatus.innerText = 'Order ' + status;
-                    });
-                },
-
-                onError: function (err) {
-                    console.log(err);
-                }
-            }).render('#paypal-button-container');
+                    onError: function (err) {
+                        console.log(err);
+                    },
+                })
+                .render("#paypal-button-container");
         }
     </script>
 
@@ -75,40 +87,36 @@
 
     <script>
         // Select the element to fade out
-        const element = document.querySelector('.element');
+        const element = document.querySelector(".element");
 
         // Add an event listener for the animationend event
-        element.addEventListener('animationend', () => {
+        element.addEventListener("animationend", () => {
             // Remove the element from the DOM
             element.parentNode.removeChild(element);
         });
     </script>
     <script>
         // Select the element to fade out
-        const element = document.querySelector('.element');
+        const element = document.querySelector(".element");
 
         // Add an event listener for the animationend event
-        element.addEventListener('animationend', () => {
+        element.addEventListener("animationend", () => {
             // Remove the element from the DOM
             element.parentNode.removeChild(element);
         });
     </script>
-
-
-
-
 </head>
 
   <body>
-      <div id="app">Loading...</div>
+    <div id="app">Loading...</div>
 
-      <div id="blazor-error-ui">
-          An unhandled error has occurred.
-          <a href="" class="reload">Reload</a>
-          <a class="dismiss">🗙</a>
-      </div>
-      
-      <script src="_framework/blazor.webassembly.js"></script>
-      <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <div id="blazor-error-ui">
+      An unhandled error has occurred.
+      <a href="" class="reload">Reload</a>
+      <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
   </body>
 </html>

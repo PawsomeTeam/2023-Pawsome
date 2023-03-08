@@ -62,7 +62,7 @@ public partial class ChatbotBase : ComponentBase
 /*        string secretValue = secret.Value;*/
         try
         {
-            string apiKey = "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";
+            string apiKey = "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";
             string answer = string.Empty;
             var openai = new OpenAIAPI(apiKey);
             CompletionRequest completion = new CompletionRequest();
