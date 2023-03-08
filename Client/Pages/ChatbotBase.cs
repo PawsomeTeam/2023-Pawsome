@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using OpenAI_API.Completions;
 using OpenAI_API;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Core;
 using PawsomeProject.Client.Services;
 using PawsomeProject.Shared.Models;
 using System.Net.Http;
@@ -30,15 +33,32 @@ public partial class ChatbotBase : ComponentBase
 
 
 
+
     protected async Task GetResponseFromGPT3()
     {
         var persona = "veterinarian named Pawla";
         var introMessage = "This is your Pawsome Assistant named Pawla, I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions and make you happy.😊";
         var prompt = $"{persona}: {introMessage}\nYou: {message}\n{persona}: ";
         generatedText = "Give me a sec, Im thinking 😁";
+        
+        SecretClientOptions options = new SecretClientOptions()
+        {
+            Retry =
+            {
+                Delay= TimeSpan.FromSeconds(2),
+                MaxDelay = TimeSpan.FromSeconds(16),
+                MaxRetries = 5,
+                Mode = RetryMode.Exponential
+            }
+        };
+        var client = new SecretClient(new Uri("https://pawsome.vault.azure.net/"), new DefaultAzureCredential(), options);
+
+        KeyVaultSecret secret = client.GetSecret("OpenAiKeyString");
+
+        string secretValue = secret.Value;
         try
         {
-            string apiKey = "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";
+            string apiKey = secretValue;
             string answer = string.Empty;
             var openai = new OpenAIAPI(apiKey);
             CompletionRequest completion = new CompletionRequest();
