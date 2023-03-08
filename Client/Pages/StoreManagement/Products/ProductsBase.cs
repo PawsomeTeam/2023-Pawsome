@@ -44,4 +44,11 @@ public class ProductsBase : ComponentBase
     {
         return groupedProductDtos.FirstOrDefault(pg => pg.CategoryId == groupedProductDtos.Key)?.CategoryName;
     }
+    
+    [Inject] 
+    public NavigationManager NavigationManager { get; set; } = default!;
+    protected async Task ShowAllProducts()
+    {
+        NavigationManager.NavigateTo("/Product/ShowAllProducts");
+    }
 }

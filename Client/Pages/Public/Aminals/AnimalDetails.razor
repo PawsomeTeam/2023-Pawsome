@@ -11,31 +11,30 @@
 } else
 {
       <MudGrid Class="mb-16" Model="@Animal">
-           <MudItem xs="12" md="6" lg="4">
-               @* <MudImage Fluid="true" Src="@Animal.Main_Image_Url" Alt="@Animal.Name" Class="rounded-xs" /> *@
+           <MudItem xs="12" md="6" >   
+
+            @* //////// Simple image gallery //////*@
+               <MudImage Fluid="true" Style="width:100%" Src="@mainImgUrl"  Alt="@Animal.Name"  Class="rounded-lg" /><br>
                @foreach (var imgae in Animal.Images)
-               {    
-                   <MudImage Fluid="true" Src="@imgae.URL" Alt="@Animal.Name" Class="rounded-xs" />
+               {  
+                <MudButton OnClick="@(() => {mainImgUrl = imgae.URL;})">
+                   <MudImage Height="50" Width="50" ObjectFit="ObjectFit.Cover" Src="@imgae.URL" Alt="@Animal.Name" Class="rounded-lg" />
+                </MudButton>
                }
+               @* //////// Simple image gallery END //////*@
            </MudItem>
-            <MudItem xs="12" md="6" lg="8">
-                <MudText Typo="Typo.h4">@Animal.Name</MudText>
+            <MudItem xs="12" md="6" >
+                <MudText Typo="Typo.h4" Class="mb-3">@Animal.Name</MudText>
                 <MudText Typo="Typo.body1" Class="mb-4">
-                <i>@Animal.Type</i>
+                    <b>type:</b> @Animal.Type <br>
+                    <b>age:</b> @Animal.Age yrs  <br>
+                    <b>adoption fees:</b> @Animal.Price.ToString("C")<br>
                 </MudText>
                 <MudText Typo="Typo.body1" Class="mb-4">@Animal.Description</MudText>
-            <MudText Typo="Typo.h6" Class="mb-4">
-                <i>Age: @Animal.Age</i>
-                </MudText>
                 @{string adoptUrl = "animals/adopt/" + Animal.Id;}
                 <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Link="@adoptUrl">
                   Adopt
                 </MudButton>
-                 @* <a href="EditProduct/@Product.Id">
-                        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
-                            Edit Product
-                        </MudButton>
-                    </a> *@
             </MudItem>
     </MudGrid>
 
@@ -45,24 +44,20 @@
     [Parameter]
     public int Id { get; set; }
 
+    //for simple image gallery
+    public string mainImgUrl { get; set; }
+
     public AnimalDto Animal = new AnimalDto();
     public bool loading = true;
     public string? error = null;
-
-    @* temp variables *@
-    // public double temp_price = 400.00;
-    // public string temp_type = "dog";
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             Animal = await _animalService.GetAnimalById(Id);
-            @* temporary animal for testing *@
-            // Animal.Name = "Temp name";
-            // Animal.Description = "Temp animal description";
-            // Animal.Main_Image_Url = "https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg";
-            // Animal.Age = 10;
+            //for simple image gallery
+            mainImgUrl = Animal.Images[0].URL;
             loading = false;
         }
         catch (Exception ex)
