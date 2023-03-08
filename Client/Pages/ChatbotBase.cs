@@ -53,7 +53,7 @@ public partial class ChatbotBase : ComponentBase
         };
         var client = new SecretClient(new Uri("https://pawsome.vault.azure.net/"), new DefaultAzureCredential(), options);
 
-        KeyVaultSecret secret = client.GetSecret("OpenAiKeyString");
+        KeyVaultSecret secret = client.GetSecret("OpenAiKeyString1");
 
         string secretValue = secret.Value;
         try
