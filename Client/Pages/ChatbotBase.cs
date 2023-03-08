@@ -41,7 +41,7 @@ public partial class ChatbotBase : ComponentBase
         var prompt = $"{persona}: {introMessage}\nYou: {message}\n{persona}: ";
         generatedText = "Give me a sec, Im thinking 😁";
         
-        SecretClientOptions options = new SecretClientOptions()
+       /* SecretClientOptions options = new SecretClientOptions()
         {
             Retry =
             {
@@ -53,12 +53,16 @@ public partial class ChatbotBase : ComponentBase
         };
         var client = new SecretClient(new Uri("https://pawsome.vault.azure.net/"), new DefaultAzureCredential(), options);
 
+<<<<<<< HEAD
         KeyVaultSecret secret = client.GetSecret("OpenAiKeyString1");
 
         string secretValue = secret.Value;
+=======
+        KeyVaultSecret secret = client.GetSecret("OpenAiKeyString");*/
+/*        string secretValue = secret.Value;*/
         try
         {
-            string apiKey = secretValue;
+            string apiKey = "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";
             string answer = string.Empty;
             var openai = new OpenAIAPI(apiKey);
             CompletionRequest completion = new CompletionRequest();
