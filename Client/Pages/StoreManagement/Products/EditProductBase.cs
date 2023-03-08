@@ -61,7 +61,7 @@ public class EditProductBase : ComponentBase
     protected async Task Delete_Product_Click(List<ImageDto> images, int id)
     {
         await ProductService.DeleteItem(id);
-        NavigationManager.NavigateTo("");
+        NavigationManager.NavigateTo("/manage/products");
     }
 
 

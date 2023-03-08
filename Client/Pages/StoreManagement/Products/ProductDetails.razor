@@ -18,10 +18,15 @@
 
 <MudGrid Class="mb-16">
     <MudItem xs="12" md="6" lg="4">
-        @foreach (var image in Product.Images)
-        {
-            <MudImage Fluid="true" Src="@image.URL" Alt="@Product?.Name" Class="rounded-xs"/>
-        }
+         @* //////// Simple image gallery //////*@
+               <MudImage Fluid="true" Style="width:100%" Src="@mainImgUrl"  Alt="@Product.Name"  Class="rounded-lg" /><br>
+               @foreach (var imgae in Product.Images)
+               {  
+                <MudButton OnClick="@(() => {mainImgUrl = imgae.URL;})">
+                   <MudImage Height="50" Width="50" ObjectFit="ObjectFit.Cover" Src="@imgae.URL" Alt="@Product.Name" Class="rounded-lg" />
+                </MudButton>
+               }
+        @* //////// Simple image gallery END //////*@
     </MudItem>
     <MudItem xs="12" md="6" lg="8">
         <MudText Typo="Typo.h4">@Product?.Name</MudText>
@@ -47,4 +52,3 @@
         </MudButton>
     </MudItem>
 </MudGrid>
-

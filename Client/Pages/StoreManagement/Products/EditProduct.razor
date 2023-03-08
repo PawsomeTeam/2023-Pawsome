@@ -1,7 +1,7 @@
 @page "/manage/products/update/{Id:int}"
 @inherits EditProductBase
 
-<MudText Align="Align.Center" Typo="Typo.h3">Edit Product</MudText>
+<MudText Align="Align.Center" Typo="Typo.h3" Class="mb-8">Edit Product</MudText>
 
 @if (Product == null && ErrorMessage == null)
 {
@@ -15,43 +15,58 @@ else
 {
     <MudGrid Class="mb-16">
 
-        <MudItem xs="12" md="6" lg="4">
-            @* <MudImage Fluid="true" Src="@Product?.ImageURL" Alt="@Product?.Name" Class="rounded-xs"/> *@
-            @foreach (var image in Product.Images)
-            {
-                <MudImage Fluid="true" Src="@image.URL" Alt="@Product?.Name" Class="rounded-xs"/>
-                <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
-            }
-        </MudItem>
         <MudItem xs="12" md="6" lg="8">
-            <MudTextField @bind-Value="@Product.Name" Label="Name" Variant="Variant.Outlined"/>
-            <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined"/>
-            <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
-            <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined"/>
-            <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
-            <MudButton HtmlTag="label"
-                       Variant="Variant.Filled"
-                       Color="Color.Success"
-                       StartIcon="@Icons.Filled.Image"
-                       EndIcon="@Icons.Material.Filled.Add"
-                       Label="Load picture"
-                       for="imageInput">
-                Upload Files
-            </MudButton>
+            <MudPaper Class="pa-8">
+                <div class="d-flex flex-column gap-4">
+                    
+                    <MudTextField @bind-Value="@Product.Name" Label="Name" Variant="Variant.Outlined"/>
+                    <MudTextField @bind-Value="@Product.Description" Label="Description" Variant="Variant.Outlined" Lines="5"/>
+                    <div class="d-flex gap-4">
+                        <MudTextField @bind-Value="@Product.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
+                        <MudTextField @bind-Value="@Product.Qty" Label="Stock" Variant="Variant.Outlined"/>
+                    </div>
+                    
+                    <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
 
-            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
-                       @onclick="() => (Update_Product_Click(Product))">
-                Update Product
-            </MudButton>
-
-
-            <MudButton Variant="Variant.Filled" Color="Color.Error"
-                       @onclick="() => (Delete_Product_Click(Product.Images, Product.Id))">
-                Delete Product
-            </MudButton>
-
-
+                    <div class="d-flex justify-space-between gap-4">
+                        <div class="d-flex  gap-4">
+                            <MudButton Variant="Variant.Filled" Color="Color.Error"
+                                    @onclick="() => (Delete_Product_Click(Product.Images, Product.Id))">
+                                Delete 
+                            </MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                    @onclick="() => (Update_Product_Click(Product))">
+                                Update 
+                            </MudButton>
+                        </div>
+                        <MudButton HtmlTag="label"
+                                Variant="Variant.Filled"
+                                Color="Color.Success"
+                                StartIcon="@Icons.Filled.Image"
+                                EndIcon="@Icons.Material.Filled.Add"
+                                Label="Load picture"
+                                for="imageInput">
+                            Upload
+                        </MudButton>
+                    </div>
+                </div>
+            </MudPaper>
         </MudItem>
 
+        <MudItem xs="12" md="6" lg="4">
+            @{var mainImgUlr = Product?.Images.Count > 0 ? Product.Images[0].URL : null;}
+            @if(mainImgUlr != null){
+                <MudImage Fluid="true" Style="width:100%" Src="@mainImgUlr" Alt="@Product?.Name" Class="rounded-lg"/>
+            }
+             <div class="d-flex gap-4 flex-wrap justify-center">
+                @foreach (var image in Product.Images)
+                {
+                    <div class="d-flex align-center">
+                        <MudImage Src="@image.URL"  Class="rounded-lg" Width="100" Height="100" ObjectFit="ObjectFit.Cover"/>
+                        <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Class="ms-n9 me-4 mt-14" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Size="Size.Small"/>
+                    </div>
+                }
+              </div>
+        </MudItem>
     </MudGrid>
 }
