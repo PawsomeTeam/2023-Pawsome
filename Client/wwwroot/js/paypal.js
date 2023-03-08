@@ -26,19 +26,8 @@ function initPayPalButton() {
         },
 
         onApprove: function (data, actions) {
-            return actions.order.capture().then(function (orderData) {
-
-                // Full available details
-                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-
-                // Show a success message within this page, e.g.
-                const element = document.getElementById('paypal-button-container');
-                element.innerHTML = '';
-                element.innerHTML = '<h3>Thank you for your payment!</h3>';
-
-                // Or go to another URL:  actions.redirect('thank_you.html');
-                actions.redirect('');
-            });
+            let link = document.location.href+"/delete";
+            return actions.redirect(link)
         },
 
         onError: function (err) {

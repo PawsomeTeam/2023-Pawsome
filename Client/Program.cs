@@ -15,7 +15,8 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<CustomStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IAnimalService, HttpBasedAnimalService> ();
+builder.Services.AddScoped<IAnimalService, HttpBasedAnimalService>();
+
 
 //Add OpenAIServices
 builder.Services.AddOpenAIServices(o =>
@@ -29,6 +30,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+builder.Services.AddScoped<IAdoptionService, AdoptionService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddMudServices();
 

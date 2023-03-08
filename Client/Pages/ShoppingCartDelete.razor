@@ -1,0 +1,74 @@
+@page "/Checkout/delete"
+@inject NavigationManager navigationManager
+@inject IShoppingCartService ShoppingCartService
+@inject IOrderService OrderService
+@inject IAuthService authService
+@inherits CheckoutBase
+
+<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Order Summary</MudText>
+<MudContainer>
+    <MudTable Items="@orderDto.OrderItems" Hover="true">
+        <HeaderContent>
+            <MudTh>Thumbnail</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Qty</MudTh>
+            <MudTh>Price</MudTh>
+            <MudTh>Total</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            @{ string DisplayUrl = $"/shop/products/{context.ProductId}"; }
+            <MudTd DataLabel="Image">
+                <MudLink Href="@DisplayUrl">
+                    <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80"
+                              Src="@context.ProductImageURL" Alt="@context.ProductName" Elevation="25" Class="rounded-lg"/>
+                </MudLink>
+            </MudTd>
+            <MudTd DataLabel="Name">
+                <MudLink Href="@DisplayUrl">
+                    <MudText Typo="Typo.subtitle1">@context.ProductName</MudText>
+                </MudLink>
+            </MudTd>
+            <MudTd DataLabel="Quantity">@context.Qty</MudTd>
+            <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
+            @{
+                var total = context.Qty * context.Price;
+            }
+            <MudTd DataLabel="Price">@total.ToString("C")</MudTd>
+        </RowTemplate>
+    </MudTable>
+    @{
+        Decimal TotalPrice = 0;
+        foreach (var item in orderDto.OrderItems)
+        {
+            TotalPrice += item.Qty * item.Price;
+        }
+    }
+    <MudCard Class="my-3">
+        <MudText Align="Align.End" Typo="Typo.h5">Total: @TotalPrice.ToString("C")</MudText>
+    </MudCard>
+</MudContainer>
+
+
+
+
+    <div class="circle fade">
+        <div class="tick"></div>
+    </div>
+
+
+
+@code
+{
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
+    private OrderDto orderDto { get; set; } = new OrderDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CurrentUser = await authService.CurrentUserInfo();
+        var cartItemDto = await ShoppingCartService.DeleteAllItems(CurrentUser.Email);
+        ShoppingCartService.RaiseEventOnShoppingCartChanged(0);
+        orderDto = await OrderService.GetItem(CurrentUser.Email);
+        Console.WriteLine(OrderId);
+        Console.WriteLine("ID : " + orderDto.Id);
+    }
+}

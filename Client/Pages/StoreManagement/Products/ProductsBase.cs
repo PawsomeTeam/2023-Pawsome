@@ -20,10 +20,13 @@ public class ProductsBase : ComponentBase
     {
         Products = await ProductService.GetItems();
         CurrentUser = await authService.CurrentUserInfo();
-        var shoppingCartItems = await ShoppingCartService.GetItems(CurrentUser.Email);
-        IsLoading = false;
-        var totalQty = shoppingCartItems.Sum(i => i.Qty);
-        ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
+        if (CurrentUser.IsAuthenticated)
+        {
+            var shoppingCartItems = await ShoppingCartService.GetItems(CurrentUser.Email);
+            IsLoading = false;
+            var totalQty = shoppingCartItems.Sum(i => i.Qty);
+            ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
+        }
     }
 
     public string? ErrorMessage { get; set; } = null;
@@ -40,5 +43,12 @@ public class ProductsBase : ComponentBase
     protected string? GetCategoryName(IGrouping<int, ProductDto> groupedProductDtos)
     {
         return groupedProductDtos.FirstOrDefault(pg => pg.CategoryId == groupedProductDtos.Key)?.CategoryName;
+    }
+    
+    [Inject] 
+    public NavigationManager NavigationManager { get; set; } = default!;
+    protected async Task ShowAllProducts()
+    {
+        NavigationManager.NavigateTo("/Product/ShowAllProducts");
     }
 }

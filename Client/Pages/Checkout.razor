@@ -1,89 +1,53 @@
 @page "/Checkout"
-@inherits CheckoutBase 
+@inherits CheckoutBase
+
 
 <MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Checkout</MudText>
 <MudGrid>
     <MudItem xs="12" lg="6">
-         <div id="smart-button-container">
-            <input type="hidden" name="descriptionInput" id="description" @bind="PaymentDescription" />
+        <div id="smart-button-container">
+            <input type="hidden" name="descriptionInput" id="description" @bind="PaymentDescription"/>
             <input name="amountInput" type="hidden" id="amount" @bind="PaymentAmount">
-            <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
-        </div>
+            <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container" ></div>
+            <div style="text-align: center; margin-top: 0.625rem;" id="status" @bind="Status" ></div>
+         </div>
     </MudItem>
-        <MudItem xs="12" lg="6">
-            <MudSimpleTable  Hover="true" Dense="true">
-                <thead>
+    <MudItem xs="12" lg="6">
+        <MudSimpleTable Hover="true" Dense="true">
+            <thead>
+            <tr>
+                <th colspan="2">
+                    <MudText Typo="Typo.h5" Class="my-3" Align="Align.Center">Order Summery</MudText>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <div style="text-align: center; margin-top: 0.325rem;" id="orderElement"></div>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in ShoppingCartItems)
+            {
                 <tr>
-                    <th colspan="2"><MudText Typo="Typo.h5" Class="my-3" Align="Align.Center">Order Summery</MudText></th>
-        
+                    <td>@item.Qty x @item.ProductName</td>
+                    <td>@item.TotalPrice.ToString("C")</td>
                 </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in ShoppingCartItems)
-                    {
-                        <tr>
-                            <td>@item.Qty x @item.ProductName</td>
-                            <td>@item.TotalPrice.ToString("C")</td>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td><MudText Typo="Typo.h5" Class="mt-3" Align="Align.End">Total</MudText></td>
-                        <td><MudText Typo="Typo.h5" Class="mt-3"><b>@PaymentAmount.ToString("C")</b></MudText></td>
-                    </tr>
-                </tfoot>
-          
-            </MudSimpleTable>
+            }
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>
+                    <MudText Typo="Typo.h5" Class="mt-3" Align="Align.End">Total</MudText>
+                </td>
+                <td>
+                    <MudText Typo="Typo.h5" Class="mt-3">
+                        <b>@PaymentAmount.ToString("C")</b>
+                    </MudText>
+                </td>
+            </tr>
+            </tfoot>
+
+        </MudSimpleTable>
     </MudItem>
 </MudGrid>
-
-
-@* <div class="row">
-    <div class="col-md-6">
-        <h4 class="mb-2">Payment Method</h4>
-        <div id="smart-button-container">
-            <input type="hidden" name="descriptionInput" id="description" @bind="PaymentDescription" />
-            <input name="amountInput" type="hidden" id="amount" @bind="PaymentAmount">
-            <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
-        </div>
-    </div>
-@if (ShoppingCartItems == null)
-{
-    <DisplaySpinner/>
-}
-else
-{
-    <div class="col-md-6">
-        <h4 class="mb-2">Payment Summary</h4>
-        @if (ShoppingCartItems.Count() > 0)
-        {
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach(var item in ShoppingCartItems)
-                {
-                    <tr>
-                        <td>@item.Qty x @item.ProductName</td>
-                        <td>@item.TotalPrice.ToString("C")</td>
-                    </tr>
-                }
-                <tr>
-                    <td><b>Total</b></td>
-                    <td><b>@PaymentAmount.ToString("C")</b></td>
-                </tr>
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>You currently have no items in your shopping cart</p>
-        }
-    </div> 
-}
-</div> *@

@@ -15,7 +15,7 @@
         transition: 0.5s ease-in-out;
     }
 </style>
-
+  <MudText Typo="Typo.h2" Align="Align.Center" Class="mb-16">Available For Adoption</MudText>
 
 @if(error != null){
     <MudAlert Severity="Severity.Error" Class="mb-16">@error</MudAlert>
@@ -34,7 +34,7 @@
                 <MudCardHeader>
                 <CardHeaderContent>
                         <MudText Typo="Typo.h6">@item.Name</MudText>
-                        <MudText Typo="Typo.body2">@temp_type</MudText>
+                        <MudText Typo="Typo.body2">@item.Type</MudText>
                 </CardHeaderContent>
                 
                     <CardHeaderActions>
@@ -48,14 +48,14 @@
                         {
                             <MudCardMedia Image="https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg" Height="200" />
                         } else {
-                            <MudCardMedia Image="https://pawsome.blob.core.windows.net/products/2023-02-27-05-04-56-813_dog-1194087_640.jpg" Height="200" />
+                            <MudCardMedia Image="@item.Main_Image_Url" Height="200" />
                         }
                     </div>
                 
                 </a>
                 <MudCardContent Class="d-flex justify-space-between align-center">
                     @* <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText> *@
-                    <MudText Typo="Typo.body1">@temp_price.ToString("C")</MudText>
+                    <MudText Typo="Typo.body1">@item.Price.ToString("C")</MudText>
                     @* <MudButton Link="animals/" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary">
                         Adopt
                     </MudButton> *@
@@ -84,6 +84,8 @@
     {
         try{
             _animals = await Service.GetAll();
+            // To filter the animals that are not reserved or adopted
+            _animals = _animals.Where(a => a.Reservation_Date == null && a.Date_adopted == null).ToList();
             loading = false;
         } catch (Exception ex)
         {

@@ -86,6 +86,25 @@ public class ShoppingCartService : IShoppingCartService
         }
     }
 
+    public async Task<CartItemDto> DeleteAllItems(string userEmail)
+    {
+        try
+        {
+            var response = await httpClient.DeleteAsync($"api/ShoppingCart/{userEmail}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<CartItemDto>();
+            }
+    
+            return default(CartItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public void RaiseEventOnShoppingCartChanged(int totalQty)
     {
         if (OnShoppingCartChanged != null)

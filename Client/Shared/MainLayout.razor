@@ -7,9 +7,9 @@
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
-<MudLayout Class="deep-purple lighten-5" style="height:100vh">
+<MudLayout Class="deep-purple lighten-5" style="min-height:100vh">
     <MudAppBar Elevation="0">
-        <MudText Typo="Typo.h6">Pawsome</MudText>
+        <MudButton Link="/" Typo="Typo.h6">Pawsome</MudButton>
         <MudSpacer/>
         <CartMenu/>
          <AuthorizeView>
@@ -56,7 +56,7 @@
     </MudDrawer>
  
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 py-16">
             @Body
         </MudContainer>
     </MudMainContent>
@@ -65,12 +65,11 @@
         <MudSpacer />
         <div>
 
-        <MudText Typo="Typo.caption">Pawsome© 2021</MudText>
+        <MudText Typo="Typo.caption">Pawsome© 2023</MudText>
         <MudText Typo="Typo.caption">All rights reserved</MudText>
         </div>
-        <MudSpacer />
-       <MudText Typo="Typo.caption">[social links]</MudText>
-    </MudAppBar>>
+        
+    </MudAppBar>
 </MudLayout>
 
 @code {

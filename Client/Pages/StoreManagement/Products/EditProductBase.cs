@@ -60,11 +60,6 @@ public class EditProductBase : ComponentBase
 
     protected async Task Delete_Product_Click(List<ImageDto> images, int id)
     {
-        foreach (var image in images.ToList())
-        {
-            await HandleDeleteImage(image.URL, image.Id);
-        }
-
         await ProductService.DeleteItem(id);
         NavigationManager.NavigateTo("");
     }

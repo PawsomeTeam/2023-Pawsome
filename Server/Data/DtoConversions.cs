@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.SignalR.Protocol;
 using PawsomeProject.Server.Models;
 using PawsomeProject.Shared.Models;
 
@@ -86,6 +87,33 @@ public static class DtoConversions
             Price = product.Price,
             Qty = cartItem.Qty,
             TotalPrice = product.Price * cartItem.Qty
+        };
+    }
+
+    public static OrderDto ConvertToDto(this Order order)
+    {
+        List<OrderItemDto> orderItems = new List<OrderItemDto>();
+        foreach (var items in order.OrderItems)
+        {
+            Product product = new Product();
+            product = items.Product;
+            OrderItemDto orderItemDto = new OrderItemDto
+            {
+                ProductId = product.Id,
+                ProductName = product.Name,
+                ProductImageURL = product.ImageURL,
+                Price = product.Price,
+                Qty = items.OrderQuantity
+            };
+            orderItems.Add(orderItemDto);
+        }
+
+        return new OrderDto
+        {
+            Id = order.Id,
+            UserEmail = order.User.Email,
+            OrderItems = orderItems,
+            purchasedDate = DateTime.Now
         };
     }
 }

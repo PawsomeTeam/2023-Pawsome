@@ -1,0 +1,114 @@
+﻿@page "/chatbot"
+@inherits ChatbotBase
+
+@inject IJSRuntime JSRuntime
+
+
+
+
+
+
+
+<MudGrid>
+
+    <MudItem xs="12" sm="6" Class="pa-4 d-flex flex-column justify-center">
+        <MudText Typo="Typo.h4">Welcome to Pawsome Assitant</MudText>
+        <MudText Typo="Typo.body2" Class="mt-4">Meet Pawla, your new best friend for all things animal care! Whether you're new to pet ownership or a seasoned pro, Pawla has got your back with practical tips and advice to help you give your furry friend the best possible care. From nutrition, grooming, and exercise to behavior and training, Pawla is available to chat and provide personalized guidance whenever you need it. So, why wait? Chat with Pawla now and give your pets the love and attention they deserve!</MudText>
+
+
+    </MudItem>
+
+
+    <MudItem>
+
+            <div class="d-flex justify-content-center text-center">
+
+                <div style="width:600px; min-height:260px; width:700px;
+                    padding: 30px;
+                    border-radius: 20px;
+                    margin-bottom: 20px;
+                     background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 100%);" class="mt-2container border border-1 rounded-2 p-3 text-center">
+                @generatedText
+                </div>
+                
+                </div>
+
+    </MudItem>
+
+    <MudItem>
+        <MudImage src="https://pawsome.blob.core.windows.net/main/CatHero.png" Style="float:right; height: 300px;" />
+
+    </MudItem>
+
+</MudGrid>
+
+<MudGrid>
+    <MudItem>
+
+
+<div class="form-group text-center">
+    <input class="form-control my-4 text-center py-2 m-auto" style="width: 600px;
+                            height: 60px;
+                            padding-left: 15px;
+                            border-radius: 20px;
+                            margin-bottom: 20px;
+                            background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 100%);" type="text" @bind="@message" placeholder="Type your message here" />
+</div>
+
+    </MudItem>
+
+</MudGrid>
+
+<MudGrid>
+    <MudItem>
+
+        <div class="flex-column">
+
+
+            <button class="btn btn-success mb-4 px-2" style="
+                        padding-top: 8px;
+                        font-size: 13px;
+                        text-transform: uppercase;
+                        text-align: center;
+                        color: white;
+                       width: 55px;
+                        height: 55px;
+	                    border: none;
+	                    border-radius: 50%;
+                        background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 100%);
+                        left: 0px;
+                        top: 0px;
+                        margin-top: -8px;" onclick="@GetResponseFromGPT3">
+                <i class="fa-solid fa-paw fa-2xl fa-beat-fade" style="--fa-beat-fade-opacity: 0.67; --fa-beat-fade-scale: 1.075; color: #594ae2;"></i>
+            </button>
+
+        </div>
+
+
+    </MudItem>
+
+</MudGrid>
+
+
+@*<div class="form-group text-center">
+                <MudTextField T="string" Label="Outlined" class="form-control" Variant="Variant.Outlined" type="text" @bind="@message" placeholder="Type your message here" Lines="3" />
+                @*<MudButton Align="Align.Center" Link="/shop" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="mt-4 mx-auto" onclick="@GetResponseFromGPT3">Ask Me</MudButton>
+                <button class="btn btn-success mb-4 px-2" style="max-width:200px;" onclick="@GetResponseFromGPT3">Ask Me</button>
+                <MudTextField T="string" Label="Outlined" Variant="Variant.Outlined" Text="@generatedText" Lines="10"/>
+                
+
+                <input class="form-control my-4 text-center py-2 m-auto" style="max-width:600px;" type="text" @bind="@message" placeholder="Type your message here" />
+
+                
+</div>
+
+<div class="d-flex justify-content-center text-center">
+
+                
+                
+    @*<div style="min-width:600px; min-height:260px; max-width:700px;" class="mt-2container border border-1 rounded-2 p-3 text-center">@generatedText</div>
+</div>*@
+

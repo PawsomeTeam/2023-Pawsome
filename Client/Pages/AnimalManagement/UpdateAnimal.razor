@@ -1,0 +1,159 @@
+﻿@page "/manage/animals/update/{Id:int}"
+@using System.Net.Http.Headers;
+
+
+<MudText Align="Align.Center" Typo="Typo.h3">Edit Animal</MudText>
+
+@if (Animal == null && ErrorMessage == null)
+{
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
+}
+else if (ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+    <MudGrid Class="mb-16">
+        <MudItem xs="12" md="6" lg="4">
+            
+            @foreach (var image in Animal.Images)
+            {
+                <MudImage Fluid="true" Src="@image.URL" Alt="@Animal?.Name" Class="rounded-xs"/>
+                <MudIconButton OnClick="() => HandleDeleteImage(image.URL, image.Id)" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small"/>
+            }
+        </MudItem>
+        <MudItem xs="12" md="6" lg="8">
+            <MudTextField @bind-Value="@Animal.Name" Label="Name" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Animal.Description" Label="Description" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Animal.Price" Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
+            <MudTextField @bind-Value="@Animal.Age" Label="Age" Variant="Variant.Outlined"/>
+            <MudTextField @bind-Value="@Animal.Type" Label="Type" Variant="Variant.Outlined"/>
+            @* <MudDatePicker @bind-Date="@Animal.Reservation_Date" Label="Date Reserved" Variant="Variant.Outlined" CultureInfo="en-US" />
+            <MudDatePicker @bind-Date="@Animal.Date_adopted" Label="Date Adopted" Variant="Variant.Outlined" CultureInfo="en-US" /> *@
+            <InputFile id="imageInput" OnChange="HandleSelectedImage" multiple hidden accept=".jpg, .jpeg, .png"/>
+            <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="Color.Success"
+                       StartIcon="@Icons.Filled.Image"
+                       EndIcon="@Icons.Material.Filled.Add"
+                       Label="Load picture"
+                       for="imageInput">
+                Upload Files
+            </MudButton>
+
+            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                       @onclick="() => (Update_Animal_Click(Animal))">
+                Update Animal
+            </MudButton>
+
+
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public HttpClient HttpClient { get; set; }
+
+    [Inject]
+    public IAnimalService AnimalService { get; set; } = default!;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = default!;
+
+    public AnimalDto? Animal { get; set; }
+
+    public string? ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Animal = await AnimalService.GetAnimalById(Id);
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
+    }
+
+
+    protected async Task Update_Animal_Click(AnimalDto animal)
+    {
+        try
+        {
+            var animalDto = new AnimalDto
+            {
+                Id = animal.Id,
+                Name = animal.Name,
+                Description = animal.Description,
+                Type = animal.Type,
+                Age = animal.Age,
+                Main_Image_Url = animal.Images.ElementAt(0).URL,
+                Images = animal.Images,
+                Price = animal.Price,
+                Reservation_Date = animal.Reservation_Date,
+                Date_adopted = animal.Date_adopted,
+            };
+
+            var returnedUpdateItemDto = await AnimalService.UpdateAnimal(animalDto);
+            NavigationManager.NavigateTo("manage/animals");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+
+    public async Task HandleSelectedImage(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            var resizedFile = await file.RequestImageFileAsync("image/png", 300, 500);
+
+            using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+            {
+                var content = new MultipartFormDataContent();
+                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", file.Name);
+                var response = await HttpClient.PostAsync("api/Animal/UploadImage", content);
+
+                var url = await response.Content.ReadAsStringAsync();
+                var imageDto = new ImageDto
+                {
+                    URL = url,
+                    Type = "type"
+                };
+
+                Animal.Images.Add(imageDto);
+            }
+        }
+
+        Animal.Main_Image_Url = Animal.Images.ElementAt(0).URL;
+    }
+
+    protected async Task HandleDeleteImage(string url, int id)
+    {
+        var imageURL = url;
+        var filename = AnimalService.fileName(imageURL);
+        var response = await HttpClient.DeleteAsync($"api/Animal/{filename}");
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await HttpClient.DeleteAsync($"api/Animal/DeleteEImage/{id}");
+            if (result.IsSuccessStatusCode)
+            {
+                var imageDto = Animal.Images.Find(i => i.URL == url);
+                Animal.Images.Remove(imageDto);
+                Console.WriteLine("Image File is deleted");
+            }
+        }
+    }
+
+}
