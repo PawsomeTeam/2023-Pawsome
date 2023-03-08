@@ -9,7 +9,13 @@
 
 <MudLayout Class="deep-purple lighten-5" style="min-height:100vh">
     <MudAppBar Elevation="0">
-        <MudButton Link="/" Typo="Typo.h6">Pawsome</MudButton>
+        <MudButton Link="/" Typo="Typo.h6" Class="shades-text text-white">Pawsome</MudButton>
+
+        @*<MudIconButton Link="/" Icon="@("/Images/Logo/Pawsome.png")" Size="Size.Medium" Elevation="0" Alt="Pawsome Logo" />*@
+
+        @*<MudButton Link="/">
+        <MudImage Link="/" Src="/Images/Logo/Pawsome.png" Width="60" Height="60" Elevation="0" Alt="Pawsome Logo" />
+        </MudButton>*@
         <MudSpacer/>
         <CartMenu/>
          <AuthorizeView>
