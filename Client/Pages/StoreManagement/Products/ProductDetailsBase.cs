@@ -25,11 +25,15 @@ public class ProductDetailsBase : ComponentBase
 
     public string? ErrorMessage { get; set; } = null;
 
+    public string mainImgUrl { get; set; } = "";
+
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
             Product = await ProductService.GetItem(Id);
+            mainImgUrl = Product.Images[0].URL;
         }
         catch (Exception e)
         {
@@ -39,7 +43,7 @@ public class ProductDetailsBase : ComponentBase
 
     protected async Task AddToCart_Click(CartItemAddToDto cartItemAddToDto)
     {
-        
+
         try
         {
             CurrentUser = await authService.CurrentUserInfo();
