@@ -54,15 +54,18 @@ public class AnimalController : ControllerBase
             Date_adopted = animal.Date_adopted
         };
 
-        foreach (var image in animal.Images)
+        if (animal.Images != null)
         {
-            var newImage = new ImageDto
+            foreach (var image in animal.Images)
             {
-                Id = image.Id,
-                URL = image.URL,
-                Type = image.Type
-            };
-            animalDto.Images.Add(newImage);
+                var newImage = new ImageDto
+                {
+                    Id = image.Id,
+                    URL = image.URL,
+                    Type = image.Type
+                };
+                animalDto.Images.Add(newImage);
+            }
         }
 
         return Ok(animalDto);
@@ -113,23 +116,6 @@ public class AnimalController : ControllerBase
         }
     }
 
-    // [HttpPost("image/{id}")]
-    //    public async Task<ActionResult<Animal>> AddAnimalImage(IFormFile file, int id)
-    // {
-    // 	//research how to upload a file in blazor
-    // 	//research how to persist a IFormFile in azure blob storage
-    //
-    // 	//upload to blob storage
-    // 	var uploadUrl = "";
-    // 	var animal = await _animalRepository.GetAnimalById(id);
-    // 	var animalDto = new AnimalDto();
-    // 	// animal.Main_Image_Url = uploadUrl;
-    //
-    // 	await _animalRepository.UpdateAnimal(animalDto);
-    //
-    // 	return Ok(animalDto);
-    //    }
-
 
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<AnimalDto>> UpdateAnimal(int id, AnimalDto animalDto)
@@ -141,7 +127,7 @@ public class AnimalController : ControllerBase
             {
                 return NotFound();
             }
-            
+
             var newAnimalDto = new AnimalDto
             {
                 Id = animalItem.Id,
