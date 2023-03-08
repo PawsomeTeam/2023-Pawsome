@@ -50,7 +50,7 @@ public class EditProductBase : ComponentBase
             };
 
             var returnedUpdateItemDto = await ProductService.UpdateItem(productDto);
-            NavigationManager.NavigateTo("");
+            NavigationManager.NavigateTo("/manage/products");
         }
         catch (Exception)
         {

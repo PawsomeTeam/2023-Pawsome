@@ -45,7 +45,7 @@ public class CreateProductBase : ComponentBase
                 };
 
                await this.ProductService.CreateItem(productDto);
-               NavigationManager.NavigateTo("");
+               NavigationManager.NavigateTo("/manage/products");
         }
         catch (Exception)
         {
