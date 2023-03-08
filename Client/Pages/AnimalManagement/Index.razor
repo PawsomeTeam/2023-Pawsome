@@ -50,50 +50,45 @@
         }
         <MudTd DataLabel="Id">@context.Id</MudTd>
         <MudTd DataLabel="Image">
-
-
-            <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg" />
-
+            <MudLink Href="@DisplayUrl">   
+                <MudImage ObjectFit="ObjectFit.Cover" Height="80" Width="80" Src="@context.Main_Image_Url" Alt="@context.Name" Elevation="25" Class="rounded-lg" />
+            </MudLink>
         </MudTd>
         <MudTd DataLabel="Name">
-
-            <MudText Typo="Typo.subtitle1">@context.Name</MudText>
-
+            <MudLink Href="@DisplayUrl">   
+                <MudText Typo="Typo.subtitle1">@context.Name</MudText>
+            </MudLink>
         </MudTd>
         <MudTd DataLabel="Age">@context.Age</MudTd>
-        <MudTd DataLabel="Price">@context.Price</MudTd>
+        <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
         <MudTd DataLabel="Type">@context.Type</MudTd>
         <MudTd DataLabel="Reserved">@((context.Reservation_Date != null) ? context.Reservation_Date.Value.ToString("dd/MM/yyyy") : "-")</MudTd>
             <MudTd DataLabel="Date Adopted">@((context.Date_adopted != null) ? context.Date_adopted.Value.ToString("dd/MM/yyyy") : "-")</MudTd>
-             
-
             <MudTd DataLabel="Actions">
                 @{
-
-                var editUrl = $"manage/animals/update/{context.Id}";
-                var deleteUrl = $"manage/animals/delete/{context.Id}";
-            }
-            <MudTooltip Text="Triger Dialog instead of redirect" Arrow="true" Placement="Placement.Left">
+                    var editUrl = $"manage/animals/update/{context.Id}";
+                    var deleteUrl = $"manage/animals/delete/{context.Id}";
+                }     
                 <MudIconButton Link="@editUrl" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Size="Size.Small" />
                 <MudIconButton OnClick="@(() => ShowConfirmDeleteDialog(context))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Size="Size.Small" />
-
-                <MudDialog @bind-IsVisible="_confirmDeleteDialogVisible">
-                    <DialogContent>
-                        Are you sure you want to delete this animal?
-                    </DialogContent>
-                    <DialogActions>
-                        <MudButton Color="Color.Primary" Variant="Variant.Outlined" OnClick="@(() => _confirmDeleteDialogVisible = false)">Cancel</MudButton>
-                        <MudButton Color="Color.Error" Variant="Variant.Outlined" OnClick="@(() => DeleteAnimalConfirmed(_animalToDelete))">Delete</MudButton>
-                    </DialogActions>
-                </MudDialog>
-            </MudTooltip>
-
-        </MudTd>
+            </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new int[] { 10, 50, 100 }" />
     </PagerContent>
 </MudTable>
+
+
+<MudDialog @bind-IsVisible="_confirmDeleteDialogVisible">
+    <DialogContent>
+        Are you sure you want to delete this animal?
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" Variant="Variant.Outlined" OnClick="@(() => _confirmDeleteDialogVisible = false)">Cancel</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Outlined" OnClick="@(() => DeleteAnimalConfirmed(_animalToDelete))">Delete</MudButton>
+    </DialogActions>
+</MudDialog>
+
 
 @code {
     private bool _loading = true;
@@ -112,7 +107,7 @@
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if ($"{element.Name} {element.Age} {element.Description}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if ($"{element.Name} {element.Age} {element.Description} {element.Type} {element.Price}".Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
