@@ -7,9 +7,17 @@
 
 
 
-<h1 style="padding-bottom: 50px;" >Welcome to Pawsome Chat</h1>
+
 
 <MudGrid>
+
+    <MudItem xs="12" sm="6" Class="pa-4 d-flex flex-column justify-center">
+        <MudText Typo="Typo.h4">Welcome to Pawsome Assitant</MudText>
+        <MudText Typo="Typo.body2" Class="mt-4">Meet Pawla, your new best friend for all things animal care! Whether you're new to pet ownership or a seasoned pro, Pawla has got your back with practical tips and advice to help you give your furry friend the best possible care. From nutrition, grooming, and exercise to behavior and training, Pawla is available to chat and provide personalized guidance whenever you need it. So, why wait? Chat with Pawla now and give your pets the love and attention they deserve!</MudText>
+
+
+    </MudItem>
+
 
     <MudItem>
 
@@ -21,7 +29,7 @@
                     margin-bottom: 20px;
                      background: rgb(255,255,255);
 background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 100%);" class="mt-2container border border-1 rounded-2 p-3 text-center">
-                    @generatedText
+                @generatedText
                 </div>
                 
                 </div>
@@ -29,7 +37,7 @@ background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 1
     </MudItem>
 
     <MudItem>
-        <MudImage src="https://pawsome.blob.core.windows.net/main/CatHero.png" Style="float:right; height: 200px;" />
+        <MudImage src="https://pawsome.blob.core.windows.net/main/CatHero.png" Style="float:right; height: 300px;" />
 
     </MudItem>
 
@@ -45,7 +53,8 @@ background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 1
                             padding-left: 15px;
                             border-radius: 20px;
                             margin-bottom: 20px;
-                            background: rgba(255,255,255,.2);" type="text" @bind="@message" placeholder="Type your message here" />
+                            background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 100%);" type="text" @bind="@message" placeholder="Type your message here" />
 </div>
 
     </MudItem>
@@ -64,15 +73,16 @@ background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 1
                         text-transform: uppercase;
                         text-align: center;
                         color: white;
-                        width: 110px;
-                        height: 35px;
+                       width: 55px;
+                        height: 55px;
 	                    border: none;
-	                    border-radius: 20px;
-                        background-color: #594ae2;
+	                    border-radius: 50%;
+                        background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(237,231,246,1) 100%);
                         left: 0px;
                         top: 0px;
                         margin-top: -8px;" onclick="@GetResponseFromGPT3">
-                Ask Me
+                <i class="fa-solid fa-paw fa-2xl fa-beat-fade" style="--fa-beat-fade-opacity: 0.67; --fa-beat-fade-scale: 1.075; color: #594ae2;"></i>
             </button>
 
         </div>

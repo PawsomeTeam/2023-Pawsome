@@ -94,7 +94,7 @@
 
     private async Task HandleDeleteAllImages()
     {
-        foreach (var image in Product.Images)
+        foreach (var image in Product.Images.ToList())
         {
             var imageURL = image.URL;
             var filename = ProductService.fileName(imageURL);

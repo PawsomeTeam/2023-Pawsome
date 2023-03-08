@@ -25,17 +25,17 @@ public partial class ChatbotBase : ComponentBase
     [Inject] IJSRuntime _jsRuntime { get; set; }
 
     public string message { get; set; }
-    public string generatedText { get; set; } = "This is Pawesome Assistant. I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions.😊";
+    public string generatedText { get; set; } = "Hi there! I'm Pawla, how can I help? I will try my best to answer your questions😊";
     private readonly HttpClient _httpClient = new HttpClient();
 
 
 
     protected async Task GetResponseFromGPT3()
     {
-        var persona = "veterinarian";
-        var introMessage = "This is Pawesome Assistant. I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions and make you happy.😊";
+        var persona = "veterinarian named Pawla";
+        var introMessage = "This is your Pawsome Assistant named Pawla, I'm here to help you learn more about pets and animals. You can ask me any question related to pets or chat with me about anything else. I will try my best to answer your questions and make you happy.😊";
         var prompt = $"{persona}: {introMessage}\nYou: {message}\n{persona}: ";
-        generatedText = "Fething response...";
+        generatedText = "Give me a sec, Im thinking 😁";
         try
         {
             string apiKey = "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";

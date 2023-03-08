@@ -23,10 +23,24 @@ else
 
          <MudTabs @ref="steps" Elevation="0" Rounded="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6" Centered="true" Color="Color.Transparent">
             @* //////Info////// *@
-            <MudTabPanel Text="Your Info" Disabled="@(steps.ActivePanelIndex < 0)" Icon="@Icons.Material.Filled.VerifiedUser">
-               <AuthorizeView>
-                    @* //////Logedin////// *@
-                <Authorized>
+         
+
+                 @* //////NOT Logedin////// *@
+                @if(!CurrentUser.IsAuthenticated) {
+
+                       <MudTabPanel Text="Your Info" Disabled="@(steps.ActivePanelIndex < 0)" Icon="@Icons.Material.Filled.VerifiedUser">
+                    <MudText Typo="Typo.h5"  Align="Align.Center" Class="mb-6">Register or Login if you already have an account</MudText>
+                    <MudText Typo="Typo.body1" Align="Align.Center"  Class="mb-6">Knowing a bit ore about you will help us speen up the process</MudText>
+                    <div Class="d-flex justify-center flex-grow-1 gap-3">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="login">Login</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="register">Register</MudButton>
+                    </div>
+                       </MudTabPanel>
+                } else {
+                       <MudTabPanel Text="Your Info" Disabled="@(steps.ActivePanelIndex < 0)" Icon="@Icons.Material.Filled.VerifiedUser">
+                
+                    
+
                         @if (activeAdoptionForThis > 0)
                         {
                                 <MudAlert Severity="Severity.Warning" Class="mb-16">You already have @activeAdoptionForThis adoption request for @Animal.Name. Go to your account for more details. </MudAlert>
@@ -46,33 +60,27 @@ else
                                 <MudText Typo="Typo.body1"  Align="Align.Center" Class="mb-6">Please make sure your information is complete and up to date</MudText>
                             var infoTitles = CurrentUserInfo?.GetType().GetProperties().Select(p => p.Name).ToList();
                             var infoValues = CurrentUserInfo?.GetType().GetProperties().Select(p => p.GetValue(CurrentUserInfo)).ToList();
-                                  <MudPaper MaxWidth="MaxWidth.ExtraSmall" class="pa-4 mb-6">
-                                @for (int i = 0; i < infoTitles.Count; i++)
-                                {
-                                    if (infoTitles[i] == "Roles") { continue; }
-                                            <dl class="d-flex mb-2">
+                                  <MudPaper MaxWidth="MaxWidth.ExtraSmall" class="pa-4 mb-6" Style="text-align:center">
+
+                                    <div class="d-inline" Style="text-align:left">
+                                        @for (int i = 0; i < infoTitles?.Count; i++)
+                                        {
+                                            if (infoTitles[i] == "Roles") { continue; }
+                                            <dl class="d-inline-flex mb-2 pa-2">
                                                 <dt style="width:150px;"><b>@infoTitles[i]</b></dt>
-                                                <dd>@infoValues[i]</dd>
-                                            </dl>
-                                }
+                                                <dd style="width:150px;">@infoValues?[i]</dd>
+                                            </dl><br>
+                                        }
+                                    </div>
+                                    <MudText Align="Align.Center">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="account/update" Class="mt-4">Update Account Information</MudButton>
+                                    </MudText>
                                     </MudPaper>
 
                                 <div Class="d-flex justify-center flex-grow-1 gap-3">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="account/update">Update Account Information</MudButton>
                                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@missingUserInfo()" OnClick="() => NextStep(1)">Proceed</MudButton>
                                 </div>   
                         }
-                </Authorized>
-                    @* //////NOT Logedin////// *@
-                <NotAuthorized>
-                    <MudText Typo="Typo.h5"  Align="Align.Center" Class="mb-6">Register or Login if you already have an account</MudText>
-                     <MudText Typo="Typo.body1" Align="Align.Center"  Class="mb-6">Knowing a bit ore about you will help us speen up the process</MudText>
-                    <div Class="d-flex justify-center flex-grow-1 gap-3">
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="login">Login</MudButton>
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Link="register">Register</MudButton>
-                    </div>
-                </NotAuthorized>
-               </AuthorizeView>
             </MudTabPanel>
 
             @* //////RULES////// *@
@@ -85,9 +93,9 @@ else
                         {
                             foreach (Rule r in RulesList)
                             {
-                                                <MudPaper Class="pa-3">
+                                <MudPaper Class="pa-3">
                                     @r.Text <MudCheckBox @bind-Checked="r.IsChecked" Label="I understand" Color="Color.Primary"/>
-                                                </MudPaper>
+                                </MudPaper>
                             }
                         }
                     </MudStack>
@@ -111,7 +119,7 @@ else
 
             @* //////Confirmation////// *@
             <MudTabPanel Text="Completed" Disabled="@(steps.ActivePanelIndex < 2)"  Icon="@Icons.Material.Filled.Check">
-                @if(CreatedAdoptionSubmission == null && CreatedAdoptionSubmission.AdopteeId != Animal.Id){
+                @if(CreatedAdoptionSubmission == null && CreatedAdoptionSubmission?.AdopteeId != Animal.Id){
                     <MudAlert Severity="Severity.Error" Class="mb-16">Something went wrong, please try again or contact us if the error persists</MudAlert>
                 } else {
                    <MudAlert Severity="Severity.Success" Class="mb-16">Your Adoption request for <b>@Animal.Name</b> was submitted successfully</MudAlert>
@@ -143,6 +151,7 @@ else
                     </div>
             }
             </MudTabPanel>
+                }
         </MudTabs>
             </MudContainer>
 }
@@ -154,13 +163,13 @@ else
 
     // adoption request variables
     MudTabs? steps;
-    Rule[]? RulesList;
-    public AdoptionSubmissionDto CreatedAdoptionSubmission;
+    Rule[] RulesList = new Rule[]{};
+    public AdoptionSubmissionDto CreatedAdoptionSubmission = new AdoptionSubmissionDto();
     int? activeAdoptionForThis;
     int? allActiveAdoptions;
 
     //user variables
-    private CurrentUser? CurrentUser { get; set; } = new CurrentUser();
+    private CurrentUser CurrentUser { get; set; } = new CurrentUser();
     FindUser? CurrentUserInfo = new FindUser();
 
     //animal variables
@@ -173,24 +182,24 @@ else
         {
             Animal = await _animalService.GetAnimalById(AnimalId);
 
-            //get current user info
+            //get current user info if Authenticated
             CurrentUser = await authService.CurrentUserInfo();
-            if (CurrentUser.IsAuthenticated)
+            if (CurrentUser.IsAuthenticated){
                 CurrentUserInfo = await authService.GetUserByEmail(CurrentUser.Email);
+                await PendingAdoptionForAdopteeCheck();
+                await ThreePendingAdoptionsCheck();
 
-            await PendingAdoptionForAdopteeCheck();
-            await ThreePendingAdoptionsCheck();
-
-            //make rules
-            RulesList = new Rule[] {
-                new Rule { Text = $"Once you complete this last step we will contact you to set up a time for you to come see {@Animal.Name}." },
-                new Rule { Text = $"The associated costs with this adoption are {Animal.Price.ToString("C")}" },
-                new Rule { Text = $"You will be required to settle the amount at the end of your visit" },
-                new Rule { Text = $"While we are sure you will fall in love with {Animal.Name} , know that you are allowed to change your mind after you meet him." },
-                new Rule { Text = $"If that happens there will be no fees." },
-                new Rule { Text = $"If you are not reachable or miss your appointment, Adoption will be disabled for you for 3 months." },
-                new Rule { Text = $"You can always contact us with if there has been a mistake and see if we can rectivate Adoption for you." },
-    };
+                //make rules
+                RulesList = new Rule[] {
+                    new Rule { Text = $"Once you complete this last step we will contact you to set up a time for you to come see {@Animal.Name}." },
+                    new Rule { Text = $"The associated costs with this adoption are {Animal.Price.ToString("C")}" },
+                    new Rule { Text = $"You will be required to settle the amount at the end of your visit" },
+                    new Rule { Text = $"While we are sure you will fall in love with {Animal.Name} , know that you are allowed to change your mind after you meet him." },
+                    new Rule { Text = $"If that happens there will be no fees." },
+                    new Rule { Text = $"If you are not reachable or miss your appointment, Adoption will be disabled for you for 3 months." },
+                    new Rule { Text = $"You can always contact us with if there has been a mistake and see if we can rectivate Adoption for you." },
+                };
+            }
 
             loading = false;
         }

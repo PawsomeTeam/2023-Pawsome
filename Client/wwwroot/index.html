@@ -2,17 +2,19 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>PawsomeProject</title>
-    <base href="/"/>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
-    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet"/>
+    <base href="/" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1907ae4843.js" crossorigin="anonymous"></script>
     <script src="js/ShoppingCartFunctions.js"></script>
 
     <script src="https://www.paypal.com/sdk/js?client-id=AYRX-UUg-eW-VgH-HH0B58p6EG-eO_g2aUEXOG1j1rVkB8ef_IPMECP9zICJT_9RNP-O6KIChf4sOEFN&currency=CAD"
             data-sdk-integration-source="button-factory"></script>
-<!--    <script src="js/paypal.js"></script>-->
+    <!--    <script src="js/paypal.js"></script>-->
     <script>
         function initPayPalButton() {
             var description = document.querySelector('#smart-button-container #description');
@@ -42,7 +44,7 @@
                 },
 
                 onApprove: function (data, actions) {
-                    let link = document.location.href+"/delete";
+                    let link = document.location.href + "/delete";
                     return actions.redirect(link).then(function (orderData) {
 
                         // Full available details
@@ -54,11 +56,11 @@
                         element.innerHTML = '<h3>Thank you for your payment!</h3>';
 
                         // Or go to another URL:  actions.redirect('thank_you.html');
-                        
-                        
+
+
                     });
                 },
-                
+
                 onError: function (err) {
                     console.log(err);
                 }
