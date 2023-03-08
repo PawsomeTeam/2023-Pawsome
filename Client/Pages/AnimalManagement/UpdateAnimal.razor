@@ -143,7 +143,7 @@ else
     {
         var imageURL = url;
         var filename = AnimalService.fileName(imageURL);
-        var response = await HttpClient.DeleteAsync($"api/Animal/{filename}");
+        var response = await HttpClient.DeleteAsync($"api/Animal/DeleteImage/{filename}");
         if (response.IsSuccessStatusCode)
         {
             var result = await HttpClient.DeleteAsync($"api/Animal/DeleteEImage/{id}");

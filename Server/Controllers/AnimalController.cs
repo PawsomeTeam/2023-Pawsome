@@ -257,4 +257,12 @@ public class AnimalController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex}");
         }
     }
+    
+    [Route("[action]/{id}")]
+    [HttpDelete]
+    public async Task<IActionResult> DeleteEImage(int id)
+    {
+        await _animalRepository.DeleteImage(id);
+        return Ok();
+    }
 }
