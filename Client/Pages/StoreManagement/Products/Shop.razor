@@ -1,8 +1,12 @@
 @page "/shop"
 @inherits ProductsBase
 
-<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Products</MudText>
+<MudText Typo="Typo.h3" Class="mb-8" Align="Align.Center">Pawsome Shop</MudText>
 
+        <MudButton Variant="Variant.Filled"  EndIcon="@Icons.Material.Filled.Menu" Color="Color.Primary"
+                    @onclick="() => (ShowAllProducts())">
+            Show All Products
+        </MudButton>
 @if(ErrorMessage != null){
     <MudAlert Severity="Severity.Error" Class="mb-16">@ErrorMessage</MudAlert>
     return;
